@@ -13,6 +13,7 @@
 #include <signal.h>
 #include <sys/stat.h>
 
+// FEATURE2 MODIF
 
 int startServer(int port) {
 	// Créer une socket
