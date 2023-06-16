@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/15 20:17:22 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/16 15:02:22 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
 #include <cstdio>
 #include <netdb.h>
 #include <sys/socket.h>
@@ -38,6 +39,7 @@
 class Server
 {
 private:
+	std::string 		_serverName;
 	int 				_listenSocket;
 	sockaddr_in 		_serverAddress;
 	std::vector<int> 	_clientSockets;

@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/15 20:18:19 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/16 16:07:05 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,16 +104,23 @@ void Server::manageClientMessage()
         ssize_t bytesRead = recv(client, buffer, sizeof(buffer) - 1, 0);
         if (bytesRead > 0)
         {
+            std::string command(buffer, bytesRead);
             buffer[bytesRead] = '\0';
             std::cout << "Message reçu du client " << client << ": " << buffer << std::endl;
 
-            //TODO : Split a realiser pour traiter le message reçu du client(fct kick,invite,...)
-            if (strncmp(buffer, "NICK", 4) == 0) 
-            {
-                std::string nickMessage(buffer);
-                std::string clientNick = nickMessage.substr(5);
-                std::cout << "Client " << client << " s'est connecté avec le pseudo : " << clientNick << std::endl;
-            }
+            std::istringstream iss(command);
+            std::string cmd, arg1, arg2;
+            iss >> cmd >> arg1 >> arg2;
+            if (cmd == "NICK")
+                std::cout << "yo connecte" << std::endl;
+            if (cmd == "die")
+                std::cout << "Commande 'die' reçue. Fermeture du serveur." << std::endl;
+            else if (cmd == "nick") 
+                std::cout << "Commande 'nick' reçue. Nouveau pseudo : " << arg1 << std::endl;
+            else if (cmd == "join") 
+                std::cout << "Commande 'join' reçue. Rejoindre le canal : " << arg1 << std::endl;
+            else if (cmd == "register") 
+                std::cout << "Commande 'register' reçue. Informations d'enregistrement : " << arg1 << " " << arg2 << std::endl;
             std::string response = "Bien reçu !";
             send(client, response.c_str(), response.size(), 0);
         } 
@@ -125,7 +132,7 @@ void Server::manageClientMessage()
         else if (errno != EWOULDBLOCK && errno != EAGAIN) 
         {
             _socketsToRemove.push_back(client);
-            std::cerr << "Erreur lors de la lecture du client CHEEEH " << client << std::endl;
+            std::cerr << "Erreur lors de la lecture du client " << client << std::endl;
         }
     }
 }
@@ -147,7 +154,7 @@ int Server::start(int port)
     {
         acceptConnexions();
         manageClientMessage();
-        socketToRemove();
+        //socketToRemove();
     }
     close(_listenSocket);
     return 0;
