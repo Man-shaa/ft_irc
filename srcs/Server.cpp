@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/17 19:28:43 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:08:36 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ int Server::start(int port)
 	return (0);
 }
 
+// Add a new Client to [_client[]] in the server
 void Server::addClient(int clientSocket)
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
@@ -189,6 +190,7 @@ void Server::addClient(int clientSocket)
 	}
 }
 
+// print all clients in server data
 void	Server::printAllClient() const
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
@@ -198,6 +200,7 @@ void	Server::printAllClient() const
 	}
 }
 
+// return a pointer to the client which have a [_socketFd] matching [fd]
 Client	*Server::getClientByFd(int fd) const
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
