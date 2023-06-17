@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/16 16:07:05 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/17 15:26:35 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ int Server::link_SocketServer()
 }
 
 //Mettre le socket en mode écoute de connection
-int	Server::listenSocket()
+int	Server::listenSocket(int port)
 {
     if (listen(_listenSocket, SOMAXCONN) == -1) {
         std::cerr << "Erreur lors de la mise en écoute du socket" << std::endl;
         close(_listenSocket);
         return 1;
     }
-	std::cout << "Le serveur est en écoute sur le port 6667" << std::endl;
+	std::cout << "Le serveur est en écoute sur le port " << port << std::endl;
     return 0;
 }
 
@@ -112,14 +112,14 @@ void Server::manageClientMessage()
             std::string cmd, arg1, arg2;
             iss >> cmd >> arg1 >> arg2;
             if (cmd == "NICK")
-                std::cout << "yo connecte" << std::endl;
-            if (cmd == "die")
+                std::cout << "NICK" << std::endl;
+            if (cmd == "/die")
                 std::cout << "Commande 'die' reçue. Fermeture du serveur." << std::endl;
-            else if (cmd == "nick") 
+            else if (cmd == "/nick") 
                 std::cout << "Commande 'nick' reçue. Nouveau pseudo : " << arg1 << std::endl;
-            else if (cmd == "join") 
+            else if (cmd == "/join") 
                 std::cout << "Commande 'join' reçue. Rejoindre le canal : " << arg1 << std::endl;
-            else if (cmd == "register") 
+            else if (cmd == "/register") 
                 std::cout << "Commande 'register' reçue. Informations d'enregistrement : " << arg1 << " " << arg2 << std::endl;
             std::string response = "Bien reçu !";
             send(client, response.c_str(), response.size(), 0);
@@ -144,7 +144,7 @@ int Server::start(int port)
 	serverInfo(port);
 	if (link_SocketServer())
 		return (1);
-	if (listenSocket())
+	if (listenSocket(port))
 		return (1);
     //Socket d'ecoute en mode non bloquant
     int flags = fcntl(_listenSocket, F_GETFL, 0);
@@ -154,7 +154,7 @@ int Server::start(int port)
     {
         acceptConnexions();
         manageClientMessage();
-        //socketToRemove();
+        socketToRemove();
     }
     close(_listenSocket);
     return 0;

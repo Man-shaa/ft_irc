@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/16 15:02:22 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/17 14:51:34 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include <map>
+
 
 #define MAX_CLIENTS 10
 #define BUFFER_SIZE 4096
@@ -54,7 +56,7 @@ public:
 	
 	int		start(int port);
 	int		createSocket();
-	int		listenSocket();
+	int		listenSocket(int port);
 	int 	link_SocketServer();
 	void	serverInfo(int port);
 	void	acceptConnexions();
