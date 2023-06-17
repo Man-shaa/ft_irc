@@ -6,18 +6,28 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/17 15:38:22 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/17 19:28:43 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+
 const char* welcomeMessage = "Welcome to the IRC server!\r\n";
 
 Server::Server()
-{};
+{
+	for (int i = 0; i < MAX_CLIENTS; ++i)
+		_client[i] = NULL;
+}
 
 Server::~Server()
-{};
+{
+	for (int i = 0; i < MAX_CLIENTS; ++i)
+	{
+		if (_client[i] != NULL)
+			delete(_client[i]);
+	}
+}
 
 /* Creation socket d'écoute (listen socket) est un type de socket utilisé \
 par un serveur pour écouter les connexions entrantes des clients. */
@@ -74,12 +84,14 @@ void Server::acceptConnexions()
 
 	if (_clientSocket != -1) 
 	{
+		addClient(_clientSocket);
+		
 		_clientSockets.push_back(_clientSocket);
 		std::cout << "Nouvelle connexion acceptée. Socket : " << _clientSocket << std::endl;
 
 		int flags = fcntl(_clientSocket, F_GETFL, 0);
 		fcntl(_clientSocket, F_SETFL, flags | O_NONBLOCK);
-		
+
 		send(_clientSocket, welcomeMessage, std::strlen(welcomeMessage), 0);
 	}
 }
@@ -112,7 +124,11 @@ void Server::manageClientMessage()
 			std::string cmd, arg1, arg2;
 			iss >> cmd >> arg1 >> arg2;
 			if (cmd == "NICK")
+			{
 				std::cout << "NICK" << std::endl;
+				Client	*iencli = getClientByFd(client);
+				iencli->setNickName(arg1); //non protege si getClientByFd renvoie NULL
+			}
 			if (cmd == "/die")
 				std::cout << "Commande 'die' reçue. Fermeture du serveur." << std::endl;
 			else if (cmd == "/nick") 
@@ -121,7 +137,7 @@ void Server::manageClientMessage()
 				std::cout << "Commande 'join' reçue. Rejoindre le canal : " << arg1 << std::endl;
 			else if (cmd == "/register") 
 				std::cout << "Commande 'register' reçue. Informations d'enregistrement : " << arg1 << " " << arg2 << std::endl;
-			std::string response = "Bien reçu !";
+			std::string response = "Bien reçu !\r\n";
 			send(client, response.c_str(), response.size(), 0);
 		} 
 		else if (bytesRead == 0) 
@@ -135,6 +151,7 @@ void Server::manageClientMessage()
 			std::cerr << "Erreur lors de la lecture du client " << client << std::endl;
 		}
 	}
+	memset(buffer, 0, sizeof(buffer));
 }
 
 int Server::start(int port) 
@@ -149,13 +166,44 @@ int Server::start(int port)
 	//Socket d'ecoute en mode non bloquant
 	int flags = fcntl(_listenSocket, F_GETFL, 0);
 	fcntl(_listenSocket, F_SETFL, flags | O_NONBLOCK);
-	
-	while (true)
+
+	while (42)
 	{
 		acceptConnexions();
 		manageClientMessage();
 		socketToRemove();
 	}
 	close(_listenSocket);
-	return 0;
+	return (0);
+}
+
+void Server::addClient(int clientSocket)
+{
+	for (int i = 0; i < MAX_CLIENTS; ++i)
+	{
+		if (_client[i] == NULL)
+		{
+			_client[i] = new Client(clientSocket, "");
+			break ;
+		}
+	}
+}
+
+void	Server::printAllClient() const
+{
+	for (int i = 0; i < MAX_CLIENTS; ++i)
+	{
+		if (_client[i] != NULL)
+			_client[i]->printInfo();
+	}
+}
+
+Client	*Server::getClientByFd(int fd) const
+{
+	for (int i = 0; i < MAX_CLIENTS; ++i)
+	{
+		if (_client[i] != NULL && _client[i]->getSocketFd() == fd)
+			return (_client[i]);
+	}
+	return (NULL);
 }

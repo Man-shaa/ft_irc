@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/17 15:59:18 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/17 18:15:12 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ class Client
 		const std::vector<std::string>	&getChannels() const;
 		void							addChannel(const std::string& channel);
 		void							removeChannel(const std::string& channel);
+		void							setNickName(std::string &name);
+		int								getSocketFd() const;
+
+		void	printInfo() const;
 };
 
 #endif
