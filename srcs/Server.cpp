@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/17 20:08:36 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:10:16 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void Server::manageClientMessage()
 			{
 				std::cout << "NICK" << std::endl;
 				Client	*iencli = getClientByFd(client);
-				iencli->setNickName(arg1); //non protege si getClientByFd renvoie NULL
+				iencli->setNickName(arg1);
 			}
 			if (cmd == "/die")
 				std::cout << "Commande 'die' reçue. Fermeture du serveur." << std::endl;
