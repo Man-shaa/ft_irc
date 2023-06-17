@@ -7,7 +7,8 @@ INC_DIR		=	$(shell find includes -type d)
 vpath %.cpp $(foreach dir, $(SRC_DIR), $(dir):)
 vpath %.hpp $(foreach dir, $(INC_DIR), $(dir):)
 
-SRCS	 	=	main.cpp \
+SRCS	 	=	main.cpp	\
+				Client.cpp	\
 				Server.cpp
 
 OBJS		=	$(SRCS:%.cpp=${OBJ_DIR}/%.o)

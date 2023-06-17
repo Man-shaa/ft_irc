@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:26 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/17 14:47:43 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/17 18:15:51 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ int main(int ac, char **av)
 		server.start(atoi(av[1]));
 	}
 	else
-		std::cout << "TUTO: ./ft_irc <port> <password>" << std::endl;
+		std::cout << "tuto: ./ft_irc <port> <password>" << std::endl;
 	return 0;
 }
