@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/17 14:51:34 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/17 19:59:51 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include <poll.h>
 
 
 #define MAX_CLIENTS 10
@@ -42,12 +43,14 @@ class Server
 {
 private:
 	std::string 		_serverName;
-	int 				_listenSocket;
 	sockaddr_in 		_serverAddress;
-	std::vector<int> 	_clientSockets;
+	std::vector<int> 	_Sockets;
 	sockaddr_in 		_clientAddress;
 	std::vector<int> 	_socketsToRemove;
-
+	struct 				pollfd _fds;
+	int           		_ret;
+	int					_client;
+	int					_port;
 	
 public:
 
@@ -56,12 +59,14 @@ public:
 	
 	int		start(int port);
 	int		createSocket();
-	int		listenSocket(int port);
+	int		listenSocket();
 	int 	link_SocketServer();
-	void	serverInfo(int port);
-	void	acceptConnexions();
-	void	manageClientMessage();
+	void	serverInfo();
+	int		acceptConnexions();
+	void	manageClientMsg();
 	void	socketToRemove();
+	int		serverManagement();
+	int		dataManagement();
 
 
 };

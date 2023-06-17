@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:26 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/17 14:47:43 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/17 19:19:51 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int checkArg(char **av)
 int main(int ac, char **av) 
 {
 	Server server;
+	
 	if (ac == 3)
 	{
 		if (!checkArg(av))
