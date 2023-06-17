@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/17 20:10:16 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/17 20:10:55 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void Server::addClient(int clientSocket)
 	}
 }
 
-// print all clients in server data
+// print all clients in server
 void	Server::printAllClient() const
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
