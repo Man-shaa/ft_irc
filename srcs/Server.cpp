@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/19 17:45:08 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:29:01 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ const char* welcomeMessage = "Welcome to the IRC server!\r\n";
 Server::Server()
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
-		_client[i] = NULL;
+		_clients[i] = NULL;
 }
 
 Server::~Server()
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
 	{
-		if (_client[i] != NULL)
-			delete(_client[i]);
+		if (_clients[i] != NULL)
+			delete(_clients[i]);
 	}
 }
 
@@ -39,7 +39,9 @@ int	Server::createSocket()
         std::cerr << "Erreur lors de la création du socket" << std::endl;
         return 1;
     }
-	_Sockets.push_back(listenSocket); //IPv4 + TCP
+	_Sockets.push_back(listenSocket);
+    _fds_srv.fd= listenSocket;
+    _fds_srv.events = POLLIN;
     std::cout << "Creation socket serveur " << _Sockets[0] << std::endl;
 	return 0;
 }
@@ -59,9 +61,9 @@ void	Server::serverInfo()
 à un numéro de port spécifiques à l'aide de la fonction bind()*/
 int Server::link_SocketServer()
 {
-	if (bind(_listenSocket, reinterpret_cast<sockaddr*>(&_serverAddress), sizeof(_serverAddress)) == -1) {
+	if (bind(_Sockets[0], reinterpret_cast<sockaddr*>(&_serverAddress), sizeof(_serverAddress)) == -1) {
 		std::cerr << "Erreur lors du bind du socket" << std::endl;
-		close(_listenSocket);
+		close(_Sockets[0]);
 		return 1;
 	}
 	return 0;
@@ -70,12 +72,12 @@ int Server::link_SocketServer()
 //Mettre le socket en mode écoute de connection
 int	Server::listenSocket()
 {
-	if (listen(_listenSocket, SOMAXCONN) == -1) {
+	if (listen(_Sockets[0], SOMAXCONN) == -1) {
 		std::cerr << "Erreur lors de la mise en écoute du socket" << std::endl;
-		close(_listenSocket);
+		close(_Sockets[0]);
 		return 1;
 	}
-	std::cout << "Le serveur est en écoute sur le port " << port << std::endl;
+	std::cout << "Le serveur est en écoute sur le port " << _port << std::endl;
 	return 0;
 }
 
@@ -87,11 +89,8 @@ int Server::acceptConnexions()
     if (_clientSocket != -1) 
     {
         _Sockets.push_back(_clientSocket);
-        _fds.fd= _clientSocket;
-        _fds.events = POLLIN;
-
+        addClient("john doe", _clientSocket);
         std::cout << "Nouvelle connexion acceptée. Socket : " << _clientSocket << std::endl;
-
         int flags = fcntl(_clientSocket, F_GETFL, 0);
         fcntl(_clientSocket, F_SETFL, flags | O_NONBLOCK);
         
@@ -114,82 +113,115 @@ void Server::socketToRemove()
 
 int Server::serverManagement()
 {
-	char buffer[BUFFER_SIZE];
-	for (std::vector<int>::iterator it = _clientSockets.begin(); it != _clientSockets.end(); ++it) 
-	{
-		int client = *it;
-		ssize_t bytesRead = recv(client, buffer, sizeof(buffer) - 1, 0);
-		if (bytesRead > 0)
-		{
-			std::string command(buffer, bytesRead);
-			buffer[bytesRead] = '\0';
-			std::cout << "Message reçu du client " << client << ": " << buffer << std::endl;
-
-			std::istringstream iss(command);
-			std::string cmd, arg1, arg2;
-			iss >> cmd >> arg1 >> arg2;
-			if (cmd == "NICK")
-			{
-				std::cout << "NICK" << std::endl;
-				Client	*iencli = getClientByFd(client);
-				iencli->setNickName(arg1);
-			}
-			if (cmd == "/die")
-				std::cout << "Commande 'die' reçue. Fermeture du serveur." << std::endl;
-			else if (cmd == "/nick") 
-				std::cout << "Commande 'nick' reçue. Nouveau pseudo : " << arg1 << std::endl;
-			else if (cmd == "/join") 
-				std::cout << "Commande 'join' reçue. Rejoindre le canal : " << arg1 << std::endl;
-			else if (cmd == "/register") 
-				std::cout << "Commande 'register' reçue. Informations d'enregistrement : " << arg1 << " " << arg2 << std::endl;
-			std::string response = "Bien reçu !\r\n";
-			send(client, response.c_str(), response.size(), 0);
-		} 
-		else if (bytesRead == 0) 
-		{
-			_socketsToRemove.push_back(client);
-			std::cout << "Déconnexion du client " << client << std::endl;
-		} 
-		else if (errno != EWOULDBLOCK && errno != EAGAIN) 
-		{
-			_socketsToRemove.push_back(client);
-			std::cerr << "Erreur lors de la lecture du client " << client << std::endl;
-		}
-	}
-	memset(buffer, 0, sizeof(buffer));
-}
-
-int Server::start(int port) 
-{
-	if (createSocket())
+    if (createSocket())
 		return (1);
 	serverInfo();
 	if (link_SocketServer())
 		return (1);
 	if (listenSocket())
 		return (1);
-	//Socket d'ecoute en mode non bloquant
-	int flags = fcntl(_listenSocket, F_GETFL, 0);
-	fcntl(_listenSocket, F_SETFL, flags | O_NONBLOCK);
+    //Socket d'ecoute en mode non bloquant
+    int flags = fcntl(_Sockets[0], F_GETFL, 0);
+    fcntl(_Sockets[0], F_SETFL, flags | O_NONBLOCK);
+    
+    return (0);
+}
 
-	while (42)
-	{
-		acceptConnexions();
-		manageClientMessage();
-		socketToRemove();
-	}
-	close(_listenSocket);
-	return (0);
+void    Server::manageClientMsg()
+{
+	char buffer[BUFFER_SIZE];
+    
+    ssize_t bytesRead = recv(_client, buffer, sizeof(buffer) - 1, 0);
+    if (bytesRead > 0)
+    {
+        std::string command(buffer, bytesRead);
+        buffer[bytesRead] = '\0';
+        std::cout << "Message reçu du client " << _client << ": " << buffer << std::endl;
+
+        std::istringstream iss(command);
+        std::string cmd, arg1, arg2;
+        iss >> cmd >> arg1 >> arg2;
+        if (cmd == "NICK")
+            _clients[getClientByFd(_client)->getId()]->setNickName(arg1);
+        if (cmd == "/die")
+            std::cout << "Commande 'die' reçue. Fermeture du serveur." << std::endl;
+        else if (cmd == "/nick") 
+            std::cout << "Commande 'nick' reçue. Nouveau pseudo : " << arg1 << std::endl;
+        else if (cmd == "/join") 
+            std::cout << "Commande 'join' reçue. Rejoindre le canal : " << arg1 << std::endl;
+        else if (cmd == "/register") 
+            std::cout << "Commande 'register' reçue. Informations d'enregistrement : " << arg1 << " " << arg2 << std::endl;
+        std::string response = "Bien reçu !\r\n";
+        send(_client, response.c_str(), response.size(), 0);
+    } 
+    else if (bytesRead == 0) 
+    {
+        _socketsToRemove.push_back(_client);
+        std::cout << "Déconnexion du client " << _client << std::endl;
+    } 
+    else if (errno != EWOULDBLOCK && errno != EAGAIN) 
+    {
+        _socketsToRemove.push_back(_client);
+        std::cerr << "Erreur lors de la lecture du client " << _client << std::endl;
+    }
+	memset(buffer, 0, sizeof(buffer));
+}
+
+int Server::dataManagement()
+{
+    pollfd fds_rd;
+    
+    _ret = 0;
+    while(true)
+    {
+        for (std::vector<int>::iterator it = _Sockets.begin(); it != _Sockets.end(); ++it) 
+        {
+            _client = *it;
+            if (_client == 3)
+                fds_rd = _fds_srv;
+            else
+                fds_rd = _clients[getClientByFd(_client)->getId()]->getPollstrc();
+            if ((_ret = poll(&fds_rd, _client, 100)) <= 0)  
+            {
+                if (_ret == 0 || errno == EINTR)
+                {
+                    continue;
+                }
+                perror("Poll failed");
+                return(1);
+            }
+            if (_client == 3)
+            {
+                if (acceptConnexions())
+                    it = _Sockets.begin();
+            }
+            else
+            {
+                _client = *it;
+                manageClientMsg();
+            }
+        }
+        socketToRemove();
+    }
+}
+
+int Server::start(int port) 
+{
+    _port = port;
+    serverManagement();
+    dataManagement();
+    close(_Sockets[0]);
+    return 0;
 }
 
 // Add a new Client to [_client[]] in the server
-void Server::addClient(int clientSocket)
+void Server::addClient(std::string nickname, int fd)
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
 	{
-		if (_client[i] == NULL)
+		if (_clients[i] == NULL)
 		{
-			_client[i] = new Client(clientSocket, "");
+			_clients[i] = new Client(fd, nickname, i);
 			break ;
 		}
 	}
@@ -200,8 +232,8 @@ void	Server::printAllClient() const
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
 	{
-		if (_client[i] != NULL)
-			_client[i]->printInfo();
+		if (_clients[i] != NULL)
+			_clients[i]->printInfo();
 	}
 }
 
@@ -210,8 +242,8 @@ Client	*Server::getClientByFd(int fd) const
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
 	{
-		if (_client[i] != NULL && _client[i]->getSocketFd() == fd)
-			return (_client[i]);
+		if (_clients[i] != NULL && _clients[i]->getSocketFd() == fd)
+			return (_clients[i]);
 	}
 	return (NULL);
 }

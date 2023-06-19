@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/17 18:15:12 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:10:16 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,26 @@ class Client
 	private:
 		int							_socketFd;
 		std::string					_nickName;
+		int							_id;
 		std::vector<std::string>	_channels;
+		struct 						pollfd _fds_clt;
+		
 
 	public:
 
 		Client(void);
-		Client(int soketFd, std::string nickName);
+		Client(int soketFd, std::string nickName, int id);
 		~Client(void);
 
 		int								getSocket() const;
 		const std::string				&getNickname() const;
 		const std::vector<std::string>	&getChannels() const;
+		pollfd							getPollstrc() const;
 		void							addChannel(const std::string& channel);
 		void							removeChannel(const std::string& channel);
 		void							setNickName(std::string &name);
 		int								getSocketFd() const;
+		int								getId() const;
 
 		void	printInfo() const;
 };

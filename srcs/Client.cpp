@@ -3,22 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:42:20 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/17 20:08:35 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:09:46 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 
-Client::Client(void) : _socketFd(-1), _nickName(""), _channels(0)
+Client::Client(void) : _socketFd(-1), _nickName(""), _id(-1), _channels(0)
 {
 	return ;
 }
 
-Client::Client(int socketFd, std::string nickname) : _socketFd(socketFd), _nickName(nickname), _channels(0)
+Client::Client(int socketFd, std::string nickname, int id) : _socketFd(socketFd), _nickName(nickname), _id(id), _channels(0)
 {
+	_fds_clt.fd = socketFd;
+	_fds_clt.events = POLLIN;
 	return ;
 }
 
@@ -35,6 +37,16 @@ int	Client::getSocket() const
 const std::string	&Client::getNickname() const
 {
 	return (_nickName);
+}
+
+int	Client::getId() const
+{
+	return (_id);
+}
+
+pollfd	Client::getPollstrc() const
+{
+	return (_fds_clt);
 }
 
 const std::vector<std::string>	&Client::getChannels() const

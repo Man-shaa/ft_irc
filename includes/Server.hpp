@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/19 17:48:44 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:28:26 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,12 @@ class Server
 {
 	private:
 		std::string 		_serverName;
-		int 				_listenSocket;
 		sockaddr_in 		_serverAddress;
 		sockaddr_in 		_clientAddress;
 		std::vector<int> 	_Sockets;
 		std::vector<int> 	_socketsToRemove;
-		Client				*_client[MAX_CLIENTS];
-		struct 				pollfd _fds;
+		Client				*_clients[MAX_CLIENTS];
+		struct 				pollfd _fds_srv;
 		int           		_ret;
 		int					_client;
 		int					_port;
@@ -70,7 +69,7 @@ public:
 	void	socketToRemove();
 	int		serverManagement();
 	int		dataManagement();
-	void	addClient(int clientSocket);
+	void	addClient(std::string nickname, int fd);
 	Client	*getClientByFd(int fd) const;
 
 	void	printAllClient() const;
