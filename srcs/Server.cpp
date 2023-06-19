@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/17 20:23:10 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:38:58 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int Server::acceptConnexions()
     if (_clientSocket != -1) 
     {
         _Sockets.push_back(_clientSocket);
-        _fds.fd = _clientSocket;
+        _fds.fd= _clientSocket;
         _fds.events = POLLIN;
 
         std::cout << "Nouvelle connexion acceptée. Socket : " << _clientSocket << std::endl;
