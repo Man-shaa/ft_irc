@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/19 17:59:02 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:29:01 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ int	Server::createSocket()
         std::cerr << "Erreur lors de la création du socket" << std::endl;
         return 1;
     }
-	_Sockets.push_back(listenSocket); //IPv4 + TCP
+	_Sockets.push_back(listenSocket);
+    _fds_srv.fd= listenSocket;
+    _fds_srv.events = POLLIN;
     std::cout << "Creation socket serveur " << _Sockets[0] << std::endl;
 	return 0;
 }
@@ -59,9 +61,9 @@ void	Server::serverInfo()
 à un numéro de port spécifiques à l'aide de la fonction bind()*/
 int Server::link_SocketServer()
 {
-	if (bind(_listenSocket, reinterpret_cast<sockaddr*>(&_serverAddress), sizeof(_serverAddress)) == -1) {
+	if (bind(_Sockets[0], reinterpret_cast<sockaddr*>(&_serverAddress), sizeof(_serverAddress)) == -1) {
 		std::cerr << "Erreur lors du bind du socket" << std::endl;
-		close(_listenSocket);
+		close(_Sockets[0]);
 		return 1;
 	}
 	return 0;
@@ -70,9 +72,9 @@ int Server::link_SocketServer()
 //Mettre le socket en mode écoute de connection
 int	Server::listenSocket()
 {
-	if (listen(_listenSocket, SOMAXCONN) == -1) {
+	if (listen(_Sockets[0], SOMAXCONN) == -1) {
 		std::cerr << "Erreur lors de la mise en écoute du socket" << std::endl;
-		close(_listenSocket);
+		close(_Sockets[0]);
 		return 1;
 	}
 	std::cout << "Le serveur est en écoute sur le port " << _port << std::endl;
@@ -87,11 +89,8 @@ int Server::acceptConnexions()
     if (_clientSocket != -1) 
     {
         _Sockets.push_back(_clientSocket);
-        _fds.fd= _clientSocket;
-        _fds.events = POLLIN;
-
+        addClient("john doe", _clientSocket);
         std::cout << "Nouvelle connexion acceptée. Socket : " << _clientSocket << std::endl;
-
         int flags = fcntl(_clientSocket, F_GETFL, 0);
         fcntl(_clientSocket, F_SETFL, flags | O_NONBLOCK);
         
@@ -143,11 +142,7 @@ void    Server::manageClientMsg()
         std::string cmd, arg1, arg2;
         iss >> cmd >> arg1 >> arg2;
         if (cmd == "NICK")
-        {
-            std::cout << "NICK" << std::endl;
-            Client	*iencli = getClientByFd(_client);
-            iencli->setNickName(arg1);
-        }
+            _clients[getClientByFd(_client)->getId()]->setNickName(arg1);
         if (cmd == "/die")
             std::cout << "Commande 'die' reçue. Fermeture du serveur." << std::endl;
         else if (cmd == "/nick") 
@@ -172,16 +167,21 @@ void    Server::manageClientMsg()
 	memset(buffer, 0, sizeof(buffer));
 }
 
-
 int Server::dataManagement()
 {
+    pollfd fds_rd;
+    
     _ret = 0;
     while(true)
     {
         for (std::vector<int>::iterator it = _Sockets.begin(); it != _Sockets.end(); ++it) 
         {
             _client = *it;
-            if ((_ret = poll(&_fds, *it, 100)) <= 0)  
+            if (_client == 3)
+                fds_rd = _fds_srv;
+            else
+                fds_rd = _clients[getClientByFd(_client)->getId()]->getPollstrc();
+            if ((_ret = poll(&fds_rd, _client, 100)) <= 0)  
             {
                 if (_ret == 0 || errno == EINTR)
                 {
@@ -215,13 +215,13 @@ int Server::start(int port)
 }
 
 // Add a new Client to [_client[]] in the server
-void Server::addClient(int clientSocket)
+void Server::addClient(std::string nickname, int fd)
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
 	{
 		if (_clients[i] == NULL)
 		{
-			_clients[i] = new Client(clientSocket, "");
+			_clients[i] = new Client(fd, nickname, i);
 			break ;
 		}
 	}
