@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/17 20:10:55 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:45:08 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,26 @@ Server::~Server()
 par un serveur pour écouter les connexions entrantes des clients. */
 int	Server::createSocket()
 {
-	_listenSocket = socket(AF_INET, SOCK_STREAM, 0); //IPv4 + TCP
-	if (_listenSocket == -1) {
-		std::cerr << "Erreur lors de la création du socket" << std::endl;
-		return 1;
-	}
+    int listenSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (listenSocket == -1) 
+    {
+        std::cerr << "Erreur lors de la création du socket" << std::endl;
+        return 1;
+    }
+	_Sockets.push_back(listenSocket); //IPv4 + TCP
+    std::cout << "Creation socket serveur " << _Sockets[0] << std::endl;
 	return 0;
 }
 
 /* Définir les informations de l'adresse du serveur \
 pour spécifier sur quelle adresse IP et quel port le serveur \
 va écouter les connexions entrantes des clients.*/
-void	Server::serverInfo(int port)
+void	Server::serverInfo()
 {
-	std::memset(&_serverAddress, 0, sizeof(_serverAddress));
-	_serverAddress.sin_family = AF_INET; //type d'adresse utilise par le socket IPv4
-	_serverAddress.sin_addr.s_addr = INADDR_ANY; //socket ecoute toutes les connexions entrantes sur IP dispo du serveur
-	_serverAddress.sin_port = htons(port);
+    std::memset(&_serverAddress, 0, sizeof(_serverAddress));
+    _serverAddress.sin_family = AF_INET; //type d'adresse utilise par le socket IPv4
+    _serverAddress.sin_addr.s_addr = INADDR_ANY; //socket ecoute toutes les connexions entrantes sur IP dispo du serveur
+    _serverAddress.sin_port = htons(_port);
 }
 
 /*Lié socket d'ecoute à une adresse IP et\
@@ -65,7 +68,7 @@ int Server::link_SocketServer()
 }
 
 //Mettre le socket en mode écoute de connection
-int	Server::listenSocket(int port)
+int	Server::listenSocket()
 {
 	if (listen(_listenSocket, SOMAXCONN) == -1) {
 		std::cerr << "Erreur lors de la mise en écoute du socket" << std::endl;
@@ -77,37 +80,39 @@ int	Server::listenSocket(int port)
 }
 
 // Accepter les connexions entrantes
-void Server::acceptConnexions()
+int Server::acceptConnexions()
 {
-	socklen_t clientAddressLength = sizeof(_clientAddress);
-	int _clientSocket = accept(_listenSocket, reinterpret_cast<sockaddr*>(&_clientAddress), &clientAddressLength);
+    socklen_t clientAddressLength = sizeof(_clientAddress);
+    int _clientSocket = accept(_Sockets[0], reinterpret_cast<sockaddr*>(&_clientAddress), &clientAddressLength);
+    if (_clientSocket != -1) 
+    {
+        _Sockets.push_back(_clientSocket);
+        _fds.fd= _clientSocket;
+        _fds.events = POLLIN;
 
-	if (_clientSocket != -1) 
-	{
-		addClient(_clientSocket);
-		
-		_clientSockets.push_back(_clientSocket);
-		std::cout << "Nouvelle connexion acceptée. Socket : " << _clientSocket << std::endl;
+        std::cout << "Nouvelle connexion acceptée. Socket : " << _clientSocket << std::endl;
 
-		int flags = fcntl(_clientSocket, F_GETFL, 0);
-		fcntl(_clientSocket, F_SETFL, flags | O_NONBLOCK);
-
-		send(_clientSocket, welcomeMessage, std::strlen(welcomeMessage), 0);
-	}
+        int flags = fcntl(_clientSocket, F_GETFL, 0);
+        fcntl(_clientSocket, F_SETFL, flags | O_NONBLOCK);
+        
+        send(_clientSocket, welcomeMessage, std::strlen(welcomeMessage), 0);
+        return (1);
+    }
+    return (0);
 }
 
 // Supprimer les sockets clients déconnectés de la liste
 void Server::socketToRemove()
 {
-	for (std::vector<int>::iterator it = _socketsToRemove.begin(); it != _socketsToRemove.end(); ++it) 
-	{
-		int client = *it;
-		_clientSockets.erase(std::remove(_clientSockets.begin(), _clientSockets.end(), client), _clientSockets.end());
-		close(client);
-	}
+    for (std::vector<int>::iterator it = _socketsToRemove.begin(); it != _socketsToRemove.end(); ++it) 
+    {
+        _client = *it;
+        _Sockets.erase(std::remove(_Sockets.begin(), _Sockets.end(), _client), _Sockets.end());
+        close(_client);
+    }
 }
 
-void Server::manageClientMessage()
+int Server::serverManagement()
 {
 	char buffer[BUFFER_SIZE];
 	for (std::vector<int>::iterator it = _clientSockets.begin(); it != _clientSockets.end(); ++it) 
@@ -158,10 +163,10 @@ int Server::start(int port)
 {
 	if (createSocket())
 		return (1);
-	serverInfo(port);
+	serverInfo();
 	if (link_SocketServer())
 		return (1);
-	if (listenSocket(port))
+	if (listenSocket())
 		return (1);
 	//Socket d'ecoute en mode non bloquant
 	int flags = fcntl(_listenSocket, F_GETFL, 0);

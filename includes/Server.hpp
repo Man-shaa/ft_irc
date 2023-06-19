@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/17 17:37:01 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:48:44 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,28 +45,35 @@ class Server
 		std::string 		_serverName;
 		int 				_listenSocket;
 		sockaddr_in 		_serverAddress;
-		std::vector<int> 	_clientSockets;
 		sockaddr_in 		_clientAddress;
+		std::vector<int> 	_Sockets;
 		std::vector<int> 	_socketsToRemove;
 		Client				*_client[MAX_CLIENTS];
+		struct 				pollfd _fds;
+		int           		_ret;
+		int					_client;
+		int					_port;
 
-	public:
+	
+public:
 
-		Server( void );
-		~Server( void );
-		
-		int		start(int port);
-		int		createSocket();
-		int		listenSocket(int port);
-		int 	link_SocketServer();
-		void	serverInfo(int port);
-		void	acceptConnexions();
-		void	manageClientMessage();
-		void	socketToRemove();
-		void	addClient(int clientSocket);
-		Client	*getClientByFd(int fd) const;
+	Server( void );
+	~Server( void );
+	
+	int		start(int port);
+	int		createSocket();
+	int		listenSocket();
+	int 	link_SocketServer();
+	void	serverInfo();
+	int		acceptConnexions();
+	void	manageClientMsg();
+	void	socketToRemove();
+	int		serverManagement();
+	int		dataManagement();
+	void	addClient(int clientSocket);
+	Client	*getClientByFd(int fd) const;
 
-		void	printAllClient() const;
+	void	printAllClient() const;
 };
 
 #endif

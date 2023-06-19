@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:26 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/17 18:15:51 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/19 17:46:00 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int checkArg(char **av)
 int main(int ac, char **av) 
 {
 	Server server;
+	
 	if (ac == 3)
 	{
 		if (!checkArg(av))
