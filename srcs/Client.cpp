@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:42:20 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/20 16:44:06 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/20 21:42:32 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ const std::vector<std::string>	&Client::getChannels() const
 	return (_channels);
 }
 
-void Client::addChannel(const std::string& channel)
+void Client::addChannel(const Channel& channel)
 {
 	_channels.push_back(channel);
 }
 
-void Client::removeChannel(const std::string& channel)
+void Client::removeChannel(const Channel& channel)
 {
 	_channels.erase(std::remove(_channels.begin(), _channels.end(), channel), _channels.end());
 }

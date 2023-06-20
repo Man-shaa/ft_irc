@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/20 17:48:00 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/20 23:40:22 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
 
@@ -34,13 +35,18 @@
 #include <vector>
 #include <map>
 
+#include "Server.hpp"
+#include "Channel.hpp"
+
+class Channel;
+
 class Client
 {
 	private:
 		int							_socketFd;
 		std::string					_nickName;
 		int							_id;
-		std::vector<std::string>	_channels;
+		std::vector<Channel>		_channels;
 		struct 						pollfd _fds_clt;
 		
 
@@ -54,8 +60,8 @@ class Client
 		const std::string				&getNickname() const;
 		const std::vector<std::string>	&getChannels() const;
 		pollfd							getPollStrc() const;
-		void							addChannel(const std::string& channel);
-		void							removeChannel(const std::string& channel);
+		void							addChannel(const Channel& channel);
+		void							removeChannel(const Channel& channel);
 		void							setNickName(std::string &name);
 		int								getSocketFd() const;
 		int								getId() const;
