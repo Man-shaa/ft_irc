@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:26 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/19 17:46:00 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:41:21 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int checkArg(char **av)
 int main(int ac, char **av) 
 {
 	Server server;
-	
-	if (ac == 3)
+		if (ac == 3)
 	{
 		if (!checkArg(av))
 			return (std::cout << "Incorrect port or invalid port" << std::endl, 0);

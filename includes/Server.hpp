@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/19 19:28:26 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:32:03 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,34 +45,32 @@ class Server
 		std::string 		_serverName;
 		sockaddr_in 		_serverAddress;
 		sockaddr_in 		_clientAddress;
-		std::vector<int> 	_Sockets;
+		std::vector<int> 	_sockets;
 		std::vector<int> 	_socketsToRemove;
 		Client				*_clients[MAX_CLIENTS];
 		struct 				pollfd _fds_srv;
 		int           		_ret;
-		int					_client;
+		int					_fd;
 		int					_port;
 
-	
-public:
+	public:
+		Server(void);
+		~Server(void);
 
-	Server( void );
-	~Server( void );
-	
-	int		start(int port);
-	int		createSocket();
-	int		listenSocket();
-	int 	link_SocketServer();
-	void	serverInfo();
-	int		acceptConnexions();
-	void	manageClientMsg();
-	void	socketToRemove();
-	int		serverManagement();
-	int		dataManagement();
-	void	addClient(std::string nickname, int fd);
-	Client	*getClientByFd(int fd) const;
+		int		start(int port);
+		int		createSocket();
+		int		listenSocket();
+		int 	linkSocketServer();
+		void	serverInfo();
+		int		acceptConnexions();
+		void	manageClientMsg();
+		void	socketToRemove();
+		int		serverManagement();
+		int		dataManagement();
+		void	addClient(std::string nickname, int fd);
+		Client	*getClientByFd(int fd) const;
 
-	void	printAllClient() const;
+		void	printAllClient() const;
 };
 
 #endif

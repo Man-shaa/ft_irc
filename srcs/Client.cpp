@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:42:20 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/20 14:24:12 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:48:56 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	Client::getId() const
 	return (_id);
 }
 
-pollfd	Client::getPollstrc() const
+pollfd	Client::getPollStrc() const
 {
 	return (_fds_clt);
 }

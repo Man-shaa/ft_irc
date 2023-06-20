@@ -17,7 +17,8 @@ RM			=	rm -rf
 
 CC			=	c++
 
-CFLAGS		=	-Werror -Wall -Wextra -std=c++98 -g3
+CFLAGS		=	-Werror -Wall -Wextra -std=c++98 -g3 -D_GLIBCXX_DEBUG
+# -D_GLIBCXX_DEBUG pour afficher les valeurs de std::string los de debug gdb, sinon <incomplete type> 
 
 all:	${NAME}
 
