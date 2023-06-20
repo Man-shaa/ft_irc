@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/20 16:45:04 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/20 18:22:09 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int Server::acceptConnexions()
 	if (_clientSocket != -1)
 	{
 		_sockets.push_back(_clientSocket);
-		addClient("john doe", _clientSocket);
+		addClient("bob", _clientSocket);
 		std::cout << "Nouvelle connexion acceptée. Socket : " << _clientSocket << std::endl;
 		int flags = fcntl(_clientSocket, F_GETFL, 0);
 		fcntl(_clientSocket, F_SETFL, flags | O_NONBLOCK);
@@ -122,14 +122,14 @@ int Server::serverManagement()
 	//Socket d'ecoute en mode non bloquant
 	int flags = fcntl(_sockets[0], F_GETFL, 0);
 	fcntl(_sockets[0], F_SETFL, flags | O_NONBLOCK);
-	
+
 	return (0);
 }
 
 void    Server::manageClientMsg()
 {
 	char buffer[BUFFER_SIZE];
-	
+
 	ssize_t bytesRead = recv(_fd, buffer, sizeof(buffer) - 1, 0);
 	//printf("%ld\n", bytesRead);
 	if (bytesRead > 0)
@@ -138,30 +138,28 @@ void    Server::manageClientMsg()
 		buffer[bytesRead] = '\0';
 		std::cout << "Message reçu du client " << _fd << ": " << buffer << std::endl;
 
-		std::istringstream iss(command);
-		std::string cmd, arg1, arg2, arg3, arg4;
-		iss >> cmd >> arg1 >> arg2 >> arg3 >> arg4;
-		if (cmd == "NICK")
+		std::size_t startpos = 0;
+		std::size_t endpos = command.find("\r\n", startpos);
+
+		while (endpos != std::string::npos)
 		{
-			std::string answer = "001 " + arg4 + " :Welcome to the Internet Relay Network " + arg4 + "\r\n";
-			_clients[getClientByFd(_fd)->getId()]->setNickName(arg4);
-			send(_fd, answer.c_str(), answer.size(), 0);
+			std::string newcmd = command.substr(startpos, endpos - startpos);
+
+			std::istringstream iss(newcmd);
+			std::string cmd, arg1, arg2;
+			iss >> cmd >> arg1 >> arg2;
+
+			if (cmd == "USER")
+			{
+				std::string answer = "001 " + arg1 + " :Welcome to the Internet Relay Network " + arg1 + "\r\n";
+				_clients[getClientByFd(_fd)->getId()]->setNickName(arg1);
+				send(_fd, answer.c_str(), answer.size(), 0);
+			}
+
+			startpos = endpos + 2;
+			endpos = command.find("\r\n", startpos);
 		}
-		if (cmd == "USER")
-		{
-			std::string answer = "001 " + arg1 + " :Welcome to the Internet Relay Network " + arg1 + "\r\n";
-			_clients[getClientByFd(_fd)->getId()]->setNickName(arg1);
-			send(_fd, answer.c_str(), answer.size(), 0);
-		}
-		else if (cmd == "/die")
-			std::cout << "Commande 'die' reçue. Fermeture du serveur." << std::endl;
-		else if (cmd == "/join") 
-			std::cout << "Commande 'join' reçue. Rejoindre le canal : " << arg1 << std::endl;
-		else if (cmd == "/register") 
-			std::cout << "Commande 'register' reçue. Informations d'enregistrement : " << arg1 << " " << arg2 << std::endl;
-		//std::string response = "Bien reçu !\r\n";
-		//send(_client, response.c_str(), response.size(), 0);
-	} 
+	}
 	else if (bytesRead == 0) 
 	{
 		_socketsToRemove.push_back(_fd);
@@ -197,7 +195,10 @@ int Server::dataManagement()
 				return (1);
 			}
 			if (_fd == *_sockets.begin())
-				acceptConnexions();
+			{
+				if (acceptConnexions())
+					it = _sockets.begin();
+			}
 			else
 				manageClientMsg();
 		}
