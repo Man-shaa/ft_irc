@@ -9,6 +9,7 @@ vpath %.hpp $(foreach dir, $(INC_DIR), $(dir):)
 
 SRCS	 	=	main.cpp	\
 				Client.cpp	\
+				Command.cpp	\
 				Server.cpp
 
 OBJS		=	$(SRCS:%.cpp=${OBJ_DIR}/%.o)

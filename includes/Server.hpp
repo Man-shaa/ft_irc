@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/20 16:45:18 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/20 19:18:58 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,21 @@
 
 class Server
 {
+	typedef int (Server::*cmdFct)(std::string &);
+	
 	private:
-		std::string 		_serverName;
-		sockaddr_in 		_serverAddress;
-		sockaddr_in 		_clientAddress;
-		std::vector<int> 	_sockets;
-		std::vector<int> 	_socketsToRemove;
-		Client				*_clients[MAX_CLIENTS];
-		struct 				pollfd _fds_srv;
-		int           		_ret;
-		int					_fd;
-		int					_port;
-		std::string			_password;
+		std::string 						_serverName;
+		sockaddr_in 						_serverAddress;
+		sockaddr_in 						_clientAddress;
+		std::vector<int> 					_sockets;
+		std::vector<int> 					_socketsToRemove;
+		Client								*_clients[MAX_CLIENTS];
+		struct 								pollfd _fds_srv;
+		int           						_ret;
+		int									_fd;
+		int									_port;
+		std::string							_password;
+		std::map<std::string, cmdFct>		_mapFcts;
 
 	public:
 		Server(void);
@@ -70,6 +73,9 @@ class Server
 		int		dataManagement();
 		void	addClient(std::string nickname, int fd);
 		Client	*getClientByFd(int fd) const;
+
+		void	initCmd();
+		int		cmdUser(std::string & arg1);
 
 		void	printAllClient() const;
 };

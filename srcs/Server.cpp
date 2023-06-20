@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/20 18:22:09 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/20 20:31:05 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ void    Server::manageClientMsg()
 	char buffer[BUFFER_SIZE];
 
 	ssize_t bytesRead = recv(_fd, buffer, sizeof(buffer) - 1, 0);
-	//printf("%ld\n", bytesRead);
 	if (bytesRead > 0)
 	{
 		std::string command(buffer, bytesRead);
@@ -149,12 +148,11 @@ void    Server::manageClientMsg()
 			std::string cmd, arg1, arg2;
 			iss >> cmd >> arg1 >> arg2;
 
-			if (cmd == "USER")
-			{
-				std::string answer = "001 " + arg1 + " :Welcome to the Internet Relay Network " + arg1 + "\r\n";
-				_clients[getClientByFd(_fd)->getId()]->setNickName(arg1);
-				send(_fd, answer.c_str(), answer.size(), 0);
-			}
+			//TODO appel aux pointeurs sur fct, avec cmd et le client envoye en param
+			// cmdFct(cmd)
+			cmdFct fPtr = _mapFcts[cmd];
+			if (fPtr)
+				(thimms->*fPtr)(arg1);
 
 			startpos = endpos + 2;
 			endpos = command.find("\r\n", startpos);
@@ -213,6 +211,7 @@ int Server::start(int port, std::string password)
 	_port = port;
 	_password = password;
 	serverManagement();
+	initCmd();
 	dataManagement();
 	close(_sockets[0]);
 	return 0;
