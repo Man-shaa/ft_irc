@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/20 15:32:03 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:45:18 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ class Server
 		int           		_ret;
 		int					_fd;
 		int					_port;
+		std::string			_password;
 
 	public:
 		Server(void);
 		~Server(void);
 
-		int		start(int port);
+		int		start(int port, std::string password);
 		int		createSocket();
 		int		listenSocket();
 		int 	linkSocketServer();

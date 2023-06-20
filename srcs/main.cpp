@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:26 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/20 15:41:21 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:44:30 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,10 @@ int checkArg(char **av)
 int main(int ac, char **av) 
 {
 	Server server;
-		if (ac == 3)
-	{
-		if (!checkArg(av))
-			return (std::cout << "Incorrect port or invalid port" << std::endl, 0);
-		server.start(atoi(av[1]));
-	}
-	else
-		std::cout << "tuto: ./ft_irc <port> <password>" << std::endl;
-	return 0;
+	if (ac != 3)
+		return (std::cout << "tuto: ./ft_irc <port> <password>" << std::endl, 1);
+	if (!checkArg(av))
+		return (std::cout << "Incorrect port or invalid port" << std::endl, 0);
+	server.start(atoi(av[1]), std::string(av[2]));
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/20 15:49:22 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/20 16:45:04 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,9 +207,10 @@ int Server::dataManagement()
 	return (0);
 }
 
-int Server::start(int port) 
+int Server::start(int port, std::string password) 
 {
 	_port = port;
+	_password = password;
 	serverManagement();
 	dataManagement();
 	close(_sockets[0]);
