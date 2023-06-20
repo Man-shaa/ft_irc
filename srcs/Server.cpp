@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/20 20:31:05 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/20 20:51:59 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ void    Server::manageClientMsg()
 			// cmdFct(cmd)
 			cmdFct fPtr = _mapFcts[cmd];
 			if (fPtr)
-				(thimms->*fPtr)(arg1);
+				(this->*fPtr)(arg1);
 
 			startpos = endpos + 2;
 			endpos = command.find("\r\n", startpos);
