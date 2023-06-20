@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/19 19:29:01 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:24:45 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int Server::acceptConnexions()
         int flags = fcntl(_clientSocket, F_GETFL, 0);
         fcntl(_clientSocket, F_SETFL, flags | O_NONBLOCK);
         
-        send(_clientSocket, welcomeMessage, std::strlen(welcomeMessage), 0);
+        //send(_clientSocket, welcomeMessage, std::strlen(welcomeMessage), 0);
         return (1);
     }
     return (0);
@@ -132,6 +132,7 @@ void    Server::manageClientMsg()
 	char buffer[BUFFER_SIZE];
     
     ssize_t bytesRead = recv(_client, buffer, sizeof(buffer) - 1, 0);
+    //printf("%ld\n", bytesRead);
     if (bytesRead > 0)
     {
         std::string command(buffer, bytesRead);
@@ -141,18 +142,22 @@ void    Server::manageClientMsg()
         std::istringstream iss(command);
         std::string cmd, arg1, arg2;
         iss >> cmd >> arg1 >> arg2;
-        if (cmd == "NICK")
+        if (cmd == "USER")
+        {
+            std::string answer = "001 " + arg1 + " :Welcome to the Internet Relay Network " + arg1 + "\r\n";
             _clients[getClientByFd(_client)->getId()]->setNickName(arg1);
-        if (cmd == "/die")
+            send(_client, answer.c_str(), answer.size(), 0);
+        }
+        else if (cmd == "/die")
             std::cout << "Commande 'die' reçue. Fermeture du serveur." << std::endl;
-        else if (cmd == "/nick") 
+        else if (cmd == "NICK") 
             std::cout << "Commande 'nick' reçue. Nouveau pseudo : " << arg1 << std::endl;
         else if (cmd == "/join") 
             std::cout << "Commande 'join' reçue. Rejoindre le canal : " << arg1 << std::endl;
         else if (cmd == "/register") 
             std::cout << "Commande 'register' reçue. Informations d'enregistrement : " << arg1 << " " << arg2 << std::endl;
-        std::string response = "Bien reçu !\r\n";
-        send(_client, response.c_str(), response.size(), 0);
+        //std::string response = "Bien reçu !\r\n";
+        //send(_client, response.c_str(), response.size(), 0);
     } 
     else if (bytesRead == 0) 
     {
@@ -164,7 +169,7 @@ void    Server::manageClientMsg()
         _socketsToRemove.push_back(_client);
         std::cerr << "Erreur lors de la lecture du client " << _client << std::endl;
     }
-	memset(buffer, 0, sizeof(buffer));
+	std::memset(buffer, 0, sizeof(buffer));
 }
 
 int Server::dataManagement()
@@ -181,7 +186,7 @@ int Server::dataManagement()
                 fds_rd = _fds_srv;
             else
                 fds_rd = _clients[getClientByFd(_client)->getId()]->getPollstrc();
-            if ((_ret = poll(&fds_rd, _client, 100)) <= 0)  
+            if ((_ret = poll(&fds_rd, _client, 0)) <= 0)  
             {
                 if (_ret == 0 || errno == EINTR)
                 {
@@ -202,6 +207,7 @@ int Server::dataManagement()
             }
         }
         socketToRemove();
+        //printAllClient();
     }
 }
 
