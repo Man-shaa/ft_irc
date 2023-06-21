@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:39 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/06/20 23:57:39 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/06/21 14:06:26 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,24 @@ std::string	Channel::getName(void) const	{
 	return _name;
 }
 
-std::vector<client>	Channel::getUsrList(void) const	{
+std::vector<Client>	Channel::getUsrList(void) const	{
 	return _usrList;
 }
 
-void	Channel::setLogMsg(std::string logMsg) : _logMsg(logMsg)	{
-	
+void	Channel::setLogMsg(std::string logMsg) {
+	_logMsg = logMsg;	
 }
 
-void	Channel::setTopic(std::string topic) : _topic(topic)	{
-	
+void	Channel::setTopic(std::string topic) {
+	_topic = topic;
 }
 
-void	Channel::setPassword(std::string password) : _password(password)	{
-	
+void	Channel::setPassword(std::string password) {
+	_password = password;
 }
 
-void	Channnel::setSecured(bool secured) : _secured(secured)	{
-	
+void	Channel::setSecured(bool secured) {
+	_secured = secured;
 }
 
 void	Channel::addUser(Client &user)	{
@@ -78,10 +78,10 @@ void	Channel::remModo(Client &user)	{
 	return;
 }
 
-void	Channel::sendMsg(std::string msg, const Client &user) const	{
-	for (std::vector<std::string>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)	{
-		if (*it != user)
-			send(*it.getSocket(), msg.c_str(), msg.size(), 0);
+void	Channel::sendMsg(std::string msg, Client &user) const	{
+	for (std::vector<Client>::iterator it = _usrList.begin(); it != _usrList.end(); ++it)	{
+		if (it->getNickname() != user.getNickname())
+			send(it->getSocket(), msg.c_str(), msg.size(), 0);
 	}
 
 	return;

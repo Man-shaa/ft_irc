@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/20 23:39:58 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/06/21 13:24:40 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,11 @@
 # include <vector>
 # include <map>
 
-# include "Client.hpp"
-# include "Channel.hpp"
-
 # define MAX_CLIENTS 10
 # define BUFFER_SIZE 4096
 
 class Client;
+class Channel;
 
 class Server
 {
