@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/21 14:04:33 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/21 16:58:11 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include "Channel.hpp"
 
 class Channel;
 
@@ -43,7 +44,7 @@ class Client
 		int							_socketFd;
 		std::string					_nickName;
 		int							_id;
-		std::vector<Channel>		_channels;
+		std::vector<Channel*>		_channels;
 		struct 						pollfd _fds_clt;
 		
 
@@ -53,15 +54,17 @@ class Client
 		Client(int soketFd, std::string nickName, int id);
 		~Client(void);
 
+		bool 	operator==(const Client& other) const;
+			
 		int								getSocket() const;
 		const std::string				&getNickname() const;
-		const std::vector<std::string>	&getChannels() const;
 		pollfd							getPollStrc() const;
-		void							addChannel(const Channel& channel);
+		void							addChannel(Channel& channel);
 		void							removeChannel(const Channel& channel);
 		void							setNickName(std::string &name);
 		int								getSocketFd() const;
 		int								getId() const;
+		
 
 		void	printInfo() const;
 };

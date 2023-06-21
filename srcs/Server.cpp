@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/20 20:51:59 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/06/21 19:30:33 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ Server::Server()
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
 		_clients[i] = NULL;
+	for (int i = 0; i < MAX_CHANNEL; ++i)
+		_channels[i] = NULL;
 }
 
 Server::~Server()
@@ -152,7 +154,7 @@ void    Server::manageClientMsg()
 			// cmdFct(cmd)
 			cmdFct fPtr = _mapFcts[cmd];
 			if (fPtr)
-				(this->*fPtr)(arg1);
+				(this->*fPtr)(arg1, arg2, *getClientByFd(_fd));
 
 			startpos = endpos + 2;
 			endpos = command.find("\r\n", startpos);
@@ -251,4 +253,31 @@ Client	*Server::getClientByFd(int fd) const
 			return (_clients[i]);
 	}
 	return (NULL);
+}
+
+void Server::addChannel(std::string channelName, Client &client)
+{
+	for (int i = 0; i < MAX_CHANNEL; ++i)
+	{
+		if (_channels[i] == NULL)
+		{
+			_channels[i] = new Channel(channelName, client);
+			break ;
+		}
+		if (i == MAX_CHANNEL - 1)
+			std::cout << "Can not add more channels to the server" << std::endl;
+	}
+}
+
+// print all clients in server
+void	Server::printAllChannel() const
+{
+	for (int i = 0; i < MAX_CHANNEL; ++i)
+	{
+		if (_channels[i] != NULL)
+		{
+			std::cout << _channels[i]->getName() << std::endl;
+			break;
+		}
+	}
 }

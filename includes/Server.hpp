@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/21 13:24:40 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/21 17:47:34 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@
 # include <iostream>
 # include <vector>
 # include <map>
+# include "Client.hpp"
 
 # define MAX_CLIENTS 10
+# define MAX_CHANNEL 10
 # define BUFFER_SIZE 4096
 
 class Client;
@@ -43,7 +45,7 @@ class Channel;
 
 class Server
 {
-	typedef int (Server::*cmdFct)(std::string &);
+	typedef int (Server::*cmdFct)(std::string &, std::string &, Client &);
 	
 	private:
 		std::string 						_serverName;
@@ -52,6 +54,7 @@ class Server
 		std::vector<int> 					_sockets;
 		std::vector<int> 					_socketsToRemove;
 		Client								*_clients[MAX_CLIENTS];
+		Channel								*_channels[MAX_CLIENTS];
 		struct 								pollfd _fds_srv;
 		int           						_ret;
 		int									_fd;
@@ -63,23 +66,36 @@ class Server
 		Server(void);
 		~Server(void);
 
+		//SERVER MANAGEMENT
 		int		start(int port, std::string password);
 		int		createSocket();
 		int		listenSocket();
 		int 	linkSocketServer();
 		void	serverInfo();
-		int		acceptConnexions();
-		void	manageClientMsg();
 		void	socketToRemove();
 		int		serverManagement();
 		int		dataManagement();
-		void	addClient(std::string nickname, int fd);
-		Client	*getClientByFd(int fd) const;
 
+		//CLIENT MANAGEMENT
+		int		acceptConnexions();
+		Client	*getClientByFd(int fd) const;
+		void	addClient(std::string nickname, int fd);
+		void	manageClientMsg();
+
+		//CHANNEL MANAGEMENT
+		void 	addChannel(std::string channelName, Client &client);
+
+		//COMMAND MANAGEMENT
 		void	initCmd();
 		int		cmdUser(std::string & arg1);
+		int		cmdUser(std::string & arg1, std::string & arg2, Client &client);
+		int		cmdJoin(std::string & arg1, std::string & arg2, Client &client);
+		int		cmdMode(std::string & arg1, std::string & arg2, Client &client);
+		int		cmdPing(std::string & arg1, std::string & arg2, Client &client);
 
+		//UTILS
 		void	printAllClient() const;
+		void	printAllChannel() const;
 };
 
 #endif

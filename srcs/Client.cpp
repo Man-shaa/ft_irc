@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:42:20 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/20 21:42:32 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/06/21 17:09:53 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,19 @@ pollfd	Client::getPollStrc() const
 	return (_fds_clt);
 }
 
-const std::vector<std::string>	&Client::getChannels() const
+void Client::addChannel(Channel& channel)
 {
-	return (_channels);
-}
-
-void Client::addChannel(const Channel& channel)
-{
-	_channels.push_back(channel);
+	_channels.push_back(&channel);
 }
 
 void Client::removeChannel(const Channel& channel)
 {
-	_channels.erase(std::remove(_channels.begin(), _channels.end(), channel), _channels.end());
+    for (std::vector<Channel*>::iterator it = _channels.begin(); it != _channels.end(); ++it) {
+        if (*it == &channel) {
+            _channels.erase(it);
+            break; // Sortie de la boucle après avoir trouvé et supprimé l'objet Channel
+        }
+    }
 }
 
 void	Client::printInfo() const
@@ -69,8 +69,8 @@ void	Client::printInfo() const
 	std::cout << "socket fd : " << _socketFd << std::endl;
 	std::cout << "nickname : [" << _nickName << "]" << std::endl;
 	std::cout << "channels : " << std::endl;
-	for (std::vector<std::string>::const_iterator it = _channels.begin(); it != _channels.end(); ++it)
-		std::cout << "	- " << *it << std::endl;
+	for (std::vector<Channel*>::const_iterator it = _channels.begin(); it != _channels.end(); ++it)
+		std::cout << "	- " << (*it)->getName() << std::endl;
 	std::cout << std::endl;
 }
 
@@ -84,4 +84,8 @@ void	Client::setNickName(std::string &name)
 int	Client::getSocketFd() const
 {
 	return (_socketFd);
+}
+
+bool Client::operator==(const Client& other) const {
+    return _socketFd == other._socketFd && _nickName == other._nickName && _id == other._id;
 }
