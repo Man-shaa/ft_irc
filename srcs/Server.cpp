@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/22 16:25:15 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:50:14 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int Server::acceptConnexions()
 {
 	socklen_t clientAddressLength = sizeof(_clientAddress);
 	int _clientSocket = accept(_sockets[0], reinterpret_cast<sockaddr*>(&_clientAddress), &clientAddressLength);
+	
 	if (_clientSocket != -1)
 	{
 		_sockets.push_back(_clientSocket);
@@ -95,7 +96,6 @@ int Server::acceptConnexions()
 		std::cout << "Nouvelle connexion acceptée. Socket : " << _clientSocket << std::endl;
 		int flags = fcntl(_clientSocket, F_GETFL, 0);
 		fcntl(_clientSocket, F_SETFL, flags | O_NONBLOCK);
-		//send(_clientSocket, welcomeMessage, std::strlen(welcomeMessage), 0);
 		return (1);
 	}
 	return (0);
