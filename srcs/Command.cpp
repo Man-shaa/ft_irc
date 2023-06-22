@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/22 16:11:21 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/22 18:55:20 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	Server::initCmd()
 	_mapFcts["JOIN"] = &Server::cmdJoin;
 	_mapFcts["MODE"] = &Server::cmdMode;
 	_mapFcts["PING"] = &Server::cmdPing;
+	_mapFcts["PASS"] = &Server::cmdPass;
 }
 
 
@@ -115,5 +116,18 @@ int		Server::cmdMode(std::vector<std::string> args, Client &client)
 		// 	NON : ERR_CHANOPRIVSNEEDED  "<client> <channel> :You're not channel operator"
 		// 	OUI :
 	//}
+	return (0);
+}
+
+int	Server::cmdPass(std::vector<std::string> args, Client &client)
+{
+	if (args[0] != _password)
+	{
+		std::string	badPass = "464 " + client.getNickname() + " :Password incorrect\r\n";
+		send(client.getSocket(), badPass.c_str(), badPass.size(), 0);
+		std::string	quit = "ERROR Closing Link: 127.0.0.1 (Bad Password)\r\n";
+		send(client.getSocket(), quit.c_str(), quit.size(), 0);
+		disconnect()
+	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/22 16:25:33 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/22 18:10:38 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ class Server
 		int		cmdJoin(std::vector<std::string> args, Client &client);
 		int		cmdMode(std::vector<std::string> args, Client &client);
 		int		cmdPing(std::vector<std::string> args, Client &client);
+		int		cmdPass(std::vector<std::string> args, Client &client);
 
 		//UTILS
 		void	printAllClient() const;
