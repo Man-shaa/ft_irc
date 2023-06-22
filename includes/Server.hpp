@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/22 16:25:33 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/22 20:45:09 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@
 # include <vector>
 # include <map>
 # include "Client.hpp"
+
+# define BLUE "\033[34m"
+# define ORANGE "\033[33m"
+# define GREEN "\033[32m"
+# define RED "\033[31m"
+# define CLOSE "\033[0m"
 
 # define MAX_CLIENTS 10
 # define MAX_CHANNEL 10
@@ -84,14 +90,16 @@ class Server
 		void						executeCommand(std::string newcmd);
 
 		//CHANNEL MANAGEMENT
-		void 	addChannel(std::string channelName, Client &client);
+		void 	createChannel(std::string channelName, Client &client);
 
 		//COMMAND MANAGEMENT
 		void	initCmd();
 		int		cmdUser(std::vector<std::string> args, Client &client);
 		int		cmdJoin(std::vector<std::string> args, Client &client);
+		int		cmdJoinRPL(std::string channel, Client &client, int index);
 		int		cmdMode(std::vector<std::string> args, Client &client);
 		int		cmdPing(std::vector<std::string> args, Client &client);
+		int		cmdPrivmsg(std::vector<std::string> args, Client &client);
 
 		//UTILS
 		void	printAllClient() const;

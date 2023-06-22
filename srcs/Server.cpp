@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/22 16:50:14 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/22 20:13:50 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,7 @@ Client	*Server::getClientByFd(int fd) const
 	return (NULL);
 }
 
-void Server::addChannel(std::string channelName, Client &client)
+void Server::createChannel(std::string channelName, Client &client)
 {
 	for (int i = 0; i < MAX_CHANNEL; ++i)
 	{
@@ -271,7 +271,7 @@ void Server::addChannel(std::string channelName, Client &client)
 			break ;
 		}
 		if (i == MAX_CHANNEL - 1)
-			std::cout << "Can not add more channels to the server" << std::endl;
+			std::cout << RED "Can not add more channels to the server" CLOSE << std::endl;
 	}
 }
 

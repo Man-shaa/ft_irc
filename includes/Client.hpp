@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/21 16:58:11 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/22 20:16:33 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@
 #include <map>
 #include "Channel.hpp"
 
+# define ORANGE "\033[33m"
+# define GREEN "\033[32m"
+# define RED "\033[31m"
+# define CLOSE "\033[0m"
+
 class Channel;
 
 class Client
@@ -64,6 +69,9 @@ class Client
 		void							setNickName(std::string &name);
 		int								getSocketFd() const;
 		int								getId() const;
+
+		void							printAllClientChannel() const;
+
 		
 
 		void	printInfo() const;

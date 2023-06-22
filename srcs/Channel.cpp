@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:39 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/06/21 18:04:52 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:55:02 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ std::string	Channel::getTopic(void) const	{
 	return (_topic);
 }
 
-std::vector<std::string> Channel::getUsrList(void) const	{
+std::vector<std::string> Channel::getUsrList(void) const
+{
 	std::vector<std::string> usrNames;
 	
 	for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
