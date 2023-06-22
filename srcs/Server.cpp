@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/21 19:30:33 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:25:15 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,22 @@ int Server::serverManagement()
 	return (0);
 }
 
+void Server::executeCommand(std::string newcmd)
+{
+	std::istringstream iss(newcmd);
+	std::vector<std::string> args;
+	std::string cmd;
+	iss >> cmd;
+	
+	std::string arg;
+	while (iss >> arg)
+		args.push_back(arg);
+		
+	cmdFct fPtr = _mapFcts[cmd];
+	if (fPtr)
+		(this->*fPtr)(args, *getClientByFd(_fd));
+}
+
 void    Server::manageClientMsg()
 {
 	char buffer[BUFFER_SIZE];
@@ -145,17 +161,7 @@ void    Server::manageClientMsg()
 		while (endpos != std::string::npos)
 		{
 			std::string newcmd = command.substr(startpos, endpos - startpos);
-
-			std::istringstream iss(newcmd);
-			std::string cmd, arg1, arg2;
-			iss >> cmd >> arg1 >> arg2;
-
-			//TODO appel aux pointeurs sur fct, avec cmd et le client envoye en param
-			// cmdFct(cmd)
-			cmdFct fPtr = _mapFcts[cmd];
-			if (fPtr)
-				(this->*fPtr)(arg1, arg2, *getClientByFd(_fd));
-
+			executeCommand(newcmd);
 			startpos = endpos + 2;
 			endpos = command.find("\r\n", startpos);
 		}
@@ -234,7 +240,7 @@ void Server::addClient(std::string nickname, int fd)
 	}
 }
 
-// print all clients in server
+// Print all clients in server
 void	Server::printAllClient() const
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
@@ -244,7 +250,7 @@ void	Server::printAllClient() const
 	}
 }
 
-// return a pointer to the client which have a [_socketFd] matching [fd]
+// Return a pointer to the client which have a [_socketFd] matching [fd]
 Client	*Server::getClientByFd(int fd) const
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
@@ -269,7 +275,7 @@ void Server::addChannel(std::string channelName, Client &client)
 	}
 }
 
-// print all clients in server
+// Print all channels in server
 void	Server::printAllChannel() const
 {
 	for (int i = 0; i < MAX_CHANNEL; ++i)

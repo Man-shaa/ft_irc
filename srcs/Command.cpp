@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/21 20:02:28 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:11:21 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,29 @@ void	Server::initCmd()
 }
 
 
-int		Server::cmdUser(std::string & arg1, std::string & arg2, Client &client)
+int		Server::cmdUser(std::vector<std::string> args, Client &client)
 {
-	(void)arg2;
 	//TODO Gérer le <realname> cf. https://modern.ircdocs.horse/#user-message
 	//TODO Gérer le ERR_ALREADYREGISTERED :  "<client> :You may not reregister"
 	//TODO Tronquer le username si il dépasse la taille de USERLEN = 12
-	if (arg1.empty())
-		arg1 = "default name";
-	std::string answer = "001 " + arg1 + " :Welcome to the Internet Relay Network " + arg1 + "\r\n";
-	_clients[client.getId()]->setNickName(arg1);
+	if (args[0].empty())
+		args[0] = "default name";
+	std::string answer = "001 " + args[0] + " :Welcome to the Internet Relay Network " + args[0] + "\r\n";
+	_clients[client.getId()]->setNickName(args[0]);
 	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 	return (0);
 }
 
-int		Server::cmdJoin(std::string & arg1, std::string & arg2, Client &client)
+int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 {
-	(void)arg2;
+	//TODO Servers MAY restrict the number of channels a client may be joined to at one time cf. https://modern.ircdocs.horse/#chanlimit-parameter
+
 	bool channelExist = false;
 	int i;
-	for (i = 0; _channels[i]; ++i) //faire une fonction qui recupere le nombre de channel existant
+	
+	for (i = 0; _channels[i]; ++i) //Faire une fonction qui recupere le nombre de channel existant
 	{
-		if (_channels[i]->getName() == arg1)
+		if (_channels[i]->getName() == args[0])
 		{
 			channelExist = true;
 			//Autorisation ou non d'y acceder
@@ -53,52 +54,44 @@ int		Server::cmdJoin(std::string & arg1, std::string & arg2, Client &client)
 	
 	if (!channelExist)
 	{
-		addChannel(arg1, client);
+		addChannel(args[0], client);
 		std::cout << "Create new channel" << std::endl;
 	}
 	
-	//1er message
-	std::string join = ":" + client.getNickname() + " JOIN " + arg1 + "\r\n";
-	send(client.getSocket(), join.c_str(), join.size(), 0);
+	//JOIN sent to client
+	std::string JOIN = ":" + client.getNickname() + " JOIN " + args[0] + "\r\n";
+	send(client.getSocket(), JOIN.c_str(), JOIN.size(), 0);
 
-	std::string topic =  "332 " + client.getNickname() + " " + arg1 + " :" + _channels[i]->getTopic() + "\r\n";
-	std::cout << topic << std::endl;
-	send(client.getSocket(), topic.c_str(), topic.size(), 0);
+	//RPL_RPL_TOPIC sent to client
+	std::string RPL_TOPIC =  "332 " + client.getNickname() + " " + args[0] + " :" + _channels[i]->getTopic() + "\r\n";
+	send(client.getSocket(), RPL_TOPIC.c_str(), RPL_TOPIC.size(), 0);
 
+	//RPL_NAMREPLY sent to client
 	std::vector<std::string> listUsr = _channels[i]->getUsrList();
+	std::string RPL_NAMREPLY = "353 " + client.getNickname() + "=" + args[0] + " :";
 	for (std::vector<std::string>::const_iterator it = listUsr.begin(); it != listUsr.end(); ++it)
-	{
-		std::string reply = "353 " + client.getNickname() + "=" + arg1 + " :" + *it;
-		std::cout << reply << std::endl;
-		send(client.getSocket(), reply.c_str(), reply.size(), 0);
-	}
-	std::string answer = "366 " + client.getNickname() + " " + arg1 + " :End of /NAMES list\r\n";
-	send(_fd, answer.c_str(), answer.size(), 0);
-
-	//2eme message
-
-	//3eme message
-	//boucle for sur chacun des clients 
-	//qui cree un std::string avec : nom du client + symbole du type de channel + nom channel + :nickname
-	//std::string answer = client.getNickname() + arg1 + " :End of /NAMES list\r\n";
-	//send(_fd, answer.c_str(), answer.size(), 0);
+		RPL_NAMREPLY += *it + " ";
+	RPL_NAMREPLY += "\r\n";
+	send(client.getSocket(), RPL_NAMREPLY.c_str(), RPL_NAMREPLY.size(), 0);
+	
+	//RPL_ENDOFNAMES sent to client
+	std::string RPL_ENDOFNAMES = "366 " + client.getNickname() + " " + args[0] + " :End of /NAMES list\r\n";
+	send(_fd, RPL_ENDOFNAMES.c_str(), RPL_ENDOFNAMES.size(), 0);
 
 	return (0);
 }
 
-int		Server::cmdPing(std::string & arg1, std::string & arg2, Client &client)
+int		Server::cmdPing(std::vector<std::string> args, Client &client)
 {
-	(void)arg2;
-	std::string pong = "server.name " + arg1 + "\r\n";
+	std::string pong = "server.name " + args[0] + "\r\n";
 	send(client.getSocket(), pong.c_str(), pong.size(), 0);
 	return (0);
 }
 
 //TODO cf. https://modern.ircdocs.horse/#user-message
-int		Server::cmdMode(std::string & arg1, std::string & arg2, Client &client)
+int		Server::cmdMode(std::vector<std::string> args, Client &client)
 {
-	(void)arg1;
-	(void)arg2;
+	(void)args;
 	(void)client;
 	// bool channelExist = false;
 	

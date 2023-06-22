@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/21 17:47:34 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:25:33 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ class Channel;
 
 class Server
 {
-	typedef int (Server::*cmdFct)(std::string &, std::string &, Client &);
+	typedef int (Server::*cmdFct)(std::vector<std::string>, Client &);
 	
 	private:
 		std::string 						_serverName;
@@ -77,21 +77,21 @@ class Server
 		int		dataManagement();
 
 		//CLIENT MANAGEMENT
-		int		acceptConnexions();
-		Client	*getClientByFd(int fd) const;
-		void	addClient(std::string nickname, int fd);
-		void	manageClientMsg();
+		int							acceptConnexions();
+		Client						*getClientByFd(int fd) const;
+		void						addClient(std::string nickname, int fd);
+		void						manageClientMsg();
+		void						executeCommand(std::string newcmd);
 
 		//CHANNEL MANAGEMENT
 		void 	addChannel(std::string channelName, Client &client);
 
 		//COMMAND MANAGEMENT
 		void	initCmd();
-		int		cmdUser(std::string & arg1);
-		int		cmdUser(std::string & arg1, std::string & arg2, Client &client);
-		int		cmdJoin(std::string & arg1, std::string & arg2, Client &client);
-		int		cmdMode(std::string & arg1, std::string & arg2, Client &client);
-		int		cmdPing(std::string & arg1, std::string & arg2, Client &client);
+		int		cmdUser(std::vector<std::string> args, Client &client);
+		int		cmdJoin(std::vector<std::string> args, Client &client);
+		int		cmdMode(std::vector<std::string> args, Client &client);
+		int		cmdPing(std::vector<std::string> args, Client &client);
 
 		//UTILS
 		void	printAllClient() const;
