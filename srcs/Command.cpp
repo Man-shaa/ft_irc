@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/22 18:55:20 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/23 18:02:12 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ int		Server::cmdUser(std::vector<std::string> args, Client &client)
 	//TODO Gérer le <realname> cf. https://modern.ircdocs.horse/#user-message
 	//TODO Gérer le ERR_ALREADYREGISTERED :  "<client> :You may not reregister"
 	//TODO Tronquer le username si il dépasse la taille de USERLEN = 12
+	// if ( == NULL)
+	// 	return (1);
 	if (args[0].empty())
 		args[0] = "default name";
 	std::string answer = "001 " + args[0] + " :Welcome to the Internet Relay Network " + args[0] + "\r\n";
-	_clients[client.getId()]->setNickName(args[0]);
+	_clients[client.getId()]->setNickname(args[0]);
 	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 	return (0);
 }
@@ -127,7 +129,10 @@ int	Server::cmdPass(std::vector<std::string> args, Client &client)
 		send(client.getSocket(), badPass.c_str(), badPass.size(), 0);
 		std::string	quit = "ERROR Closing Link: 127.0.0.1 (Bad Password)\r\n";
 		send(client.getSocket(), quit.c_str(), quit.size(), 0);
-		disconnect()
+		close(client.getSocketFd());
+		removeClient(client.getSocketFd());
+		return (1);
 	}
+	client.setStatus(REGISTER);
 	return (0);
 }

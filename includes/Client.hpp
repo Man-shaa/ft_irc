@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/21 16:58:11 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/23 17:07:29 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@
 #include <map>
 #include "Channel.hpp"
 
+enum ClientStatus
+{
+	PASSWORD,
+	REGISTER,
+	CONNECT,
+	DELETE
+};
+
 class Channel;
 
 class Client
@@ -43,6 +51,7 @@ class Client
 	private:
 		int							_socketFd;
 		std::string					_nickName;
+		int							_status;
 		int							_id;
 		std::vector<Channel*>		_channels;
 		struct 						pollfd _fds_clt;
@@ -54,16 +63,18 @@ class Client
 		Client(int soketFd, std::string nickName, int id);
 		~Client(void);
 
-		bool 	operator==(const Client& other) const;
-			
 		int								getSocket() const;
+		int								getStatus() const;
 		const std::string				&getNickname() const;
 		pollfd							getPollStrc() const;
-		void							addChannel(Channel& channel);
-		void							removeChannel(const Channel& channel);
-		void							setNickName(std::string &name);
-		int								getSocketFd() const;
 		int								getId() const;
+		int								getSocketFd() const;
+
+		void							setNickname(std::string &name);
+		void							setStatus(int status);
+	
+		void							removeChannel(const Channel& channel);
+		void							addChannel(Channel& channel);
 		
 
 		void	printInfo() const;

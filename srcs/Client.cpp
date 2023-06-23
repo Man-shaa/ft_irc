@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:42:20 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/21 17:09:53 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/23 17:06:54 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 
-Client::Client(void) : _socketFd(-1), _nickName(""), _id(-1), _channels(0)
+Client::Client(void) : _socketFd(-1), _nickName(""), _status(PASSWORD), _id(-1), _channels(0)
 {
 	return ;
 }
 
-Client::Client(int socketFd, std::string nickname, int id) : _socketFd(socketFd), _nickName(nickname), _id(id), _channels(0)
+Client::Client(int socketFd, std::string nickname, int id) : _socketFd(socketFd), _nickName(nickname), _status(PASSWORD), _id(id), _channels(0)
 {
 	_fds_clt.fd = socketFd;
 	_fds_clt.events = POLLIN;
@@ -32,6 +32,11 @@ Client::~Client(void)
 int	Client::getSocket() const
 {
 	return (_socketFd);
+}
+
+int	Client::getStatus() const
+{
+	return (_status);
 }
 
 const std::string	&Client::getNickname() const
@@ -74,18 +79,17 @@ void	Client::printInfo() const
 	std::cout << std::endl;
 }
 
-void	Client::setNickName(std::string &name)
+void	Client::setNickname(std::string &name)
 {
-	// std::string nickName(name);
-	// if (nickName.empty() == false)
-		_nickName = name;
+	_nickName = name;
+}
+
+void	Client::setStatus(int status)
+{
+	_status = status;
 }
 
 int	Client::getSocketFd() const
 {
 	return (_socketFd);
-}
-
-bool Client::operator==(const Client& other) const {
-    return _socketFd == other._socketFd && _nickName == other._nickName && _id == other._id;
 }

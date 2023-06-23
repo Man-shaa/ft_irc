@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/23 15:41:10 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/23 18:11:25 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int Server::serverManagement()
 	return (0);
 }
 
-void Server::executeCommand(std::string newcmd)
+int	Server::executeCommand(std::string newcmd)
 {
 	std::istringstream iss(newcmd);
 	std::vector<std::string> args;
@@ -140,10 +140,12 @@ void Server::executeCommand(std::string newcmd)
 		
 	cmdFct fPtr = _mapFcts[cmd];
 	if (fPtr)
-		(this->*fPtr)(args, *getClientByFd(_fd));
+		if ((this->*fPtr)(args, *getClientByFd(_fd)))
+			return (1);
+	return (0);
 }
 
-void    Server::manageClientMsg()
+int	Server::manageClientMsg()
 {
 	char buffer[BUFFER_SIZE];
 
@@ -160,7 +162,11 @@ void    Server::manageClientMsg()
 		while (endpos != std::string::npos)
 		{
 			std::string newcmd = command.substr(startpos, endpos - startpos);
-			executeCommand(newcmd);
+			if (executeCommand(newcmd))
+			{
+				std::memset(buffer, 0, sizeof(buffer));
+				return (1) ;
+			}
 			startpos = endpos + 2;
 			endpos = command.find("\r\n", startpos);
 		}
@@ -169,13 +175,16 @@ void    Server::manageClientMsg()
 	{
 		_socketsToRemove.push_back(_fd);
 		std::cout << "Déconnexion du client " << _fd << std::endl;
+		return (1) ;
 	} 
 	else if (errno != EWOULDBLOCK && errno != EAGAIN) 
 	{
 		_socketsToRemove.push_back(_fd);
 		std::cerr << "Erreur lors de la lecture du client " << _fd << std::endl;
+		return (1) ;
 	}
 	std::memset(buffer, 0, sizeof(buffer));
+	return (0);
 }
 
 int Server::dataManagement()
@@ -205,7 +214,8 @@ int Server::dataManagement()
 					it = _sockets.begin();
 			}
 			else
-				manageClientMsg();
+				if (manageClientMsg())
+					break ;
 		}
 		socketToRemove();
 		//printAllClient();
@@ -246,12 +256,23 @@ void	Server::removeClient(int fd)
 	{
 		if (_clients[i] != NULL && _clients[i]->getSocketFd() == fd)
 		{
+			_socketsToRemove.push_back(fd);
 			delete(_clients[i]);
 			_clients[i] = NULL;
 			return ;
 		}
 	}
 }
+
+// void	Server::removeSocketByFd(int socketFd)
+// {
+// 	for (std::vector<int>::iterator it = _sockets.begin(); it != _sockets.end(); ++it)
+// 	{
+// 		if (*it == socketFd)
+// 			_sockets.erase(it);
+// 	}
+// }
+
 
 // Print all clients in server
 void	Server::printAllClient() const

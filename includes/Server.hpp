@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/22 18:10:38 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/23 18:07:51 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ class Server
 		int 	linkSocketServer();
 		void	serverInfo();
 		void	socketToRemove();
+		// void	removeSocketByFd(int socketFd);
 		int		serverManagement();
 		int		dataManagement();
 
@@ -80,8 +81,9 @@ class Server
 		int							acceptConnexions();
 		Client						*getClientByFd(int fd) const;
 		void						addClient(std::string nickname, int fd);
-		void						manageClientMsg();
-		void						executeCommand(std::string newcmd);
+		void						removeClient(int fd);
+		int							manageClientMsg();
+		int							executeCommand(std::string newcmd);
 
 		//CHANNEL MANAGEMENT
 		void 	addChannel(std::string channelName, Client &client);
