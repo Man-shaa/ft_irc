@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:39 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/06/22 19:55:02 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/23 19:13:05 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ std::vector<std::string> Channel::getUsrList(void) const
 	
 	for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
 	{
-		usrNames.push_back((it->second)->getNickname());
+		if ((it->first) == _owner)
+		{
+			usrNames.push_back("@" + (it->second)->getNickname());
+		}
+		else
+			usrNames.push_back((it->second)->getNickname());
 	}
 	
 	return (usrNames);
@@ -104,11 +109,19 @@ void	Channel::remModo(Client &user)	{
 	return ;
 }
 
-// void	Channel::sendMsg(std::string msg, Client &user) const	{
-// 	for (std::vector<std::string>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)	{
-// 		if (*it != user.getNickname())
-// 			send(it->getSocket(), msg.c_str(), msg.size(), 0);
-// 	}
+void	Channel::sendMsg(std::string msg, Client &user) const
+{
+    for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
+	{
+		if (it->first != user.getSocket())
+		{
+			if (send (it->second->getSocket(), msg.c_str(), msg.size(), 0) == -1)
+			{
+				std::string ERR_CANNOTSENDTOCHAN = "404 " + user.getNickname() + " " + _name + " :Cannot send to channel\r\n";
+				send(user.getSocket(), ERR_CANNOTSENDTOCHAN.c_str(), ERR_CANNOTSENDTOCHAN.size(), 0);
+			}
+		}	
+	}
 
-// 	return;
-// }
+	return ;
+}

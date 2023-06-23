@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/22 20:45:09 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/23 18:22:45 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <iostream>
 # include <cstdlib>
 # include <cstring>
+# include <string>
 # include <sstream>
 # include <cstdio>
 # include <netdb.h>
@@ -85,6 +86,7 @@ class Server
 		//CLIENT MANAGEMENT
 		int							acceptConnexions();
 		Client						*getClientByFd(int fd) const;
+		Client						*getClientByName(std::string nickname) const;
 		void						addClient(std::string nickname, int fd);
 		void						manageClientMsg();
 		void						executeCommand(std::string newcmd);
@@ -94,6 +96,7 @@ class Server
 
 		//COMMAND MANAGEMENT
 		void	initCmd();
+		int		cmdNick(std::vector<std::string> args, Client &client);
 		int		cmdUser(std::vector<std::string> args, Client &client);
 		int		cmdJoin(std::vector<std::string> args, Client &client);
 		int		cmdJoinRPL(std::string channel, Client &client, int index);

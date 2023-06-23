@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/22 21:19:54 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:03:05 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 void	Server::initCmd()
 {
+	_mapFcts["NICK"] = &Server::cmdNick;
 	_mapFcts["USER"] = &Server::cmdUser;
 	_mapFcts["JOIN"] = &Server::cmdJoin;
 	_mapFcts["MODE"] = &Server::cmdMode;
@@ -23,6 +24,28 @@ void	Server::initCmd()
 	_mapFcts["PRIVMSG"] = &Server::cmdPrivmsg;
 }
 
+int		Server::cmdNick(std::vector<std::string> args, Client &client)
+{
+	// bool nicknameExist = false;
+	
+	// for (int i = 0; _clients[i]; ++i)
+	// {
+	// 	//nickname deja utilisé
+	// 	if (_clients[i]->getNickname() == args[0])
+	// 	{
+	// 		nicknameExist = true;
+	// 		std::string RPL_TOPIC =  "433 " + args[0] + " :Nickname is already in use\r\n";
+	// 		send(client.getSocket(), RPL_TOPIC.c_str(), RPL_TOPIC.size(), 0);
+	// 	}
+	// }
+	// if (!nicknameExist)
+	// {
+		_clients[client.getId()]->setNickName(args[0]);
+		std::string nick = ":" + client.getNickname() + " NICK " + args[0] + "\r\n";
+		send(client.getSocket(), nick.c_str(), nick.size(), 0);
+	//}
+	return (0);
+}
 
 int		Server::cmdUser(std::vector<std::string> args, Client &client)
 {
@@ -31,8 +54,7 @@ int		Server::cmdUser(std::vector<std::string> args, Client &client)
 	//TODO Tronquer le username si il dépasse la taille de USERLEN = 12
 	if (args[0].empty())
 		args[0] = "default name";
-	std::string answer = "001 " + args[0] + " :Welcome to the Internet Relay Network " + args[0] + "\r\n";
-	_clients[client.getId()]->setNickName(args[0]);
+	std::string answer = "001 " + client.getNickname() + " :Welcome to the Internet Relay Network " + args[0] + "\r\n";
 	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 	return (0);
 }
@@ -49,11 +71,11 @@ int		Server::cmdJoinRPL(std::string channel, Client &client, int i)
 
 	//RPL_NAMREPLY sent to client
 	std::vector<std::string> listUsr = _channels[i]->getUsrList();
-	std::string RPL_NAMREPLY = "353 " + client.getNickname() + "=" + channel + " :";
+	std::string RPL_NAMREPLY = "353 " + client.getNickname() + " = " + channel + " :";
 	for (std::vector<std::string>::const_iterator it = listUsr.begin(); it != listUsr.end(); ++it)
 	{
 		if (it == listUsr.begin())
-			RPL_NAMREPLY += "@" + *it; //channel operator
+			RPL_NAMREPLY += *it;
 		else
 			RPL_NAMREPLY += " " + *it;
 	}
@@ -62,8 +84,8 @@ int		Server::cmdJoinRPL(std::string channel, Client &client, int i)
 	send(client.getSocket(), RPL_NAMREPLY.c_str(), RPL_NAMREPLY.size(), 0);
 	
 	//RPL_ENDOFNAMES sent to client
-	std::string RPL_ENDOFNAMES = "366 " + client.getNickname() + " " + channel + " :End of /NAMES list\r\n";
-	send(_fd, RPL_ENDOFNAMES.c_str(), RPL_ENDOFNAMES.size(), 0);
+	std::string RPL_ENDOFNAMES = "366 " + client.getNickname() + " " + channel + " :End of NAMES list\r\n";
+	send(client.getSocket(), RPL_ENDOFNAMES.c_str(), RPL_ENDOFNAMES.size(), 0);
 	
 	client.addChannel(*_channels[i]);
 	return (0);
@@ -108,12 +130,14 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 int		Server::cmdPrivmsg(std::vector<std::string> args, Client &client)
 {
 	//cf. https://modern.ircdocs.horse/#privmsg-message
-
-	std::string msg = ":" + client.getNickname() + " PRIVMSG " + args[0] + " " + args[1] + "\r\n";
-	if (send(client.getSocket(), msg.c_str(), msg.size(), 0) == -1)
+	for (int i = 0; _channels[i]; ++i) 
 	{
-		std::string ERR_CANNOTSENDTOCHAN = "404 " + client.getNickname() + " " + args[0] + " :Cannot send to channel\r\n";
-		send(_fd, ERR_CANNOTSENDTOCHAN.c_str(), ERR_CANNOTSENDTOCHAN.size(), 0);
+		if (_channels[i]->getName() == args[0])
+		{
+			std::string msg = ":" + client.getNickname() + " PRIVMSG " + args[0] + " " + args[1] + "\r\n";
+			_channels[i]->sendMsg(msg, client);
+			break;
+		}
 	}
 	return (0);
 }
@@ -129,11 +153,12 @@ int		Server::cmdPing(std::vector<std::string> args, Client &client)
 int		Server::cmdMode(std::vector<std::string> args, Client &client)
 {
 	//TODO Gerer le mode client
+	//TODO Gerer le mode server
 	
 	(void)args;
 	(void)client;
 	// bool channelExist = false;
-	
+
 	// for (int i = 0; i < MAX_CHANNELS i++)
 	// 	if (_channels[i]->getName() == arg1)
 	// 		channelExist = true;
