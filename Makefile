@@ -7,7 +7,11 @@ INC_DIR		=	$(shell find includes -type d)
 vpath %.cpp $(foreach dir, $(SRC_DIR), $(dir):)
 vpath %.hpp $(foreach dir, $(INC_DIR), $(dir):)
 
-SRCS	 	=	main.cpp
+SRCS	 	=	main.cpp	\
+				Channel.cpp	\
+				Client.cpp	\
+				Command.cpp	\
+				Server.cpp
 
 OBJS		=	$(SRCS:%.cpp=${OBJ_DIR}/%.o)
 
@@ -15,7 +19,8 @@ RM			=	rm -rf
 
 CC			=	c++
 
-CFLAGS		=	-Werror -Wall -Wextra -std=c++98 -g3
+CFLAGS		=	-Werror -Wall -Wextra -std=c++98 -g3 -D_GLIBCXX_DEBUG
+# -D_GLIBCXX_DEBUG pour afficher les valeurs de std::string los de debug gdb, sinon <incomplete type> 
 
 all:	${NAME}
 
