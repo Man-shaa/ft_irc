@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/23 18:11:25 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/26 13:31:42 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void Server::socketToRemove()
 		_sockets.erase(std::remove(_sockets.begin(), _sockets.end(), _fd), _sockets.end());
 		close(_fd);
 	}
+	_socketsToRemove.clear();
 }
 
 int Server::serverManagement()
