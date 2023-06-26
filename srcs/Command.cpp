@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clementinecheyrou-lagreze <clementinech    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/23 20:03:05 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/26 16:54:56 by clementinec      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-#include "Server.hpp"
+#define VALID_CHAR "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
 
 void	Server::initCmd()
 {
@@ -28,6 +28,19 @@ int		Server::cmdNick(std::vector<std::string> args, Client &client)
 {
 	// bool nicknameExist = false;
 	
+	// if (args.size() == 1 || args[0].empty)
+	// {
+	// 	std::string ERR_NONICKNAMEGIVEN =  "431 :No nickname given\r\n";
+	// 	send(client.getSocket(), ERR_NONICKNAMEGIVEN.c_str(), ERR_NONICKNAMEGIVEN.size(), 0);
+	//	voir pour le return	
+	// }
+	// //https://cplusplus.com/reference/string/string/find_first_not_of/ 
+	// if (args[0].find_first_not_of(VALID_CHAR))
+	// {
+	// 	std::string ERR_ERRONEUSNICKNAME =  "42 " + args[0] + " :Erroneusnickname\r\n";
+	// 	send(client.getSocket(), ERR_ERRONEUSNICKNAME.c_str(), ERR_ERRONEUSNICKNAME.size(), 0);	
+	//	voir pour le return	
+	// }
 	// for (int i = 0; _clients[i]; ++i)
 	// {
 	// 	//nickname deja utilisé
@@ -36,6 +49,7 @@ int		Server::cmdNick(std::vector<std::string> args, Client &client)
 	// 		nicknameExist = true;
 	// 		std::string RPL_TOPIC =  "433 " + args[0] + " :Nickname is already in use\r\n";
 	// 		send(client.getSocket(), RPL_TOPIC.c_str(), RPL_TOPIC.size(), 0);
+	//		voir pour le return	
 	// 	}
 	// }
 	// if (!nicknameExist)
