@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/23 18:02:12 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/26 14:57:53 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 void	Server::initCmd()
 {
+	_mapFcts["NICK"] = &Server::cmdNick;
 	_mapFcts["USER"] = &Server::cmdUser;
 	_mapFcts["JOIN"] = &Server::cmdJoin;
 	_mapFcts["MODE"] = &Server::cmdMode;
@@ -23,6 +24,52 @@ void	Server::initCmd()
 	_mapFcts["PASS"] = &Server::cmdPass;
 }
 
+int	Server::parseNickname(std::string &name) const
+{
+	int	nameSize = name.size();
+	for (int i = 0; i < nameSize; ++i)
+	{
+		if (!isalnum((int)name[i]) && !strchr("{}()[]\\|", name[i]))
+			return (1);
+	}
+	return (0);
+}
+ 
+// Returns 1 if [name] is already used by another user, 0 if not
+int	Server::usedNickname(std::string &name) const
+{
+	for (int i = 0; i < MAX_CLIENTS; ++i)
+	{
+		if (_clients[i] && _clients[i]->getNickname() == name)
+			return (1);
+	}
+	return (0);
+}
+
+int		Server::cmdNick(std::vector<std::string> args, Client &client)
+{
+	if (args[0].empty())
+	{
+		std::string answer = "431 " + client.getNickname() + " :No nickname given\r\n"; // ERR_NONICKNAMEGIVEN
+		send(client.getSocket(), answer.c_str(), answer.size(), 0);
+		return (1);
+	}
+	else if (parseNickname(args[0]))
+	{
+		std::string answer = "432 " + client.getNickname() + " " + args[0] + " :Erroneus nickname\r\n"; // ERR_ERRONEUSNICKNAME
+		send(client.getSocket(), answer.c_str(), answer.size(), 0);
+		return (1);
+	}
+	else if (usedNickname(args[0]))
+	{
+		std::string answer = "433 " + client.getNickname() + " " + args[0] + " :Nickname is already in use\r\n"; // ERR_ERRONEUSNICKNAME
+		send(client.getSocket(), answer.c_str(), answer.size(), 0);
+		return (1);
+	}
+		
+	client.setNickname(args[0]);
+	return (0);
+}
 
 int		Server::cmdUser(std::vector<std::string> args, Client &client)
 {

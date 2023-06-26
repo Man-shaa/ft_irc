@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/23 18:07:51 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/26 14:57:21 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,15 @@ class Server
 
 		//COMMAND MANAGEMENT
 		void	initCmd();
+		int		cmdNick(std::vector<std::string> args, Client &client);
 		int		cmdUser(std::vector<std::string> args, Client &client);
 		int		cmdJoin(std::vector<std::string> args, Client &client);
 		int		cmdMode(std::vector<std::string> args, Client &client);
 		int		cmdPing(std::vector<std::string> args, Client &client);
 		int		cmdPass(std::vector<std::string> args, Client &client);
+		
+		int		parseNickname(std::string &name) const;
+		int		usedNickname(std::string &name) const;
 
 		//UTILS
 		void	printAllClient() const;
