@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clementinecheyrou-lagreze <clementinech    +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/26 16:54:56 by clementinec      ###   ########.fr       */
+/*   Updated: 2023/06/28 20:05:56 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,35 +163,100 @@ int		Server::cmdPing(std::vector<std::string> args, Client &client)
 	return (0);
 }
 
-//TODO cf. https://modern.ircdocs.horse/#user-message
 int		Server::cmdMode(std::vector<std::string> args, Client &client)
 {
 	//TODO Gerer le mode client
-	//TODO Gerer le mode server
-	
-	(void)args;
-	(void)client;
-	// bool channelExist = false;
 
-	// for (int i = 0; i < MAX_CHANNELS i++)
-	// 	if (_channels[i]->getName() == arg1)
-	// 		channelExist = true;
-	// if (!channelExist)
-    // {
-    //     std::string ERR_NOSUCHCHANNEL = client.getNickname() + "::No such channel\r\n";
-    //     send(client.getSocket(), ERR_NOSUCHCHANNEL.c_str(), ERR_NOSUCHCHANNEL.size(), 0);
-    // }
+
+
+
+	//TODO Gerer le mode server
+	bool 	channelExist = false;
+	int		i;
 	
-	// if (arg2.empty())
-	// {
-	// 	std::string RPL_CHANNELMODEIS = client.getNickname() + <usermode> + "\r\n";
-	// 	send(client.getSocket(), RPL_CHANNELMODEIS.c_str(), RPL_CHANNELMODEIS.size(), 0);
-	// }
-	// else
-	// {
-		// Vérifier les privileges	du client
-		// 	NON : ERR_CHANOPRIVSNEEDED  "<client> <channel> :You're not channel operator"
-		// 	OUI :
-	//}
+	if (args[0][0] == '#')
+	{
+		for (i = 0; _channels[i]; i++)
+		{
+			if (_channels[i]->getName() == args[0])
+			{
+				channelExist = true;
+				break;
+			}
+		}
+		if (!channelExist)
+		{
+			std::string ERR_NOSUCHCHANNEL = "403 " + client.getNickname() + ":No such channel\r\n";
+			send(client.getSocket(), ERR_NOSUCHCHANNEL.c_str(), ERR_NOSUCHCHANNEL.size(), 0);
+		}
+		if (args.size() == 1 || args[1].empty())
+		{
+			std::string RPL_CHANNELMODEIS = "324 " + client.getNickname() + " " + args[0] + " " +  _channels[i]->getModeChannel() + "\r\n";
+			send(client.getSocket(), RPL_CHANNELMODEIS.c_str(), RPL_CHANNELMODEIS.size(), 0);
+
+			std::string RPL_CREATIONTIME = "329 " + client.getNickname() + " " + args[0] + " " + _channels[i]->getCreationTime() + "\r\n";
+			send(client.getSocket(), RPL_CREATIONTIME.c_str(), RPL_CREATIONTIME.size(), 0);
+		}
+		else
+		{
+			if (client.getSocket() != _channels[i]->getOwner())
+			{
+				std::string ERR_CHANOPRIVSNEEDED = "482 " + client.getNickname() + args[0] + " :You're not channel operator\r\n";
+				send(client.getSocket(), ERR_CHANOPRIVSNEEDED.c_str(), ERR_CHANOPRIVSNEEDED.size(), 0);	
+			}
+			else
+			{
+				std::string::size_type addPos = args[1].rfind('+');
+				std::string::size_type delPos = args[1].rfind('-');
+				
+				if (addPos != std::string::npos)
+				{
+					addPos++;
+					std::string modeAdd = args[1].substr(addPos);
+					while (!modeAdd.empty() || modeAdd[0]!= '-')
+					{
+						if (modeAdd[0] == 'k' && !args[3].empty())
+						{
+							_channels[i]->setMode(true, i);
+							_channels[i]->setPassword(args[3]);
+							_channels[i]->setSecured(true);
+						}
+						else if (modeAdd[0] == 't')
+							_channels[i]->setMode(true, i);
+						else if (modeAdd[0] == 'i')
+							_channels[i]->setMode(true, i);
+						else if (modeAdd[0] == 'o' && !args[3].empty())
+							_channels[i]->setMode(true, i);
+						addPos++;
+						modeAdd = args[1].substr(addPos);
+					}
+				}
+				
+				if (delPos != std::string::npos)
+				{
+					delPos++;
+					std::string modeDel = args[1].substr(delPos);
+					while (delPos < args[1].size() || modeDel[0] != '+')
+					{
+						modeDel = args[1].substr(delPos);
+						std::cout << modeDel << std::endl;
+						if (modeDel[0] == 'k')
+						{
+							_channels[i]->setMode(false, i);
+							_channels[i]->setSecured(false);
+						}
+						else if (modeDel[0] == 't')
+							_channels[i]->setMode(false, i);
+						else if (modeDel[0] == 'i')
+							_channels[i]->setMode(false, i);
+						else if (modeDel[0] == 'o' && !args[3].empty())
+							_channels[i]->setMode(false, i);
+						delPos++;
+					}
+				}
+				_channels[i]->sendMode(args[1], client);
+			}
+		}
+	}
 	return (0);
 }
