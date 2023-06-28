@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/26 13:31:42 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/27 18:45:45 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ int Server::serverManagement()
 
 int	Server::executeCommand(std::string newcmd)
 {
+
 	std::istringstream iss(newcmd);
 	std::vector<std::string> args;
 	std::string cmd;
@@ -138,7 +139,8 @@ int	Server::executeCommand(std::string newcmd)
 	std::string arg;
 	while (iss >> arg)
 		args.push_back(arg);
-		
+	if (args.empty() == true)
+		return (1);
 	cmdFct fPtr = _mapFcts[cmd];
 	if (fPtr)
 		if ((this->*fPtr)(args, *getClientByFd(_fd)))

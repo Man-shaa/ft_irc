@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/26 14:57:53 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/27 23:13:08 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int		Server::cmdNick(std::vector<std::string> args, Client &client)
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 		return (1);
 	}
-		
 	client.setNickname(args[0]);
 	return (0);
 }
@@ -81,7 +80,6 @@ int		Server::cmdUser(std::vector<std::string> args, Client &client)
 	if (args[0].empty())
 		args[0] = "default name";
 	std::string answer = "001 " + args[0] + " :Welcome to the Internet Relay Network " + args[0] + "\r\n";
-	_clients[client.getId()]->setNickname(args[0]);
 	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 	return (0);
 }
