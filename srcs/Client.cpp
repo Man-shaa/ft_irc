@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:42:20 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/23 17:06:54 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:58:35 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@ int	Client::getStatus() const
 const std::string	&Client::getNickname() const
 {
 	return (_nickName);
+}
+
+std::string	Client::getFirstName() const
+{
+	return (_firstName);
+}
+
+std::string	Client::getLastName() const
+{
+	return (_lastName);
 }
 
 int	Client::getId() const
@@ -82,6 +92,16 @@ void	Client::printInfo() const
 void	Client::setNickname(std::string &name)
 {
 	_nickName = name;
+}
+
+void	Client::setFirstName(std::string &name)
+{
+	_firstName = name;
+}
+
+void	Client::setLastName(std::string &name)
+{
+	_lastName = name;
 }
 
 void	Client::setStatus(int status)

@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/23 17:07:29 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:57:34 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ class Client
 	private:
 		int							_socketFd;
 		std::string					_nickName;
+		std::string					_firstName;
+		std::string					_lastName;
 		int							_status;
 		int							_id;
 		std::vector<Channel*>		_channels;
@@ -63,18 +65,22 @@ class Client
 		Client(int soketFd, std::string nickName, int id);
 		~Client(void);
 
-		int								getSocket() const;
-		int								getStatus() const;
-		const std::string				&getNickname() const;
-		pollfd							getPollStrc() const;
-		int								getId() const;
-		int								getSocketFd() const;
+		int					getSocket() const;
+		int					getStatus() const;
+		const std::string	&getNickname() const;
+		std::string			getFirstName() const;
+		std::string			getLastName() const;
+		pollfd				getPollStrc() const;
+		int					getId() const;
+		int					getSocketFd() const;
 
-		void							setNickname(std::string &name);
-		void							setStatus(int status);
+		void				setNickname(std::string &name);
+		void				setFirstName(std::string &name);
+		void				setLastName(std::string &name);
+		void				setStatus(int status);
 	
-		void							removeChannel(const Channel& channel);
-		void							addChannel(Channel& channel);
+		void				removeChannel(const Channel& channel);
+		void				addChannel(Channel& channel);
 		
 
 		void	printInfo() const;

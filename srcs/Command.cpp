@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/29 16:34:47 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:01:38 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,12 @@ int		Server::cmdUser(std::vector<std::string> args, Client &client)
 	// if ( == NULL)
 	// 	return (1);
 	if (args[0].empty())
-		args[0] = "default name";
+		args[0] = "bob";
+	std::vector<std::string>::iterator it = (--args.end());
+	client.setLastName(*it);
+	--it;
+	std::string firstName = (*it).substr(1, (*it).size() - 1);
+	client.setFirstName(firstName);
 	std::string answer = "001 " + args[0] + " :Welcome to the Internet Relay Network " + args[0] + "\r\n";
 	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 	return (0);
