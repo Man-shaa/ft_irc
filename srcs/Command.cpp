@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/28 20:05:56 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/29 10:04:19 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ int		Server::cmdMode(std::vector<std::string> args, Client &client)
 				{
 					addPos++;
 					std::string modeAdd = args[1].substr(addPos);
-					while (!modeAdd.empty() || modeAdd[0]!= '-')
+					while (!modeAdd.empty() && modeAdd[0]!= '-')
 					{
 						if (modeAdd[0] == 'k' && !args[3].empty())
 						{
@@ -236,10 +236,8 @@ int		Server::cmdMode(std::vector<std::string> args, Client &client)
 				{
 					delPos++;
 					std::string modeDel = args[1].substr(delPos);
-					while (delPos < args[1].size() || modeDel[0] != '+')
+					while (delPos <= args[1].size() && modeDel[0] != '+')
 					{
-						modeDel = args[1].substr(delPos);
-						std::cout << modeDel << std::endl;
 						if (modeDel[0] == 'k')
 						{
 							_channels[i]->setMode(false, i);
@@ -252,6 +250,7 @@ int		Server::cmdMode(std::vector<std::string> args, Client &client)
 						else if (modeDel[0] == 'o' && !args[3].empty())
 							_channels[i]->setMode(false, i);
 						delPos++;
+						modeDel = args[1].substr(delPos);
 					}
 				}
 				_channels[i]->sendMode(args[1], client);
