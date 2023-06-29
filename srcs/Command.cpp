@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/27 23:13:08 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:34:47 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,7 @@ int	Server::usedNickname(std::string &name) const
 
 int		Server::cmdNick(std::vector<std::string> args, Client &client)
 {
-	if (args[0].empty())
-	{
-		std::string answer = "431 " + client.getNickname() + " :No nickname given\r\n"; // ERR_NONICKNAMEGIVEN
-		send(client.getSocket(), answer.c_str(), answer.size(), 0);
-		return (1);
-	}
-	else if (parseNickname(args[0]))
+	if (parseNickname(args[0]))
 	{
 		std::string answer = "432 " + client.getNickname() + " " + args[0] + " :Erroneus nickname\r\n"; // ERR_ERRONEUSNICKNAME
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
