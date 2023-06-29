@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:39 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/06/28 19:48:39 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:37:29 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ Channel::~Channel(void)	{
 	return;
 }
 
+//ACCESSOR
+
 std::string	Channel::getCreationTime(void) const	{
 	
 	return (_creationTime);
@@ -52,6 +54,15 @@ int	Channel::getOwner(void) const	{
 	return (_owner);
 }
 
+bool	Channel::getSecured(void) const	{
+	
+	return (_secured);
+}
+
+std::string	Channel::getPassword(void) const	{
+	
+	return (_password);
+}
 
 std::string	Channel::getTopic(void) const	{
 	
@@ -100,10 +111,8 @@ void	Channel::setTopic(std::string topic, Client &user)
 		if ((it->first) == 't' && it->second == false)
 			_topic = topic;
 		else if ((it->first) == 't' && it->second == true)
-		{
 			if (user.getSocketFd() == _owner)
 				_topic = topic;
-		}
 	}
 }
 
@@ -128,6 +137,8 @@ void	Channel::setMode(bool active, char i) {
 		}
 	}
 }
+
+//MEMBER MANAGEMENT
 
 void	Channel::addUser(Client &user)	{
 	_usrList[user.getSocket()] = &user;
@@ -167,6 +178,9 @@ void	Channel::remModo(Client &user)	{
 	return ;
 }
 
+
+//MESSAGE MANAGEMENT
+
 void	Channel::sendMsg(std::string msg, Client &user) const
 {
     for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
@@ -184,14 +198,16 @@ void	Channel::sendMsg(std::string msg, Client &user) const
 	return ;
 }
 
-void	Channel::sendMode(std::string msg, Client &user) const
+void	Channel::sendMode(std::string msg) const
 {
-	(void)user;
-	std::string MODE_COMMAND = "MODE " + _name + " " + msg + "\r\n";
-	std::cout << MODE_COMMAND << std::endl;
-    for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
+	if (!msg.empty())
 	{
-		send(it->second->getSocket(), MODE_COMMAND.c_str(), MODE_COMMAND.size(), 0);
+		std::string MODE_COMMAND = "MODE " + _name + " " + msg + "\r\n";
+		std::cout << MODE_COMMAND << std::endl;
+		for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
+		{
+			send(it->second->getSocket(), MODE_COMMAND.c_str(), MODE_COMMAND.size(), 0);
+		}
 	}
 
 	return ;

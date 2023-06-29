@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/06/28 19:43:00 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:37:44 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,13 @@ class	Channel	{
 
 		std::string					getCreationTime(void) const;
 		std::string					getName(void) const;
+		std::string					getPassword(void) const;
 		std::string					getTopic(void) const;
 		std::string 				getModeChannel(void) const;
 		std::vector<std::string>	getUsrList(void) const;
 		int							getOwner(void) const;
+		bool						getSecured(void) const;
+
 
 		void						setLogMsg(std::string logMsg);
 		void						setTopic(std::string topic, Client &user);
@@ -47,7 +50,7 @@ class	Channel	{
 		void						remUser(Client &user);
 		void						remModo(Client &user);
 		void						sendMsg(std::string msg, Client &user) const;
-		void						sendMode(std::string msg, Client &user) const;
+		void						sendMode(std::string msg) const;
 
 	private:
 		

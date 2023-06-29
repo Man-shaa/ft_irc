@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/23 18:22:45 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:53:02 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ class Channel;
 class Server
 {
 	typedef int (Server::*cmdFct)(std::vector<std::string>, Client &);
+	typedef void (Server::*modeFct)(Client &, std::vector<std::string>, std::string &, int, bool);
 	
 	private:
 		std::string 						_serverName;
@@ -68,6 +69,7 @@ class Server
 		int									_port;
 		std::string							_password;
 		std::map<std::string, cmdFct>		_mapFcts;
+		std::map<char, modeFct>		_modeFcts;
 
 	public:
 		Server(void);
@@ -100,9 +102,19 @@ class Server
 		int		cmdUser(std::vector<std::string> args, Client &client);
 		int		cmdJoin(std::vector<std::string> args, Client &client);
 		int		cmdJoinRPL(std::string channel, Client &client, int index);
-		int		cmdMode(std::vector<std::string> args, Client &client);
 		int		cmdPing(std::vector<std::string> args, Client &client);
 		int		cmdPrivmsg(std::vector<std::string> args, Client &client);
+		
+			//MODE CMD
+			int			cmdMode(std::vector<std::string> args, Client &client);
+			void		initMode();
+			std::string	toggleChannelMode(Client &client, std::vector<std::string> args, unsigned long pos, int i, bool change);
+			std::string	channelMode(Client &client, std::vector<std::string> args, int i);
+			void		mode_K(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+			void		mode_T(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+			void		mode_I(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+			void		mode_O(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+
 
 		//UTILS
 		void	printAllClient() const;
