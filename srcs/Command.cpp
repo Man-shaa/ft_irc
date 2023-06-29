@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/29 17:01:38 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:36:22 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int		Server::cmdNick(std::vector<std::string> args, Client &client)
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 		return (1);
 	}
+	std::string answer = ":" + client.getNickname() + " NICK " + args[0] + "\r\n";
+	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 	client.setNickname(args[0]);
 	return (0);
 }
