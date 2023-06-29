@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/29 17:36:22 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:59:06 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ int		Server::cmdUser(std::vector<std::string> args, Client &client)
 	// 	return (1);
 	if (args[0].empty())
 		args[0] = "bob";
+	if (args[0].size() > 12)
+		args[0] = args[0].substr(0, 12);
+	client.setUserName(args[0]);
 	std::vector<std::string>::iterator it = (--args.end());
 	client.setLastName(*it);
 	--it;

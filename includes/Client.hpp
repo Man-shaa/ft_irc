@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/29 16:57:34 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:52:41 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ class Client
 		std::string					_nickName;
 		std::string					_firstName;
 		std::string					_lastName;
+		std::string					_userName;
 		int							_status;
 		int							_id;
 		std::vector<Channel*>		_channels;
@@ -70,6 +71,7 @@ class Client
 		const std::string	&getNickname() const;
 		std::string			getFirstName() const;
 		std::string			getLastName() const;
+		std::string			getUserName() const;
 		pollfd				getPollStrc() const;
 		int					getId() const;
 		int					getSocketFd() const;
@@ -77,6 +79,7 @@ class Client
 		void				setNickname(std::string &name);
 		void				setFirstName(std::string &name);
 		void				setLastName(std::string &name);
+		void				setUserName(std::string &name);
 		void				setStatus(int status);
 	
 		void				removeChannel(const Channel& channel);
