@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.cpp                                         :+:      :+:    :+:   */
+/*   ClientSets.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/17 15:42:20 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/02 16:51:42 by ccheyrou         ###   ########.fr       */
+/*   Created: 2023/07/02 16:50:20 by ccheyrou          #+#    #+#             */
+/*   Updated: 2023/07/02 16:51:22 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 
-Client::Client(void) : _socketFd(-1), _nickName(""), _id(-1), _channels(0)
+void	Client::setNickname(std::string &name)
 {
-	return ;
+	_nickName = name;
 }
 
-Client::Client(int socketFd, std::string nickname, int id) : _socketFd(socketFd), _nickName(nickname), _id(id), _channels(0)
+void	Client::setFirstName(std::string &name)
 {
-	_fds_clt.fd = socketFd;
-	_fds_clt.events = POLLIN;
-	return ;
+	_firstName = name;
 }
 
-Client::~Client(void)
+void	Client::setLastName(std::string &name)
 {
-	return ;
+	_lastName = name;
+}
+
+void	Client::setStatus(int status)
+{
+	_status = status;
 }

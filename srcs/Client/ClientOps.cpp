@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Client.cpp                                         :+:      :+:    :+:   */
+/*   ClientOps.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/17 15:42:20 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/02 16:51:42 by ccheyrou         ###   ########.fr       */
+/*   Created: 2023/07/02 16:50:52 by ccheyrou          #+#    #+#             */
+/*   Updated: 2023/07/02 16:51:05 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 
-Client::Client(void) : _socketFd(-1), _nickName(""), _id(-1), _channels(0)
+void Client::addChannel(Channel& channel)
 {
-	return ;
+	_channels.push_back(&channel);
 }
 
-Client::Client(int socketFd, std::string nickname, int id) : _socketFd(socketFd), _nickName(nickname), _id(id), _channels(0)
+void Client::removeChannel(const Channel& channel)
 {
-	_fds_clt.fd = socketFd;
-	_fds_clt.events = POLLIN;
-	return ;
-}
-
-Client::~Client(void)
-{
-	return ;
+    for (std::vector<Channel*>::iterator it = _channels.begin(); it != _channels.end(); ++it) {
+        if (*it == &channel) {
+            _channels.erase(it);
+            break; // Sortie de la boucle après avoir trouvé et supprimé l'objet Channel
+        }
+    }
 }

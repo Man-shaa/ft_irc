@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Command.cpp                                        :+:      :+:    :+:   */
+/*   Privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/02 16:31:23 by ccheyrou         ###   ########.fr       */
+/*   Created: 2023/07/02 16:30:41 by ccheyrou          #+#    #+#             */
+/*   Updated: 2023/07/02 16:30:54 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-#define VALID_CHAR "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
-
-void	Server::initCmd()
+int		Server::cmdPrivmsg(std::vector<std::string> args, Client &client)
 {
-	_mapFcts["PASS"] = &Server::cmdPass;
-	_mapFcts["NICK"] = &Server::cmdNick;
-	_mapFcts["USER"] = &Server::cmdUser;
-	_mapFcts["JOIN"] = &Server::cmdJoin;
-	_mapFcts["MODE"] = &Server::cmdMode;
-	_mapFcts["PING"] = &Server::cmdPing;
-	_mapFcts["TOPIC"] = &Server::cmdTopic;
-	_mapFcts["PRIVMSG"] = &Server::cmdPrivmsg;
+	//cf. https://modern.ircdocs.horse/#privmsg-message
+	for (int i = 0; _channels[i]; ++i) 
+	{
+		if (_channels[i]->getName() == args[0])
+		{
+			std::string msg = ":" + client.getNickname() + " PRIVMSG " + args[0] + " " + args[1] + "\r\n";
+			_channels[i]->sendMsg(msg, client);
+			break;
+		}
+	}
+	return (0);
 }

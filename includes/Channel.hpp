@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/02 15:50:47 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:24:06 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ class	Channel	{
 		void						remModo(Client &user);
 		void						sendMsg(std::string msg, Client &user) const;
 		void						sendMode(std::string msg) const;
-		void						sendTopic(std::string msg) const;
+		void						sendTopic(std::string msg, Client &user) const;
 
 	private:
 		

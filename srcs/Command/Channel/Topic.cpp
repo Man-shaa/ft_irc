@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 15:48:38 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/02 15:53:01 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:23:23 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		Server::cmdTopic(std::vector<std::string> args, Client &client)
 	if (args.size() == 2)
 	{
 		if (_channels[i]->setTopic(args[1], client))
-			_channels[i]->sendTopic(args[1]);
+			_channels[i]->sendTopic(args[1], client);
 		else
 		{
 			std::string ERR_CHANOPRIVSNEEDED = "482 " + client.getNickname() + " :You're not channel operator\r\n";
