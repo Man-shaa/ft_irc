@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/27 18:45:45 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:03:35 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ int	Server::createSocket()
 	if (listenSocket == -1) 
 	{
 		std::cerr << "Erreur lors de la création du socket" << std::endl;
-		return (1);
+		return 1;
 	}
 	_sockets.push_back(listenSocket);
 	_fds_srv.fd= listenSocket;
 	_fds_srv.events = POLLIN;
-	return (0);
+	std::cout << "Creation socket serveur " << _sockets[0] << std::endl;
+	return 0;
 }
 
 /* Définir les informations de l'adresse du serveur \
@@ -65,9 +66,9 @@ int Server::linkSocketServer()
 	if (bind(_sockets[0], reinterpret_cast<sockaddr*>(&_serverAddress), sizeof(_serverAddress)) == -1) {
 		std::cerr << "Erreur lors du bind du socket" << std::endl;
 		close(_sockets[0]);
-		return (1);
+		return 1;
 	}
-	return (0);
+	return 0;
 }
 
 //Mettre le socket en mode écoute de connection
@@ -76,10 +77,10 @@ int	Server::listenSocket()
 	if (listen(_sockets[0], SOMAXCONN) == -1) {
 		std::cerr << "Erreur lors de la mise en écoute du socket" << std::endl;
 		close(_sockets[0]);
-		return (1);
+		return 1;
 	}
 	std::cout << "Le serveur est en écoute sur le port " << _port << std::endl;
-	return (0);
+	return 0;
 }
 
 // Accepter les connexions entrantes
@@ -109,7 +110,6 @@ void Server::socketToRemove()
 		_sockets.erase(std::remove(_sockets.begin(), _sockets.end(), _fd), _sockets.end());
 		close(_fd);
 	}
-	_socketsToRemove.clear();
 }
 
 int Server::serverManagement()
@@ -128,9 +128,8 @@ int Server::serverManagement()
 	return (0);
 }
 
-int	Server::executeCommand(std::string newcmd)
+void Server::executeCommand(std::string newcmd)
 {
-
 	std::istringstream iss(newcmd);
 	std::vector<std::string> args;
 	std::string cmd;
@@ -139,16 +138,13 @@ int	Server::executeCommand(std::string newcmd)
 	std::string arg;
 	while (iss >> arg)
 		args.push_back(arg);
-	if (args.empty() == true)
-		return (1);
+		
 	cmdFct fPtr = _mapFcts[cmd];
 	if (fPtr)
-		if ((this->*fPtr)(args, *getClientByFd(_fd)))
-			return (1);
-	return (0);
+		(this->*fPtr)(args, *getClientByFd(_fd));
 }
 
-int	Server::manageClientMsg()
+void    Server::manageClientMsg()
 {
 	char buffer[BUFFER_SIZE];
 
@@ -165,11 +161,7 @@ int	Server::manageClientMsg()
 		while (endpos != std::string::npos)
 		{
 			std::string newcmd = command.substr(startpos, endpos - startpos);
-			if (executeCommand(newcmd))
-			{
-				std::memset(buffer, 0, sizeof(buffer));
-				return (1) ;
-			}
+			executeCommand(newcmd);
 			startpos = endpos + 2;
 			endpos = command.find("\r\n", startpos);
 		}
@@ -178,16 +170,13 @@ int	Server::manageClientMsg()
 	{
 		_socketsToRemove.push_back(_fd);
 		std::cout << "Déconnexion du client " << _fd << std::endl;
-		return (1) ;
 	} 
 	else if (errno != EWOULDBLOCK && errno != EAGAIN) 
 	{
 		_socketsToRemove.push_back(_fd);
 		std::cerr << "Erreur lors de la lecture du client " << _fd << std::endl;
-		return (1) ;
 	}
 	std::memset(buffer, 0, sizeof(buffer));
-	return (0);
 }
 
 int Server::dataManagement()
@@ -204,7 +193,7 @@ int Server::dataManagement()
 				fds_rd = _fds_srv;
 			else
 				fds_rd = _clients[getClientByFd(_fd)->getId()]->getPollStrc();
-			if ((_ret = poll(&fds_rd, 1, 0)) <= 0)
+			if ((_ret = poll(&fds_rd, _fd, 0)) <= 0)
 			{
 				if (_ret == 0 || errno == EINTR)
 					continue;
@@ -217,8 +206,7 @@ int Server::dataManagement()
 					it = _sockets.begin();
 			}
 			else
-				if (manageClientMsg())
-					break ;
+				manageClientMsg();
 		}
 		socketToRemove();
 		//printAllClient();
@@ -238,7 +226,7 @@ int Server::start(int port, std::string password)
 }
 
 // Add a new Client to [_client[]] in the server
-void	Server::addClient(std::string nickname, int fd)
+void Server::addClient(std::string nickname, int fd)
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
 	{
@@ -251,31 +239,6 @@ void	Server::addClient(std::string nickname, int fd)
 			std::cout << "Can not add more clients to the server" << std::endl;
 	}
 }
-
-// Remove an existing client from [_clients[]] in the server
-void	Server::removeClient(int fd)
-{
-	for (int i = 0; i < MAX_CLIENTS; ++i)
-	{
-		if (_clients[i] != NULL && _clients[i]->getSocketFd() == fd)
-		{
-			_socketsToRemove.push_back(fd);
-			delete(_clients[i]);
-			_clients[i] = NULL;
-			return ;
-		}
-	}
-}
-
-// void	Server::removeSocketByFd(int socketFd)
-// {
-// 	for (std::vector<int>::iterator it = _sockets.begin(); it != _sockets.end(); ++it)
-// 	{
-// 		if (*it == socketFd)
-// 			_sockets.erase(it);
-// 	}
-// }
-
 
 // Print all clients in server
 void	Server::printAllClient() const

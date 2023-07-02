@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/29 16:57:34 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:03:15 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ enum ClientStatus
 	CONNECT,
 	DELETE
 };
+
+# define ORANGE "\033[33m"
+# define GREEN "\033[32m"
+# define RED "\033[31m"
+# define CLOSE "\033[0m"
 
 class Channel;
 
@@ -81,7 +86,9 @@ class Client
 	
 		void				removeChannel(const Channel& channel);
 		void				addChannel(Channel& channel);
-		
+
+		void							printAllClientChannel() const;
+		int								isClientInChannel(std::string channel) const;
 
 		void	printInfo() const;
 };

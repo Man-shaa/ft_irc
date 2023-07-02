@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:42:20 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/29 16:58:35 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:00:20 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Client.hpp"
 
-Client::Client(void) : _socketFd(-1), _nickName(""), _status(PASSWORD), _id(-1), _channels(0)
+Client::Client(void) : _socketFd(-1), _nickName(""), _id(-1), _channels(0)
 {
 	return ;
 }
 
-Client::Client(int socketFd, std::string nickname, int id) : _socketFd(socketFd), _nickName(nickname), _status(PASSWORD), _id(id), _channels(0)
+Client::Client(int socketFd, std::string nickname, int id) : _socketFd(socketFd), _nickName(nickname), _id(id), _channels(0)
 {
 	_fds_clt.fd = socketFd;
 	_fds_clt.events = POLLIN;
@@ -34,24 +34,9 @@ int	Client::getSocket() const
 	return (_socketFd);
 }
 
-int	Client::getStatus() const
-{
-	return (_status);
-}
-
 const std::string	&Client::getNickname() const
 {
 	return (_nickName);
-}
-
-std::string	Client::getFirstName() const
-{
-	return (_firstName);
-}
-
-std::string	Client::getLastName() const
-{
-	return (_lastName);
 }
 
 int	Client::getId() const
@@ -89,27 +74,28 @@ void	Client::printInfo() const
 	std::cout << std::endl;
 }
 
-void	Client::setNickname(std::string &name)
+void	Client::setNickName(std::string &name)
 {
-	_nickName = name;
-}
-
-void	Client::setFirstName(std::string &name)
-{
-	_firstName = name;
-}
-
-void	Client::setLastName(std::string &name)
-{
-	_lastName = name;
-}
-
-void	Client::setStatus(int status)
-{
-	_status = status;
+	// std::string nickName(name);
+	// if (nickName.empty() == false)
+		_nickName = name;
 }
 
 int	Client::getSocketFd() const
 {
 	return (_socketFd);
+}
+
+bool Client::operator==(const Client& other) const {
+    return _socketFd == other._socketFd && _nickName == other._nickName && _id == other._id;
+}
+
+int	Client::isClientInChannel(std::string channel) const
+{
+	printf("OK\n");
+	for (std::vector<Channel*>::const_iterator it = _channels.begin(); it != _channels.end(); ++it)
+		if ((*it)->getName() == channel)
+			return (1);
+	printf("KO\n");
+	return (0);
 }
