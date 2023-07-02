@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/29 16:53:02 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/01 15:49:40 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ class Server
 		int		cmdJoinRPL(std::string channel, Client &client, int index);
 		int		cmdPing(std::vector<std::string> args, Client &client);
 		int		cmdPrivmsg(std::vector<std::string> args, Client &client);
+		int		cmdTopic(std::vector<std::string> args, Client &client);
 		
 			//MODE CMD
 			int			cmdMode(std::vector<std::string> args, Client &client);

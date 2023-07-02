@@ -12,7 +12,8 @@ SRCS	 	=	main.cpp	\
 				Client.cpp	\
 				Command.cpp	\
 				Server.cpp	\
-				Mode.cpp
+				Mode.cpp	\
+				Topic.cpp
 
 OBJS		=	$(SRCS:%.cpp=${OBJ_DIR}/%.o)
 

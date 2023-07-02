@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/29 17:32:30 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/01 18:58:30 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void Server::mode_K(Client &client, std::vector<std::string> args, std::string &
 		}
 		else
 		{
-			_channels[i]->setMode(change, i);
+			_channels[i]->setMode(change, 'k');
 			_channels[i]->setPassword(args[2]);
 			_channels[i]->setSecured(change);
 			validModes += 'k';
@@ -50,7 +50,7 @@ void	Server::mode_T(Client &client, std::vector<std::string> args, std::string &
 {
 	(void)client;
 	(void)args;
-	_channels[i]->setMode(change, i);
+	_channels[i]->setMode(change, 't');
 	validModes += 't';
 }
 
@@ -58,7 +58,7 @@ void	Server::mode_I(Client &client, std::vector<std::string> args, std::string &
 {
 	(void)client;
 	(void)args;
-	_channels[i]->setMode(change, i);
+	_channels[i]->setMode(change, 'i');
 	validModes += 'i';
 }
 
@@ -66,7 +66,7 @@ void	Server::mode_O(Client &client, std::vector<std::string> args, std::string &
 {
 	(void)client;
 	(void)args;
-	_channels[i]->setMode(change, i);
+	_channels[i]->setMode(change, 'o');
 	validModes += 'o';
 }
 

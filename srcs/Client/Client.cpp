@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:42:20 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/22 20:16:07 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/01 18:24:23 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,6 @@ int	Client::getSocketFd() const
 	return (_socketFd);
 }
 
-// bool Client::operator==(const Client& other) const {
-//     return _socketFd == other._socketFd && _nickName == other._nickName && _id == other._id;
-// }
-
 void	Client::printAllClientChannel() const
 {
 	std::stringstream ss;
@@ -105,4 +101,14 @@ void	Client::printAllClientChannel() const
 	for (std::vector<Channel*>::const_iterator it = _channels.begin(); it != _channels.end(); ++it)
 		listChannels += (*it)->getName() + " ";
 	std::cout << ORANGE << listChannels << CLOSE << std::endl;
+}
+
+int	Client::isClientInChannel(std::string channel) const
+{
+	printf("OK\n");
+	for (std::vector<Channel*>::const_iterator it = _channels.begin(); it != _channels.end(); ++it)
+		if ((*it)->getName() == channel)
+			return (1);
+	printf("KO\n");
+	return (0);
 }

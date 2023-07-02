@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/29 19:17:20 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/01 15:49:07 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	Server::initCmd()
 	_mapFcts["JOIN"] = &Server::cmdJoin;
 	_mapFcts["MODE"] = &Server::cmdMode;
 	_mapFcts["PING"] = &Server::cmdPing;
+	_mapFcts["TOPIC"] = &Server::cmdTopic;
 	_mapFcts["PRIVMSG"] = &Server::cmdPrivmsg;
 }
 
@@ -162,7 +163,7 @@ int		Server::cmdPrivmsg(std::vector<std::string> args, Client &client)
 
 int		Server::cmdPing(std::vector<std::string> args, Client &client)
 {
-	std::string pong = "server.name " + args[0] + "\r\n";
+	std::string pong = "PONG :server.name " + args[0] + "\r\n";
 	send(client.getSocket(), pong.c_str(), pong.size(), 0);
 	return (0);
 }

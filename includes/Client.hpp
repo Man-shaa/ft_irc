@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/22 20:16:33 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/01 18:08:00 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ class Client
 		int								getId() const;
 
 		void							printAllClientChannel() const;
-
-		
+		int								isClientInChannel(std::string channel) const;
 
 		void	printInfo() const;
 };
