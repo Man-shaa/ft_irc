@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Pass.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:28:21 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/02 16:29:00 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:01:56 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ int	Server::cmdPass(std::vector<std::string> args, Client &client)
 		removeClient(client.getSocket());
 		return (1);
 	}
-	client.setStatus(REGISTER);
+	client.setStatus(PASSWORD);
 	return (0);
 }

@@ -10,25 +10,25 @@ vpath %.hpp $(foreach dir, $(INC_DIR), $(dir):)
 SRCS	 	=	main.cpp	\
 				Channel.cpp	\
 				ChannelGets.cpp	\
-				ChannelSets.cpp \
 				ChannelOps.cpp \
+				ChannelSets.cpp \
 				Client.cpp	\
 				ClientGets.cpp	\
-				ClientSets.cpp \
 				ClientOps.cpp	\
+				ClientSets.cpp \
 				ClientUtils.cpp	\
-				Server.cpp	\
-				ServerChannels.cpp	\
-				ServerClients.cpp	\
-				Command.cpp	\
 				Nick.cpp	\
 				Pass.cpp	\
 				User.cpp	\
-				Mode.cpp	\
 				Join.cpp	\
+				Mode.cpp	\
 				Topic.cpp	\
 				Privmsg.cpp	\
-				Ping.cpp	
+				Ping.cpp	\
+				Command.cpp	\
+				Server.cpp	\
+				ServerChannels.cpp	\
+				ServerClients.cpp
 
 OBJS		=	$(SRCS:%.cpp=${OBJ_DIR}/%.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:27:54 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/02 16:28:10 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:13:13 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ int	Server::usedNickname(std::string &name) const
 
 int		Server::cmdNick(std::vector<std::string> args, Client &client)
 {
+	if (client.getStatus() < PASSWORD)
+	{
+		std::string answer = "461 " + client.getNickname() + " PASS :Not enough parameters\r\n"; // ERR_NEEDMOREPARAMS
+		send(client.getSocket(), answer.c_str(), answer.size(), 0);
+		removeClient(client.getSocket());
+		return (1);
+	}
 	if (parseNickname(args[0]))
 	{
 		std::string answer = "432 " + client.getNickname() + " " + args[0] + " :Erroneus nickname\r\n"; // ERR_ERRONEUSNICKNAME

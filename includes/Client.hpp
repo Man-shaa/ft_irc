@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/03 15:47:23 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:01:48 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ class Client
 		std::string			getUserName() const;
 		pollfd				getPollStrc() const;
 		int					getId() const;
-		int					getSocketFd() const;
 
 		void				setNickname(std::string &name);
 		void				setFirstName(std::string &name);

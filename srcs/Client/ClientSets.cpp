@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ClientSets.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:50:20 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/02 16:51:22 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:00:17 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,9 @@ void	Client::setLastName(std::string &name)
 void	Client::setStatus(int status)
 {
 	_status = status;
+}
+
+void	Client::setUserName(std::string &name)
+{
+	name = _userName;
 }
