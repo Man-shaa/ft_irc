@@ -24,6 +24,7 @@ SRCS	 	=	main.cpp	\
 				Mode.cpp	\
 				Topic.cpp	\
 				Privmsg.cpp	\
+				ModeUser.cpp	\
 				Ping.cpp	\
 				Command.cpp	\
 				Server.cpp	\

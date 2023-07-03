@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 15:54:03 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/03 17:56:37 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,17 +111,18 @@ class Server
 		int		usedNickname(std::string &name) const;
 		int		cmdPrivmsg(std::vector<std::string> args, Client &client);
 		int		cmdTopic(std::vector<std::string> args, Client &client);
-		
-			//MODE CMD
-			int			cmdMode(std::vector<std::string> args, Client &client);
-			void		initMode();
-			std::string	toggleChannelMode(Client &client, std::vector<std::string> args, unsigned long pos, int i, bool change);
-			std::string	channelMode(Client &client, std::vector<std::string> args, int i);
-			void		mode_K(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
-			void		mode_T(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
-			void		mode_I(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
-			void		mode_O(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+	
+		//MODE CMD
+		int			cmdMode(std::vector<std::string> args, Client &client);
+		void		initMode();
+		std::string	toggleChannelMode(Client &client, std::vector<std::string> args, unsigned long pos, int i, bool change);
+		std::string	channelMode(Client &client, std::vector<std::string> args, int i);
+		void		mode_K(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+		void		mode_T(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+		void		mode_I(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+		void		mode_O(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
 
+		int			handleModeUser(std::vector<std::string> args, Client &client);
 
 		//UTILS
 		void	printAllClient() const;

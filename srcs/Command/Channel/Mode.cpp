@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/01 18:58:30 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/03 17:54:35 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 	//TODO Gerer le mode server
 	bool 	channelExist = false;
 	int		i;
-	
+
 	if (args[0][0] == '#')
 	{
 		//Récupere le channel
@@ -154,5 +154,8 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 			}
 		}
 	}
+	else
+		if (handleModeUser(args, client))
+			return (1);
 	return (0);
 }
