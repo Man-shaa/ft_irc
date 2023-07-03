@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/06/29 18:52:41 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:20:08 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 
 enum ClientStatus
 {
+	ACCEPT,
 	PASSWORD,
 	REGISTER,
 	CONNECT,
