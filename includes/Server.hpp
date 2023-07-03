@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 15:54:03 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:26:21 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,9 @@ class Server
 
 		//CHANNEL MANAGEMENT
 		void 	createChannel(std::string channelName, Client &client);
+		int		doesChannelExist(std::string &name) const;
+		Channel	*getChannelByName(std::string &name) const;
+		int		isUserInChannel(std::string clientName, std::string &channelName) const;
 
 		//COMMAND MANAGEMENT
 		void	initCmd();
@@ -106,6 +109,7 @@ class Server
 		int		cmdJoinRPL(std::string channel, Client &client, int index);
 		int		cmdPing(std::vector<std::string> args, Client &client);
 		int		cmdPass(std::vector<std::string> args, Client &client);
+		int		cmdInvite(std::vector<std::string> args, Client &client);
 		
 		int		parseNickname(std::string &name) const;
 		int		usedNickname(std::string &name) const;
