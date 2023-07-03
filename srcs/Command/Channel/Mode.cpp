@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 16:52:28 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:53:16 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,16 +122,10 @@ bool    isParNeededMode(std::string mode)    {
     return (false);
 } 
 
-void	Server::checkArg(std::vector<std::string> args)
+std::string	Server::parseMode(std::string mode)
 {
-	std::map<std::string, std::string> 
-	std::string modes, params, tokenm, tokenp;
-
-	modes = args[1];
-	
-	//Attribue a chaque mode son signe
 	std::string	toExec;
-	const char	*m = modes.c_str();
+	const char	*m = mode.c_str();
     while (*m)    
 	{
         char    latestSign;
@@ -144,16 +138,22 @@ void	Server::checkArg(std::vector<std::string> args)
         m++;
     }
 	std::cout << toExec << std::endl;
-	
-	//Verifie le nombre max d'arg
-	std::istringstream	issm(toExec);
-	std::string			mode;
+	return(toExec);
+}
+
+void	Server::checkArg(std::vector<std::string> args)
+{
+	std::map<std::string, std::string> modes;
+	std::string params;
+
+	std::istringstream	issm(parseMode(args[1]));
+	std::string			tokenm;
 	int					mNb = 0, pNb = 0;
-	while (issm >> mode)    
+	while (issm >> tokenm)    
 	{
 		if (pNb > 3)
 			return (1);
-		else if (!isValidChanMode(mode))
+		else if (!isValidChanMode(tokenm))
 		{
 			std::string ERR_UMODEUNKNOWNFLAG = "501 " + client.getNickname() + " :Unknown MODE flag\r\n";
 			send(client.getSocket(), ERR_UMODEUNKNOWNFLAG.c_str(), ERR_UMODEUNKNOWNFLAG.size(), 0);
@@ -161,8 +161,14 @@ void	Server::checkArg(std::vector<std::string> args)
 		}
 		else
 		{
-			if (isParNeededMode(mode))
+			if (isParNeededMode(tokenm))
+			{
+				//parametre separe par un ,
+				if (args.size() == 2 && args[2].find(',') != std::string::npos)
+					
+				_mode[tokenm] = true;
 				pNb++;
+			}
 			mNb++;
 		}
 	}
