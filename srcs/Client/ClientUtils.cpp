@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:51:24 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 15:43:15 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:52:15 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ void	Client::printAllClientChannel() const
 	std::string listChannels = _nickName + " fait partie de " + ss.str() + " channel(s) : " ;
 	for (std::vector<Channel*>::const_iterator it = _channels.begin(); it != _channels.end(); ++it)
 		listChannels += (*it)->getName() + " ";
-	std::cout << ORANGE << listChannels << CLOSE << std::endl;
+	std::cout << "CLIENT: " << GREEN << listChannels << CLOSE << "\n" << std::endl;
 }

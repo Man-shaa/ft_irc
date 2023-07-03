@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerChannels.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:54:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 22:14:04 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:52:46 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,20 @@ int	Server::isUserInChannel(std::string clientName, std::string &channelName) co
 			return (1);
 	}
 	return (0);
+}
+
+void Server::delChannel(std::string channelName)
+{
+	for (int i = 0; i < MAX_CHANNEL; ++i)
+	{
+		if (_channels[i] != NULL && _channels[i]->getName() == channelName)
+		{
+			delete _channels[i];
+			_channels[i] = NULL;
+			std::cout << "SERVER: " << RED << channelName << " deleted\n" << CLOSE << std::endl;
+			break ;
+		}
+	}
 }
 
 // Print all channels in server

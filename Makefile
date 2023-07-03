@@ -30,7 +30,17 @@ SRCS	 	=	main.cpp			\
 				Command.cpp			\
 				Server.cpp			\
 				ServerChannels.cpp	\
-				ServerClients.cpp
+				ServerClients.cpp	\
+				Command.cpp	\
+				Nick.cpp	\
+				Pass.cpp	\
+				User.cpp	\
+				Mode.cpp	\
+				Join.cpp	\
+				Topic.cpp	\
+				Privmsg.cpp	\
+				Ping.cpp	\
+				Part.cpp
 
 OBJS		=	$(SRCS:%.cpp=${OBJ_DIR}/%.o)
 

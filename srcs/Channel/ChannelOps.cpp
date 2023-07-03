@@ -3,12 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelOps.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 21:08:14 by msharifi         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/07/04 16:52:09 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
+
+
+
 
 #include "Channel.hpp"
 
@@ -27,17 +32,22 @@ void	Channel::addModo(Client &user)	{
 	return;
 }
 
-void	Channel::remUser(Client &user)	{
+int	Channel::remUser(Client &user)	
+{
     for (std::map<int, Client*>::iterator it = _usrList.begin(); it != _usrList.end(); ++it)
 	{
-        if (it->first != user.getSocket())
+        if (it->first == user.getSocket())
 		{
             _usrList.erase(it);
+			std::cout << "CHANNEL: " << ORANGE << user.getNickname() << " has been removed from the channel " << _name << "\n" << CLOSE << std::endl;		
             break;
 		}
 	}
-			
-	return ;
+	
+	//Supprime l'instance si il n'y a plus d'utilisateur
+	if (_usrList.empty())
+		return (1);
+	return (0);
 }
 
 void	Channel::remModo(Client &user)	{
