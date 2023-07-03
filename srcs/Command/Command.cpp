@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/02 16:31:23 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/02 18:12:33 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	Server::initCmd()
 	_mapFcts["NICK"] = &Server::cmdNick;
 	_mapFcts["USER"] = &Server::cmdUser;
 	_mapFcts["JOIN"] = &Server::cmdJoin;
+	_mapFcts["PART"] = &Server::cmdPart;
 	_mapFcts["MODE"] = &Server::cmdMode;
 	_mapFcts["PING"] = &Server::cmdPing;
 	_mapFcts["TOPIC"] = &Server::cmdTopic;

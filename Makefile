@@ -28,7 +28,8 @@ SRCS	 	=	main.cpp	\
 				Join.cpp	\
 				Topic.cpp	\
 				Privmsg.cpp	\
-				Ping.cpp	
+				Ping.cpp	\
+				Part.cpp
 
 OBJS		=	$(SRCS:%.cpp=${OBJ_DIR}/%.o)
 

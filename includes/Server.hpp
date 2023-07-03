@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/02 16:02:02 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/03 12:06:38 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,31 +97,35 @@ class Server
 
 		//CHANNEL MANAGEMENT
 		void 	createChannel(std::string channelName, Client &client);
+		void	delChannel(std::string channelName);
 
 		//COMMAND MANAGEMENT
 		void	initCmd();
+		void	initTarg(Client &client);
 		int		cmdNick(std::vector<std::string> args, Client &client);
 		int		cmdUser(std::vector<std::string> args, Client &client);
 		int		cmdJoin(std::vector<std::string> args, Client &client);
 		int		cmdJoinRPL(std::string channel, Client &client, int index);
 		int		cmdPing(std::vector<std::string> args, Client &client);
 		int		cmdPass(std::vector<std::string> args, Client &client);
+		int		cmdPart(std::vector<std::string> args, Client &client);
 		
 		int		parseNickname(std::string &name) const;
 		int		usedNickname(std::string &name) const;
 		int		cmdPrivmsg(std::vector<std::string> args, Client &client);
 		int		cmdTopic(std::vector<std::string> args, Client &client);
 		
-			//MODE CMD
-			int			cmdMode(std::vector<std::string> args, Client &client);
-			void		initMode();
-			std::string	toggleChannelMode(Client &client, std::vector<std::string> args, unsigned long pos, int i, bool change);
-			std::string	channelMode(Client &client, std::vector<std::string> args, int i);
-			void		mode_K(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
-			void		mode_T(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
-			void		mode_I(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
-			void		mode_O(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+		int			cmdMode(std::vector<std::string> args, Client &client);
+		void		initMode();
+		void		checkArg(std::vector<std::string> args);
+		std::string	toggleChannelMode(Client &client, std::vector<std::string> args, unsigned long pos, int i, bool change);
+		std::string	channelMode(Client &client, std::vector<std::string> args, int i);
+		void		mode_K(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+		void		mode_T(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+		void		mode_I(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+		void		mode_O(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
 
+		std::vector<std::string>	listChannels(std::string chans);
 
 		//UTILS
 		void	printAllClient() const;

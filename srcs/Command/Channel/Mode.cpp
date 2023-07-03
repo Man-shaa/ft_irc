@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/01 18:58:30 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/03 15:39:28 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ std::string	Server::toggleChannelMode(Client &client, std::vector<std::string> a
 	return (validModes);
 }
 
-std::string	Server::channelMode(Client &client, std::vector<std::string> args, int i)
+/*std::string	Server::channelMode(Client &client, std::vector<std::string> args, int i)
 {
 	std::string::size_type addPos = args[1].rfind('+');
 	std::string::size_type delPos = args[1].rfind('-');
@@ -102,11 +102,75 @@ std::string	Server::channelMode(Client &client, std::vector<std::string> args, i
 		modes += toggleChannelMode(client, args, ++delPos, i, false);
 	
 	return (modes);
+}*/
+
+bool Server::isSign(char c)    {
+    if (c == '-' || c == '+')
+        return (true);
+    return (false);
+}
+
+bool    isValidChanMode(std::string mode)    {
+    if (mode == "+i" || mode == "+t" || mode == "+k" || mode == "+o" || mode == "+l" || mode == "-i" || mode == "-t" || mode == "-k" || mode == "-o" || mode == "-l")
+        return (true);
+    return false;
+}
+
+bool    isParNeededMode(std::string mode)    {
+    if (mode == "+k" || mode == "+o" || mode == "+l" || mode == "-o")
+        return true;
+    return (false);
+} 
+
+void	Server::checkArg(std::vector<std::string> args)
+{
+	std::map<std::string, std::string> 
+	std::string modes, params, tokenm, tokenp;
+
+	modes = args[1];
+	
+	//Attribue a chaque mode son signe
+	std::string	toExec;
+	const char	*m = modes.c_str();
+    while (*m)    
+	{
+        char    latestSign;
+        if (isSign(*m))
+            latestSign = *m; 
+        else if (!isSign(*m) && *(m + 1) != '\0')
+            toExec.append(1, latestSign).append(1, *m).append(1,' ');
+        else
+            toExec.append(1, latestSign).append(1, *m);
+        m++;
+    }
+	std::cout << toExec << std::endl;
+	
+	//Verifie le nombre max d'arg
+	std::istringstream	issm(toExec);
+	std::string			mode;
+	int					mNb = 0, pNb = 0;
+	while (issm >> mode)    
+	{
+		if (pNb > 3)
+			return (1);
+		else if (!isValidChanMode(mode))
+		{
+			std::string ERR_UMODEUNKNOWNFLAG = "501 " + client.getNickname() + " :Unknown MODE flag\r\n";
+			send(client.getSocket(), ERR_UMODEUNKNOWNFLAG.c_str(), ERR_UMODEUNKNOWNFLAG.size(), 0);
+			return (1);
+		}
+		else
+		{
+			if (isParNeededMode(mode))
+				pNb++;
+			mNb++;
+		}
+	}
 }
 
 int	Server::cmdMode(std::vector<std::string> args, Client &client)
 {
-	//TODO Gerer le mode server
+	// MODE CHANNEL
 	bool 	channelExist = false;
 	int		i;
 	
@@ -150,7 +214,8 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 			{
 			//Channel valide + modestring, on vérifie check les modes a set ou unset		
 			//Puis on envoie les nouveaux modes a tout les utilisateurs
-				_channels[i]->sendMode(channelMode(client, args, i));
+				//_channels[i]->sendMode(channelMode(client, args, i));
+				checkArg(args);
 			}
 		}
 	}
