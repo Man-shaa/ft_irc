@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/27 18:45:45 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/02 16:55:29 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,40 +231,11 @@ int Server::start(int port, std::string password)
 	_port = port;
 	_password = password;
 	serverManagement();
+	initMode();
 	initCmd();
 	dataManagement();
 	close(_sockets[0]);
 	return 0;
-}
-
-// Add a new Client to [_client[]] in the server
-void	Server::addClient(std::string nickname, int fd)
-{
-	for (int i = 0; i < MAX_CLIENTS; ++i)
-	{
-		if (_clients[i] == NULL)
-		{
-			_clients[i] = new Client(fd, nickname, i);
-			break ;
-		}
-		if (i == MAX_CLIENTS - 1)
-			std::cout << "Can not add more clients to the server" << std::endl;
-	}
-}
-
-// Remove an existing client from [_clients[]] in the server
-void	Server::removeClient(int fd)
-{
-	for (int i = 0; i < MAX_CLIENTS; ++i)
-	{
-		if (_clients[i] != NULL && _clients[i]->getSocketFd() == fd)
-		{
-			_socketsToRemove.push_back(fd);
-			delete(_clients[i]);
-			_clients[i] = NULL;
-			return ;
-		}
-	}
 }
 
 // void	Server::removeSocketByFd(int socketFd)
@@ -275,52 +246,3 @@ void	Server::removeClient(int fd)
 // 			_sockets.erase(it);
 // 	}
 // }
-
-
-// Print all clients in server
-void	Server::printAllClient() const
-{
-	for (int i = 0; i < MAX_CLIENTS; ++i)
-	{
-		if (_clients[i] != NULL)
-			_clients[i]->printInfo();
-	}
-}
-
-// Return a pointer to the client which have a [_socketFd] matching [fd]
-Client	*Server::getClientByFd(int fd) const
-{
-	for (int i = 0; i < MAX_CLIENTS; ++i)
-	{
-		if (_clients[i] != NULL && _clients[i]->getSocketFd() == fd)
-			return (_clients[i]);
-	}
-	return (NULL);
-}
-
-void Server::addChannel(std::string channelName, Client &client)
-{
-	for (int i = 0; i < MAX_CHANNEL; ++i)
-	{
-		if (_channels[i] == NULL)
-		{
-			_channels[i] = new Channel(channelName, client);
-			break ;
-		}
-		if (i == MAX_CHANNEL - 1)
-			std::cout << "Can not add more channels to the server" << std::endl;
-	}
-}
-
-// Print all channels in server
-void	Server::printAllChannel() const
-{
-	for (int i = 0; i < MAX_CHANNEL; ++i)
-	{
-		if (_channels[i] != NULL)
-		{
-			std::cout << _channels[i]->getName() << std::endl;
-			break;
-		}
-	}
-}
