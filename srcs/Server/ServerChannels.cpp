@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerChannels.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:54:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 16:52:46 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 19:09:51 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	Server::doesChannelExist(std::string &name) const
 		if (_channels[i] != NULL && _channels[i]->getName() == name)
 			return (1);
 	}
-	std::cout << "RETURN 0 dans fonction doesChannelExist" << std::endl;
 	return (0);
 }
 

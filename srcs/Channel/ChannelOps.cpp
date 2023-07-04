@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelOps.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 17:14:05 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 19:14:06 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 //MEMBER MANAGEMENT
 
-void	Channel::addUser(Client &user)	{
+void	Channel::addUser(Client &user)
+{
 	_usrList[user.getSocket()] = &user;
-
 	return;
 }
 
-void	Channel::addModo(Client &user)	{
+void	Channel::addModo(Client &user)
+{
 	_modoList[user.getSocket()] = &user;
-
 	return;
 }
 
@@ -37,7 +37,6 @@ int	Channel::remUser(Client &user)
             break;
 		}
 	}
-	
 	//Supprime l'instance si il n'y a plus d'utilisateur
 	if (_usrList.empty())
 		return (1);
@@ -57,17 +56,25 @@ void	Channel::remModo(Client &user)
 	return ;
 }
 
-int		Channel::clientIsOp(int socket)
+// Return 1 if the client identified by [socket] is an operator, 0 otherwise
+int		Channel::clientIsOp(int socket) const
 {
-    for (std::map<int, Client*>::iterator it = _modoList.begin(); it != _modoList.end(); ++it)
+    for (std::map<int, Client*>::const_iterator it = _modoList.begin(); it != _modoList.end(); ++it)
 	{
         if (it->first == socket)
             return (1);
 	}
-			
 	return (0);
 }
 
+// Return 1 if this->channel is on invite only mode, 0 otherwise
+int	Channel::isChannelInviteOnly(void) const
+{
+	std::string	modes = getModeChannel();
+	if (modes.find('i', 0) != std::string::npos)
+		return (1);
+	return (0);
+}
 
 //MESSAGE MANAGEMENT
 
@@ -84,7 +91,6 @@ void	Channel::sendMsg(std::string msg, Client &user) const
 			}
 		}	
 	}
-
 	return ;
 }
 
@@ -99,7 +105,6 @@ void	Channel::sendMode(std::string msg) const
 			send(it->second->getSocket(), MODE_COMMAND.c_str(), MODE_COMMAND.size(), 0);
 		}
 	}
-
 	return ;
 }
 
