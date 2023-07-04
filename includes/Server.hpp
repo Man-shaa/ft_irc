@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 14:20:53 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 14:23:52 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,9 @@ class Server
 		// NICK
 		int		cmdNickErrorHandling(std::vector<std::string> args, Client &client);
 		int		cmdNick(std::vector<std::string> args, Client &client);
+
+		// OPER
+		int		cmdOper(std::vector<std::string> args, Client &client);
 
 		// USER
 		int		cmdUser(std::vector<std::string> args, Client &client);

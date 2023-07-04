@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 20:53:01 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 14:24:11 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,5 @@ void	Server::initCmd()
 	_mapFcts["TOPIC"] = &Server::cmdTopic;
 	_mapFcts["PRIVMSG"] = &Server::cmdPrivmsg;
 	_mapFcts["INVITE"] = &Server::cmdInvite;
+	_mapFcts["OPER"] = &Server::cmdOper;
 }

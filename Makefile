@@ -7,27 +7,28 @@ INC_DIR		=	$(shell find includes -type d)
 vpath %.cpp $(foreach dir, $(SRC_DIR), $(dir):)
 vpath %.hpp $(foreach dir, $(INC_DIR), $(dir):)
 
-SRCS	 	=	main.cpp	\
-				Channel.cpp	\
-				ChannelGets.cpp	\
-				ChannelOps.cpp \
-				ChannelSets.cpp \
-				Client.cpp	\
-				ClientGets.cpp	\
-				ClientOps.cpp	\
-				ClientSets.cpp \
-				ClientUtils.cpp	\
-				Nick.cpp	\
-				Pass.cpp	\
-				User.cpp	\
-				Invite.cpp	\
-				Join.cpp	\
-				Mode.cpp	\
-				Topic.cpp	\
-				Privmsg.cpp	\
-				Ping.cpp	\
-				Command.cpp	\
-				Server.cpp	\
+SRCS	 	=	main.cpp			\
+				Channel.cpp			\
+				ChannelGets.cpp		\
+				ChannelOps.cpp		\
+				ChannelSets.cpp		\
+				Client.cpp			\
+				ClientGets.cpp		\
+				ClientOps.cpp		\
+				ClientSets.cpp		\
+				ClientUtils.cpp		\
+				Nick.cpp			\
+				Oper.cpp			\
+				Pass.cpp			\
+				User.cpp			\
+				Invite.cpp			\
+				Join.cpp			\
+				Mode.cpp			\
+				Topic.cpp			\
+				Privmsg.cpp			\
+				Ping.cpp			\
+				Command.cpp			\
+				Server.cpp			\
 				ServerChannels.cpp	\
 				ServerClients.cpp
 
