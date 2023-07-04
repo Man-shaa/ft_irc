@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/04 14:26:51 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 14:59:36 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ enum ClientStatus
 	DELETE
 };
 
+enum ModeratorLevel
+{
+	USER,
+	OPERATOR
+};
+
 # define ORANGE "\033[33m"
 # define GREEN "\033[32m"
 # define RED "\033[31m"
@@ -61,6 +67,7 @@ class Client
 		std::string					_lastName;
 		std::string					_userName;
 		int							_status;
+		int							_modeLevel;
 		int							_id;
 		std::vector<Channel*>		_channels;
 		struct 						pollfd _fds_clt;
@@ -88,6 +95,7 @@ class Client
 		void				setLastName(std::string &name);
 		void				setUserName(std::string &name);
 		void				setStatus(int status);
+		void				setModeLevel(int status);
 	
 		void				removeChannel(const Channel& channel);
 		void				addChannel(Channel& channel);
