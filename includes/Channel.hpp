@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/04 18:59:16 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 22:54:08 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ class	Channel
 		bool						_secured;
 		int							_owner;
 		std::map<int, Client*> 		_usrList;
-		std::map<int, Client*>		_modoList;
+		std::map<int, Client*>		_OpeList;
 		std::map<char, bool> 		_mode;
 
 	public:
@@ -47,9 +47,10 @@ class	Channel
 		std::string					getTopic(void) const;
 		std::string 				getModeChannel(void) const;
 		std::vector<std::string>	getUsrList(void);
-		std::vector<std::string>	getModoList(void) const;
+		std::vector<std::string>	getOpeList(void) const;
 		int							getOwner(void) const;
 		bool						getSecured(void) const;
+		int							getUserNumber(void) const;
 
 		void						setLogMsg(std::string logMsg);
 		int							setTopic(std::string topic, Client &user);
@@ -60,10 +61,12 @@ class	Channel
 		void						addUser(Client &user);
 		void						addModo(Client &user);
 		int							remUser(Client &user);
-		void						remModo(Client &user);
+		void						remOperator(Client &user);
 		void						sendMsg(std::string msg, Client &user) const;
 		void						sendMode(std::string msg) const;
 		void						sendTopic(std::string msg, Client &user) const;
+		void						sendMsgToChannel(std::string msg) const;
+
 		int							clientIsOp(int socket) const;
 		int							isChannelInviteOnly() const;
 };

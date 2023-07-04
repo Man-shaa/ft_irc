@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 19:35:48 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 21:33:53 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ class Server
 		int 		linkSocketServer();
 		void		serverInfo();
 		void		socketToRemove();
+		void		deleteUnusedChannel();
+
 		// void	removeSocketByFd(int socketFd);
 		int			serverManagement();
 		int			dataManagement();
@@ -102,15 +104,15 @@ class Server
 		void 		createChannel(std::string channelName, Client &client);
 		void		delChannel(std::string channelName);
 		int			doesChannelExist(std::string &name) const;
-		Channel		*getChannelByName(std::string &name) const;
-		int			isUserInChannel(std::string clientName, std::string &channelName) const;
+		Channel		*getChannelByName(std::string name) const;
+		int			isUserInChannel(std::string clientName, std::string channelName) const;
 
 		//COMMAND MANAGEMENT
 		void		initCmd();
 
 		// NICK
 		int			parseNickname(std::string &name) const;
-		int			usedNickname(std::string &name) const;
+		int			usedNickname(std::string name) const;
 		int			cmdNickErrorHandling(std::vector<std::string> args, Client &client);
 		int			cmdNick(std::vector<std::string> args, Client &client);
 
@@ -133,6 +135,7 @@ class Server
 		int			cmdJoinRPL(std::string channel, Client &client, int index);
 
 		// KICK
+		int			cmdKickErrorHandling(std::vector<std::string> args, Client &client);
 		int			cmdKick(std::vector<std::string> args, Client &client);
 
 		// MODE

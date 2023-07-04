@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelGets.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 16:54:12 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 22:16:59 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ std::string	Channel::getTopic(void) const	{
 	return (_topic);
 }
 
-std::vector<std::string> Channel::getModoList(void) const
+std::vector<std::string> Channel::getOpeList(void) const
 {
 	std::vector<std::string> modoNames;
 	
-	for (std::map<int, Client*>::const_iterator it = _modoList.begin(); it != _modoList.end(); ++it)
+	for (std::map<int, Client*>::const_iterator it = _OpeList.begin(); it != _OpeList.end(); ++it)
 	{
 		modoNames.push_back((it->second)->getNickname());
 	}
@@ -81,4 +81,9 @@ std::string Channel::getModeChannel(void) const
 			modes += it->first;
 	}
 	return (modes);
+}
+
+int	Channel::getUserNumber(void) const
+{
+	return (_usrList.size());
 }

@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:27:54 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 14:00:04 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 21:21:12 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	Server::parseNickname(std::string &name) const
 }
 
 // Returns 1 if [name] is already used by another user, 0 if not
-int	Server::usedNickname(std::string &name) const
+int	Server::usedNickname(std::string name) const
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
 	{
