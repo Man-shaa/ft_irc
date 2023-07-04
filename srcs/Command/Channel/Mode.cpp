@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 16:53:35 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:54:33 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,38 @@ void	Server::mode_I(Client &client, std::string param, std::string &validModes, 
 void	Server::mode_O(Client &client, std::string param, std::string &validModes, int i, bool change)
 {
 	(void)client;
-	(void)param;
-	_channels[i]->setMode(change, 'o');
-	validModes += 'o';
+	if (!param.empty())
+	{
+		if (change == true)
+		{
+			_channels[i]->addModo(client);
+			std::vector<std::string> listOP = _channels[i]->getModoList();
+			std::string op;
+			for (std::vector<std::string>::const_iterator it = listOP.begin(); it != listOP.end(); ++it)
+			{
+				op += *it + " ";
+			}
+			std::cout << op << std::endl;
+		}
+		if (change == false)
+		{
+			_channels[i]->remModo(client);
+			std::vector<std::string> listOP = _channels[i]->getModoList();
+			std::string op;
+			for (std::vector<std::string>::const_iterator it = listOP.begin(); it != listOP.end(); ++it)
+			{
+				op += *it + " ";
+			}
+			std::cout << op << std::endl;
+		}
+		_channels[i]->setMode(change, 'o');
+		validModes += 'o';
+	}
+	else
+	{
+		std::string ERR_NEEDMOREPARAMS = "461 " + client.getNickname() + " MODE :User is missing\r\n";
+		send(client.getSocket(), ERR_NEEDMOREPARAMS.c_str(), ERR_NEEDMOREPARAMS.size(), 0);
+	}
 }
 
 void	Server::mode_L(Client &client, std::string param, std::string &validModes, int i, bool change)

@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/02 21:19:05 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:09:58 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 					return (1);
 				}
 				_channels[i]->addUser(client);
+				_channels[i]->addModo(client);
 				cmdJoinRPL(*it, client, i);
 				std::cout << BLUE << client.getNickname() << " intègre le channel déjà existant " << CLOSE << *it << std::endl;
 			}

@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/04 16:53:25 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:54:02 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ class	Channel
 		std::string					getPassword(void) const;
 		std::string					getTopic(void) const;
 		std::string 				getModeChannel(void) const;
-		std::vector<std::string>	getUsrList(void) const;
+		std::vector<std::string>	getUsrList(void);
+		std::vector<std::string>	getModoList(void) const;
 		int							getOwner(void) const;
 		bool						getSecured(void) const;
 
@@ -66,6 +67,20 @@ class	Channel
 		void						sendMsg(std::string msg, Client &user) const;
 		void						sendMode(std::string msg) const;
 		void						sendTopic(std::string msg, Client &user) const;
+		int							clientIsOp(int socket);
+
+	private:
+		
+		std::string					_creationTime;
+		std::string					_name;
+		std::string					_logMsg;
+		std::string					_topic;
+		std::string					_password;
+		bool						_secured;
+		int							_owner;
+		std::map<int, Client*> 		_usrList;
+		std::map<int, Client*>		_modoList;
+		std::map<char, bool> 		_mode;
 };
 
 #endif

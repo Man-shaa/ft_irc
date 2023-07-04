@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/07/04 16:52:09 by ccheyrou         ###   ########.fr       */
+/*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
+/*   Updated: 2023/07/04 16:54:28 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,11 @@ int	Channel::remUser(Client &user)
 	return (0);
 }
 
-void	Channel::remModo(Client &user)	{
+void	Channel::remModo(Client &user)
+{
     for (std::map<int, Client*>::iterator it = _modoList.begin(); it != _modoList.end(); ++it)
 	{
-        if (it->first != user.getSocket())
+        if (it->first == user.getSocket())
 		{
             _modoList.erase(it);
             break;
@@ -61,6 +62,18 @@ void	Channel::remModo(Client &user)	{
 	}
 	return ;
 }
+
+int		Channel::clientIsOp(int socket)
+{
+    for (std::map<int, Client*>::iterator it = _modoList.begin(); it != _modoList.end(); ++it)
+	{
+        if (it->first == socket)
+            return (1);
+	}
+			
+	return (0);
+}
+
 
 //MESSAGE MANAGEMENT
 
