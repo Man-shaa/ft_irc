@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:29:10 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 15:20:42 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:54:31 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 int		Server::cmdUser(std::vector<std::string> args, Client &client)
 {
 	//TODO Gérer le <realname> cf. https://modern.ircdocs.horse/#user-message
-	//TODO Gérer le ERR_ALREADYREGISTERED :  "<client> :You may not reregister"
-	// if ( == NULL)
-	// 	return (1);
 	if (client.getStatus() < PASSWORD)
 		return (1);
 	else if (client.getStatus() == CONNECT)

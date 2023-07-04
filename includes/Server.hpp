@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 14:02:48 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:58:37 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@
 # define MAX_CLIENTS 10
 # define MAX_CHANNEL 10
 # define BUFFER_SIZE 4096
+
+# define OPERPASS	"Admin1234!"
+# define OPERNAME	"admin"
 
 class Client;
 class Channel;
@@ -107,6 +110,10 @@ class Server
 		// NICK
 		int		cmdNickErrorHandling(std::vector<std::string> args, Client &client);
 		int		cmdNick(std::vector<std::string> args, Client &client);
+
+		// OPER
+		int		cmdOperErrorHandling(std::vector<std::string> args, Client &client);
+		int		cmdOper(std::vector<std::string> args, Client &client);
 
 		// USER
 		int		cmdUser(std::vector<std::string> args, Client &client);

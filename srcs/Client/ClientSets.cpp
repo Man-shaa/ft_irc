@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:50:20 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 15:19:25 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:53:50 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,9 @@ void	Client::setStatus(int status)
 void	Client::setUserName(std::string name)
 {
 	name = _userName;
+}
+
+void	Client::setModeLevel(int level)
+{
+	_modeLevel = level;
 }
