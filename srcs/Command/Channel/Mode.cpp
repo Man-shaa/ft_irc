@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 18:09:38 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 23:12:03 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 		if (change == true)
 		{
 			_channels[i]->addModo(client);
-			std::vector<std::string> listOP = _channels[i]->getModoList();
+			std::vector<std::string> listOP = _channels[i]->getOpeList();
 			std::string op;
 			for (std::vector<std::string>::const_iterator it = listOP.begin(); it != listOP.end(); ++it)
 			{
@@ -99,8 +99,8 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 		}
 		if (change == false)
 		{
-			_channels[i]->remModo(client);
-			std::vector<std::string> listOP = _channels[i]->getModoList();
+			_channels[i]->remOperator(client);
+			std::vector<std::string> listOP = _channels[i]->getOpeList();
 			std::string op;
 			for (std::vector<std::string>::const_iterator it = listOP.begin(); it != listOP.end(); ++it)
 			{

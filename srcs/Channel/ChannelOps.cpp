@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 19:14:06 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 22:56:29 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ void	Channel::addUser(Client &user)
 
 void	Channel::addModo(Client &user)
 {
-	_modoList[user.getSocket()] = &user;
+	_OpeList[user.getSocket()] = &user;
 	return;
 }
 
+// Remove [user] from this channel [usrList] and from the [OpeList] if user is an operator from this channel
 int	Channel::remUser(Client &user)	
 {
     for (std::map<int, Client*>::iterator it = _usrList.begin(); it != _usrList.end(); ++it)
@@ -33,6 +34,8 @@ int	Channel::remUser(Client &user)
         if (it->first == user.getSocket())
 		{
             _usrList.erase(it);
+			if (clientIsOp(user.getSocket()))
+				remOperator(user);
 			std::cout << "CHANNEL: " << ORANGE << user.getNickname() << " has been removed from the channel " << _name << "\n" << CLOSE << std::endl;		
             break;
 		}
@@ -43,13 +46,13 @@ int	Channel::remUser(Client &user)
 	return (0);
 }
 
-void	Channel::remModo(Client &user)
+void	Channel::remOperator(Client &user)
 {
-    for (std::map<int, Client*>::iterator it = _modoList.begin(); it != _modoList.end(); ++it)
+    for (std::map<int, Client*>::iterator it = _OpeList.begin(); it != _OpeList.end(); ++it)
 	{
         if (it->first == user.getSocket())
 		{
-            _modoList.erase(it);
+            _OpeList.erase(it);
             break;
 		}
 	}
@@ -59,7 +62,7 @@ void	Channel::remModo(Client &user)
 // Return 1 if the client identified by [socket] is an operator, 0 otherwise
 int		Channel::clientIsOp(int socket) const
 {
-    for (std::map<int, Client*>::const_iterator it = _modoList.begin(); it != _modoList.end(); ++it)
+    for (std::map<int, Client*>::const_iterator it = _OpeList.begin(); it != _OpeList.end(); ++it)
 	{
         if (it->first == socket)
             return (1);
@@ -121,4 +124,10 @@ void	Channel::sendTopic(std::string msg, Client &user) const
 	}
 
 	return ;
+}
+
+void	Channel::sendMsgToChannel(std::string msg) const
+{
+	for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
+		send(it->second->getSocket(), msg.c_str(), msg.size(), 0);
 }

@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:54:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 19:09:51 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 21:33:36 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	Server::doesChannelExist(std::string &name) const
 }
 
 // Return the channel [name] if it exist in server::_channels[MAX_CLIENTS] or NULL if it doesn't
-Channel	*Server::getChannelByName(std::string &name) const
+Channel	*Server::getChannelByName(std::string name) const
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
 	{
@@ -49,9 +49,9 @@ Channel	*Server::getChannelByName(std::string &name) const
 }
 
 // Return 1 if the client [clientName] is in the channel [channelName], 0 otherwise
-int	Server::isUserInChannel(std::string clientName, std::string &channelName) const
+int	Server::isUserInChannel(std::string clientName, std::string channelName) const
 {
-	Channel	*channel = getChannelByName(channelName);
+	Channel	*channel = this->getChannelByName(channelName);
 	if (!channel)
 		return (0);
 	std::vector<std::string> usrList = channel->getUsrList();
@@ -88,6 +88,18 @@ void	Server::printAllChannel() const
 		{
 			std::cout << _channels[i]->getName() << std::endl;
 			break;
+		}
+	}
+}
+
+void	Server::deleteUnusedChannel()
+{
+	for (int i = 0; i < MAX_CHANNEL; ++i)
+	{
+		if (_channels[i] && _channels[i]->getUserNumber() == 0)
+		{
+			delete _channels[i];
+			_channels[i] = NULL;
 		}
 	}
 }

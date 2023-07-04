@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 17:19:20 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 21:23:22 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ int Server::dataManagement()
 					break ;
 		}
 		socketToRemove();
-		//printAllClient();
+		deleteUnusedChannel();
 	}
 	return (0);
 }

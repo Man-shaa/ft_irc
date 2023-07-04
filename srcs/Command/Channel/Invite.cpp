@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:52:40 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/04 19:23:55 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 23:06:57 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,6 @@ int	Server::cmdInviteErrorHandling(std::vector<std::string> args, Client &client
 
 int	Server::cmdInvite(std::vector<std::string> args, Client &client)
 {
-	std::cout << "ARGS0 : " << args[0] << std::endl;
-	std::cout << "ARGS1 : " << args[1] << std::endl;
-
 	if (cmdInviteErrorHandling(args, client))
 		return (1);
 	std::cout << "NIQUE TA MERE ++" << std::endl;
@@ -75,6 +72,5 @@ int	Server::cmdInvite(std::vector<std::string> args, Client &client)
 	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 	answer = ":" + client.getNickname() + "@localhost INVITE " + args[0] + " " + args[1] + "\r\n"; // RPL_INVITING
 	send(c->getSocket(), answer.c_str(), answer.size(), 0);
-	std::cout << "----			FIN				---" << std::endl;
 	return (0);
 }
