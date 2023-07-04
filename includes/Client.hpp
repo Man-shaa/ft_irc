@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/03 16:01:48 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:19:35 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ class Client
 		pollfd				getPollStrc() const;
 		int					getId() const;
 
-		void				setNickname(std::string &name);
-		void				setFirstName(std::string &name);
-		void				setLastName(std::string &name);
-		void				setUserName(std::string &name);
+		void				setNickname(std::string name);
+		void				setFirstName(std::string name);
+		void				setLastName(std::string name);
+		void				setUserName(std::string name);
 		void				setStatus(int status);
 	
 		void				removeChannel(const Channel& channel);
