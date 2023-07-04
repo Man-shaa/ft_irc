@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 16:54:12 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 22:56:08 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ std::string	Channel::getName(void) const	{
 int	Channel::getOwner(void) const	{
 	
 	return (_owner);
+}
+
+int	Channel::getMaxUsr(void) const	{
+	
+	return (_maxUsr);
 }
 
 bool	Channel::getSecured(void) const	{
@@ -81,4 +86,9 @@ std::string Channel::getModeChannel(void) const
 			modes += it->first;
 	}
 	return (modes);
+}
+
+int    Channel::getUserNumber(void) const
+{
+    return (_usrList.size());
 }

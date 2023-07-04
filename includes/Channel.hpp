@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/04 16:56:02 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 22:55:53 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ class	Channel
 		std::string					_password;
 		bool						_secured;
 		int							_owner;
+		int							_maxUsr;
 		std::map<int, Client*> 		_usrList;
 		std::map<int, Client*>		_modoList;
 		std::map<char, bool> 		_mode;
@@ -51,6 +52,8 @@ class	Channel
 		std::vector<std::string>	getModoList(void) const;
 		int							getOwner(void) const;
 		bool						getSecured(void) const;
+		int    						getUserNumber(void) const;
+		int							getMaxUsr(void) const;
 
 
 		void						setLogMsg(std::string logMsg);
@@ -58,6 +61,7 @@ class	Channel
 		void 						setPassword(std::string password, bool change);
 		void						setSecured(bool	secured);
 		void						setMode(bool active, char i);
+		int							setMaxUsr(int maxUsr, bool change);
 
 
 		void						addUser(Client &user);

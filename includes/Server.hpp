@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 18:09:10 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 23:23:20 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,14 +149,15 @@ class Server
 		bool		isSign(char c);
 		std::string	parseMode(std::string mode);
 		bool 		containsUppercase(const std::string& param);
+		bool 		isDigits(const std::string& str);
 
-		int			handleModeUser(std::vector<std::string> args, Client &client);
 
 		std::vector<std::string>	listChannels(std::string chans);
 
 
 		//UTILS
 		void	printAllClient() const;
+		void	printAllChannel() const;
 };
 
 #endif
