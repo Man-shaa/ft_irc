@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/04 14:59:36 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:53:45 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ class Client
 		int					getModeLevel() const;
 		std::string			getModeLevelStr() const;
 
-		void				setNickname(std::string &name);
-		void				setFirstName(std::string &name);
-		void				setLastName(std::string &name);
-		void				setUserName(std::string &name);
+		void				setNickname(std::string name);
+		void				setFirstName(std::string name);
+		void				setLastName(std::string name);
+		void				setUserName(std::string name);
 		void				setStatus(int status);
 		void				setModeLevel(int status);
 	
