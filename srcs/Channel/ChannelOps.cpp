@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Channel_operations.cpp                             :+:      :+:    :+:   */
+/*   ChannelOps.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/02 16:45:43 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:08:14 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ void	Channel::remModo(Client &user)	{
             break;
 		}
 	}
-			
 	return ;
 }
-
 
 //MESSAGE MANAGEMENT
 

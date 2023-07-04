@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/02 16:24:06 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:04:03 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,23 @@
 
 class Client;
 
-class	Channel	{
+class	Channel
+{
+	private:
 	
+		std::string					_creationTime;
+		std::string					_name;
+		std::string					_logMsg;
+		std::string					_topic;
+		std::string					_password;
+		bool						_secured;
+		int							_owner;
+		std::map<int, Client*> 		_usrList;
+		std::map<int, Client*>		_modoList;
+		std::map<char, bool> 		_mode;
+
 	public:
+
 		Channel(); 
 		Channel(std::string name, Client& owner);
 		~Channel(void);
@@ -52,19 +66,6 @@ class	Channel	{
 		void						sendMsg(std::string msg, Client &user) const;
 		void						sendMode(std::string msg) const;
 		void						sendTopic(std::string msg, Client &user) const;
-
-	private:
-		
-		std::string					_creationTime;
-		std::string					_name;
-		std::string					_logMsg;
-		std::string					_topic;
-		std::string					_password;
-		bool						_secured;
-		int							_owner;
-		std::map<int, Client*> 		_usrList;
-		std::map<int, Client*>		_modoList;
-		std::map<char, bool> 		_mode;
 };
 
 #endif

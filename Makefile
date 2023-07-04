@@ -20,6 +20,7 @@ SRCS	 	=	main.cpp	\
 				Nick.cpp	\
 				Pass.cpp	\
 				User.cpp	\
+				Invite.cpp	\
 				Join.cpp	\
 				Mode.cpp	\
 				Topic.cpp	\
