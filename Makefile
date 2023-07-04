@@ -30,7 +30,8 @@ SRCS	 	=	main.cpp			\
 				Command.cpp			\
 				Server.cpp			\
 				ServerChannels.cpp	\
-				ServerClients.cpp
+				ServerClients.cpp	\
+				Part.cpp
 
 OBJS		=	$(SRCS:%.cpp=${OBJ_DIR}/%.o)
 

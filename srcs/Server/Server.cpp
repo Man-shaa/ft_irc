@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 15:55:23 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:19:20 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ int	Server::manageClientMsg()
 	{
 		std::string command(buffer, bytesRead);
 		buffer[bytesRead] = '\0';
-		std::cout << "Message reçu du client " << _fd << ": " << buffer << std::endl;
+		std::cout << BLUE "RECEIVED from irssi from " << _fd << ": " << CLOSE << buffer << std::endl;
 
 		std::size_t startpos = 0;
 		std::size_t endpos = command.find("\r\n", startpos);
@@ -226,12 +226,21 @@ int Server::dataManagement()
 	return (0);
 }
 
+// void	Server::initTarg(Client &client)
+// {
+// 	std::string TARGMAX =  "TARGMAX=PRIVMSG:3,WHOIS:1,JOIN:1,KICK:1,NAMES:1\r\n";
+// 	send(client.getSocket(), TARGMAX.c_str(), TARGMAX.size(), 0);
+// 	std::string CHANMODES =  "CHANMODES=,ko,,ti\r\n";
+// 	send(client.getSocket(), CHANMODES.c_str(), CHANMODES.size(), 0);
+// }
+
 int Server::start(int port, std::string password) 
 {
 	_port = port;
 	_password = password;
 	serverManagement();
 	initCmd();
+	initMode();
 	dataManagement();
 	close(_sockets[0]);
 	return 0;

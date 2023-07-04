@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 14:30:39 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:52:21 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	Server::initCmd()
 	_mapFcts["NICK"] = &Server::cmdNick;
 	_mapFcts["USER"] = &Server::cmdUser;
 	_mapFcts["JOIN"] = &Server::cmdJoin;
+	_mapFcts["PART"] = &Server::cmdPart;
 	_mapFcts["MODE"] = &Server::cmdMode;
 	_mapFcts["PING"] = &Server::cmdPing;
 	_mapFcts["TOPIC"] = &Server::cmdTopic;

@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/02 16:30:13 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:09:58 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 			{
 				channelExist = true;
 				
-				std::cout << "lol" << std::endl;
 				if ((_channels[i]->getSecured() == true && (args.size() == 1 || args[1] != _channels[i]->getPassword())))
 				{
 					std::string ERR_BADCHANNELKEY = "475 " + client.getNickname() + " " + args[0] + " :Cannot join channel (+k)\r\n";
@@ -67,6 +66,7 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 					return (1);
 				}
 				_channels[i]->addUser(client);
+				_channels[i]->addModo(client);
 				cmdJoinRPL(*it, client, i);
 				std::cout << BLUE << client.getNickname() << " intègre le channel déjà existant " << CLOSE << *it << std::endl;
 			}
@@ -75,7 +75,7 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 		if (!channelExist)
 		{
 			createChannel(*it, client);
-			std::cout << GREEN << client.getNickname() << " a crée un nouveau channel " << CLOSE << *it << std::endl;
+			std::cout << "CLIENT: " << GREEN << client.getNickname() << " a crée un nouveau channel " << CLOSE << *it << "\n" << std::endl;
 			cmdJoinRPL(*it, client, i);
 		}
 	}

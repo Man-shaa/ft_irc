@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 15:58:37 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 18:09:10 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ class Channel;
 class Server
 {
 	typedef int (Server::*cmdFct)(std::vector<std::string>, Client &);
-	typedef void (Server::*modeFct)(Client &, std::vector<std::string>, std::string &, int, bool);
+	typedef void (Server::*modeFct)(Client &, std::string, std::string &, int, bool);
 	
 	private:
 		std::string 						_serverName;
@@ -100,6 +100,7 @@ class Server
 
 		//CHANNEL MANAGEMENT
 		void 	createChannel(std::string channelName, Client &client);
+		void	delChannel(std::string channelName);
 		int		doesChannelExist(std::string &name) const;
 		Channel	*getChannelByName(std::string &name) const;
 		int		isUserInChannel(std::string clientName, std::string &channelName) const;
@@ -122,6 +123,7 @@ class Server
 		int		cmdJoinRPL(std::string channel, Client &client, int index);
 		int		cmdPing(std::vector<std::string> args, Client &client);
 		int		cmdPass(std::vector<std::string> args, Client &client);
+		int		cmdPart(std::vector<std::string> args, Client &client);
 
 		// INVITE
 		int		cmdInviteErrorHandling(std::vector<std::string> args, Client &client);
@@ -131,22 +133,30 @@ class Server
 		int		usedNickname(std::string &name) const;
 		int		cmdPrivmsg(std::vector<std::string> args, Client &client);
 		int		cmdTopic(std::vector<std::string> args, Client &client);
-	
-		//MODE CMD
+		
 		int			cmdMode(std::vector<std::string> args, Client &client);
 		void		initMode();
-		std::string	toggleChannelMode(Client &client, std::vector<std::string> args, unsigned long pos, int i, bool change);
-		std::string	channelMode(Client &client, std::vector<std::string> args, int i);
-		void		mode_K(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
-		void		mode_T(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
-		void		mode_I(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
-		void		mode_O(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+		std::string	checkArg(Client &client, std::vector<std::string> args, int i);
+		std::string	toggleChannelMode(Client &client, char mode, std::string param, int i, bool change);
+		std::string	channelMode(Client &client, std::map<std::string, std::string> args, int i);
+		void		mode_K(Client &client, std::string param, std::string &validModes, int i, bool change);
+		void		mode_T(Client &client, std::string param, std::string &validModes, int i, bool change);
+		void		mode_I(Client &client, std::string param, std::string &validModes, int i, bool change);
+		void		mode_O(Client &client, std::string param, std::string &validModes, int i, bool change);
+		void		mode_L(Client &client, std::string param, std::string &validModes, int i, bool change);
+		bool    	isParNeededMode(std::string mode);
+		bool    	isValidChanMode(std::string mode);
+		bool		isSign(char c);
+		std::string	parseMode(std::string mode);
+		bool 		containsUppercase(const std::string& param);
 
 		int			handleModeUser(std::vector<std::string> args, Client &client);
 
+		std::vector<std::string>	listChannels(std::string chans);
+
+
 		//UTILS
 		void	printAllClient() const;
-		void	printAllChannel() const;
 };
 
 #endif

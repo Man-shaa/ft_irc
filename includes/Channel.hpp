@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/03 21:04:03 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:56:02 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,28 @@ class	Channel
 		std::string					getPassword(void) const;
 		std::string					getTopic(void) const;
 		std::string 				getModeChannel(void) const;
-		std::vector<std::string>	getUsrList(void) const;
+		std::vector<std::string>	getUsrList(void);
+		std::vector<std::string>	getModoList(void) const;
 		int							getOwner(void) const;
 		bool						getSecured(void) const;
 
 
 		void						setLogMsg(std::string logMsg);
 		int							setTopic(std::string topic, Client &user);
-		void 						setPassword(std::string password);
+		void 						setPassword(std::string password, bool change);
 		void						setSecured(bool	secured);
 		void						setMode(bool active, char i);
 
 
 		void						addUser(Client &user);
 		void						addModo(Client &user);
-		void						remUser(Client &user);
+		int							remUser(Client &user);
 		void						remModo(Client &user);
 		void						sendMsg(std::string msg, Client &user) const;
 		void						sendMode(std::string msg) const;
 		void						sendTopic(std::string msg, Client &user) const;
+		int							clientIsOp(int socket);
+
 };
 
 #endif
