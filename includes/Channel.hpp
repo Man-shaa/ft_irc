@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/04 16:50:32 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:53:25 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ class	Channel
 
 		void						setLogMsg(std::string logMsg);
 		int							setTopic(std::string topic, Client &user);
-		void 						setPassword(std::string password);
+		void 						setPassword(std::string password, bool change);
 		void						setSecured(bool	secured);
 		void						setMode(bool active, char i);
 
