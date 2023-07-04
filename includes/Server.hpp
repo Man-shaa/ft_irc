@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 14:39:05 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:56:01 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 # define BUFFER_SIZE 4096
 
 # define OPERPASS	"Admin1234!"
+# define OPERNAME	"admin"
 
 class Client;
 class Channel;
