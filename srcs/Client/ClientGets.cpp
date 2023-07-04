@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:50:00 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 16:01:12 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 14:26:20 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,19 @@ int	Client::getStatus() const
 pollfd	Client::getPollStrc() const
 {
 	return (_fds_clt);
+}
+
+int	Client::getModeLevel() const
+{
+	return (_modeLevel);
+}
+
+std::string	Client::getModeLevelStr() const
+{
+	std::string	str;
+	if (_modeLevel == USER)
+		str = "+r";
+	else if (_modeLevel == OPERATOR)
+		str = "+o";
+	return (str);
 }
