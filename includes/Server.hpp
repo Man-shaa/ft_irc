@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 21:26:21 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:59:36 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,21 @@ class Server
 
 		//COMMAND MANAGEMENT
 		void	initCmd();
+
+		// NICK
+		int		cmdNickErrorHandling(std::vector<std::string> args, Client &client);
 		int		cmdNick(std::vector<std::string> args, Client &client);
+
+		// USER
 		int		cmdUser(std::vector<std::string> args, Client &client);
+
 		int		cmdJoin(std::vector<std::string> args, Client &client);
 		int		cmdJoinRPL(std::string channel, Client &client, int index);
 		int		cmdPing(std::vector<std::string> args, Client &client);
 		int		cmdPass(std::vector<std::string> args, Client &client);
+
+		// INVITE
+		int		cmdInviteErrorHandling(std::vector<std::string> args, Client &client);
 		int		cmdInvite(std::vector<std::string> args, Client &client);
 		
 		int		parseNickname(std::string &name) const;

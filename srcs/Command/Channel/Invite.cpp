@@ -6,16 +6,14 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:52:40 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/03 22:31:32 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:59:39 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-int	Server::cmdInvite(std::vector<std::string> args, Client &client)
+int	Server::cmdInviteErrorHandling(std::vector<std::string> args, Client &client)
 {
-	std::cout << "ARGS0 : " << args[0] << std::endl;
-	std::cout << "ARGS1 : " << args[1] << std::endl;
 	if (args.size() < 2)
 	{
 		std::cout << "NIQUE TON PERE ++" << std::endl;
@@ -44,15 +42,22 @@ int	Server::cmdInvite(std::vector<std::string> args, Client &client)
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 		return (1);
 	}
-	else
-	{
-		std::cout << "NIQUE TA MERE ++" << std::endl;
-		std::string answer = "341 :" + client.getNickname() + "@localhost " + args[0] + " " + args[1] + "\r\n"; // RPL_INVITING
-		Client	*c = getClientByName(args[0]);
-		send(client.getSocket(), answer.c_str(), answer.size(), 0);
-		answer = ":" + client.getNickname() + "@localhost INVITE " + args[0] + " " + args[1] + "\r\n"; // RPL_INVITING
-		send(c->getSocket(), answer.c_str(), answer.size(), 0);
-	}
+	return (0);
+}
+
+int	Server::cmdInvite(std::vector<std::string> args, Client &client)
+{
+	std::cout << "ARGS0 : " << args[0] << std::endl;
+	std::cout << "ARGS1 : " << args[1] << std::endl;
+
+	if (cmdInviteErrorHandling(args, client))
+		return (1);
+	std::cout << "NIQUE TA MERE ++" << std::endl;
+	std::string answer = "341 :" + client.getNickname() + "@localhost " + args[0] + " " + args[1] + "\r\n"; // RPL_INVITING
+	Client	*c = getClientByName(args[0]);
+	send(client.getSocket(), answer.c_str(), answer.size(), 0);
+	answer = ":" + client.getNickname() + "@localhost INVITE " + args[0] + " " + args[1] + "\r\n"; // RPL_INVITING
+	send(c->getSocket(), answer.c_str(), answer.size(), 0);
 	std::cout << "----			FIN				---" << std::endl;
 	return (0);
 }
