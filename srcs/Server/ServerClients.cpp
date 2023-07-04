@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:55:37 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 16:14:25 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/04 19:22:47 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	Server::printAllClient() const
 	}
 }
 
-// Return a pointer to the client which have a [_socketFd] matching [fd]
+// Return a pointer to the client which have a [_socketFd] matching [fd] or NULL
 Client	*Server::getClientByFd(int fd) const
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)
@@ -63,6 +63,7 @@ Client	*Server::getClientByFd(int fd) const
 	return (NULL);
 }
 
+// Return a pointer to the client which have a [_nickname] matching [nickname] or NULL
 Client	*Server::getClientByName(std::string nickname) const
 {
 	for (int i = 0; i < MAX_CLIENTS; ++i)

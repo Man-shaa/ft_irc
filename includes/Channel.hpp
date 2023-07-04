@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/04 16:56:02 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 18:59:16 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@
 # include <ctime>
 # include "Client.hpp"
 
-
 class Client;
 
 class	Channel
 {
 	private:
-	
+
 		std::string					_creationTime;
 		std::string					_name;
 		std::string					_logMsg;
@@ -52,13 +51,11 @@ class	Channel
 		int							getOwner(void) const;
 		bool						getSecured(void) const;
 
-
 		void						setLogMsg(std::string logMsg);
 		int							setTopic(std::string topic, Client &user);
 		void 						setPassword(std::string password, bool change);
 		void						setSecured(bool	secured);
 		void						setMode(bool active, char i);
-
 
 		void						addUser(Client &user);
 		void						addModo(Client &user);
@@ -67,8 +64,8 @@ class	Channel
 		void						sendMsg(std::string msg, Client &user) const;
 		void						sendMode(std::string msg) const;
 		void						sendTopic(std::string msg, Client &user) const;
-		int							clientIsOp(int socket);
-
+		int							clientIsOp(int socket) const;
+		int							isChannelInviteOnly() const;
 };
 
 #endif
