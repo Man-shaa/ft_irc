@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Channel_getters.cpp                                :+:      :+:    :+:   */
+/*   ChannelGets.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/02 16:44:19 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:21:46 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,25 @@ std::string	Channel::getTopic(void) const	{
 	return (_topic);
 }
 
-std::vector<std::string> Channel::getUsrList(void) const
+std::vector<std::string> Channel::getModoList(void) const
+{
+	std::vector<std::string> modoNames;
+	
+	for (std::map<int, Client*>::const_iterator it = _modoList.begin(); it != _modoList.end(); ++it)
+	{
+		modoNames.push_back((it->second)->getNickname());
+	}
+	
+	return (modoNames);
+}
+
+std::vector<std::string> Channel::getUsrList(void)
 {
 	std::vector<std::string> usrNames;
 	
 	for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
 	{
-		if ((it->first) == _owner)
+		if (clientIsOp(it->first))
 		{
 			usrNames.push_back("@" + (it->second)->getNickname());
 		}
