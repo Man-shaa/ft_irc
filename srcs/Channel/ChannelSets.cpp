@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Channel_setters.cpp                                :+:      :+:    :+:   */
+/*   ChannelSets.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:42 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/02 16:44:57 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 12:25:09 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,12 @@ int	Channel::setTopic(std::string topic, Client &user)
 	return (1);
 }
 
-void	Channel::setPassword(std::string password) {
-	_password = password;
+void	Channel::setPassword(std::string password, bool change)
+{
+	if (change == false)
+		_password = "";
+	else
+		_password = password;
 }
 
 void	Channel::setSecured(bool secured) {

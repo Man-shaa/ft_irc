@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 17:45:04 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:07:28 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,117 +18,142 @@ void	Server::initMode()
 	_modeFcts['t'] = &Server::mode_T;
 	_modeFcts['i'] = &Server::mode_I;
 	_modeFcts['o'] = &Server::mode_O;
+	_modeFcts['l'] = &Server::mode_L;
 }
 
-void Server::mode_K(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change)
+bool Server::containsUppercase(const std::string& param)
 {
-	if (args.size() == 3)
+    for (std::size_t i = 0; i < param.length(); ++i) {
+        if (std::isupper(param[i])) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Server::mode_K(Client &client, std::string param, std::string &validModes, int i, bool change)
+{
+	std::cout << "param: " << param << std::endl;
+	if (!param.empty())
 	{
 		//On doit donner le bon mot de passe pour le supprimer
-		if (change == false && _channels[i]->getPassword() != args[2])
+		if (change == false && _channels[i]->getPassword() != param)
 		{
-			std::string ERR_INVALIDMODEPARAM = "696 " + client.getNickname() + " " + args[0] + " k " + args[2] + " :Wrong password\r\n";
+			std::string ERR_INVALIDMODEPARAM = "696 " + client.getNickname() + " " + _channels[i]->getName() + " k " + param + " :Wrong password\r\n";
 			send(client.getSocket(), ERR_INVALIDMODEPARAM.c_str(), ERR_INVALIDMODEPARAM.size(), 0);
 		}
 		//On doit vérifier le format du passsword est valide
-		else if (change == true && args[2].find_first_of(" ") != std::string::npos)
+		else if (change == true && (param.size() < 6 || !containsUppercase(param)))
 		{
-			std::string ERR_INVALIDKEY = "525 " + client.getNickname() + " " + args[0] + " :Key is not well-formed\r\n";
+			std::string ERR_INVALIDKEY = "525 " + client.getNickname() + " " + _channels[i]->getName() + " :Your password must be at least 6 characters long and must contain at least one uppercase.\r\n";
 			send(client.getSocket(), ERR_INVALIDKEY.c_str(), ERR_INVALIDKEY.size(), 0);
 		}
 		else
 		{
 			_channels[i]->setMode(change, 'k');
-			_channels[i]->setPassword(args[2]);
+			_channels[i]->setPassword(param, change);
 			_channels[i]->setSecured(change);
 			validModes += 'k';
+			change == false ? std::cout << "Password is set: " << param << "\n" << std::endl : std::cout << "Password is unset: " << param << "\n" << std::endl;
 		}
+		
+	}
+	else
+	{
+		std::string ERR_NEEDMOREPARAMS = "461 " + client.getNickname() + " MODE :Password is missing\r\n";
+		send(client.getSocket(), ERR_NEEDMOREPARAMS.c_str(), ERR_NEEDMOREPARAMS.size(), 0);
 	}
 }
 
-void	Server::mode_T(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change)
+void	Server::mode_T(Client &client, std::string param, std::string &validModes, int i, bool change)
 {
 	(void)client;
-	(void)args;
+	(void)param;
 	_channels[i]->setMode(change, 't');
 	validModes += 't';
 }
 
-void	Server::mode_I(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change)
+void	Server::mode_I(Client &client, std::string param, std::string &validModes, int i, bool change)
 {
 	(void)client;
-	(void)args;
+	(void)param;
 	_channels[i]->setMode(change, 'i');
 	validModes += 'i';
 }
 
-void	Server::mode_O(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change)
+void	Server::mode_O(Client &client, std::string param, std::string &validModes, int i, bool change)
 {
 	(void)client;
-	(void)args;
+	(void)param;
 	_channels[i]->setMode(change, 'o');
 	validModes += 'o';
 }
 
-
-std::string	Server::toggleChannelMode(Client &client, std::vector<std::string> args, unsigned long pos, int i, bool change)
+void	Server::mode_L(Client &client, std::string param, std::string &validModes, int i, bool change)
 {
-	//TODO: Pf pour la gestion des différents modes
+	(void)client;
+	(void)param;
+	_channels[i]->setMode(change, 'l');
+	validModes += 'l';
+}
+
+
+std::string	Server::toggleChannelMode(Client &client, char mode, std::string param, int i, bool change)
+{
 	std::string validModes;
-	std::string modes = args[1].substr(pos);
-	
-	while (pos < args[1].size())
-	{
-		modeFct fPtr = _modeFcts[modes[0]];
-		if (fPtr)
-			(this->*fPtr)(client, args, validModes, i, change);
-		pos++;
-		modes = args[1].substr(pos);
-	}
-	if (!validModes.empty())
-		(change == false) ? validModes.insert(0, "-") : validModes.insert(0, "+");
+
+	modeFct fPtr = _modeFcts[mode];
+	if (fPtr)
+		(this->*fPtr)(client, param, validModes, i, change);
 	return (validModes);
 }
 
-/*std::string	Server::channelMode(Client &client, std::vector<std::string> args, int i)
+std::string	Server::channelMode(Client &client, std::map<std::string, std::string> args, int i)
 {
-	std::string::size_type addPos = args[1].rfind('+');
-	std::string::size_type delPos = args[1].rfind('-');
-	std::string modes;
-	
-	if (addPos != std::string::npos)
-		modes += toggleChannelMode(client, args, ++addPos, i, true);
-	if (delPos != std::string::npos)
-		modes += toggleChannelMode(client, args, ++delPos, i, false);
-	
-	return (modes);
-}*/
+	std::string addModes;
+	std::string delModes;
+	for (std::map<std::string, std::string>::const_iterator it = args.begin(); it != args.end(); ++it)
+	{
+		if ((it->first)[0] == '+')
+			addModes += toggleChannelMode(client, (it->first)[1], it->second, i, true);
+		if ((it->first)[0] == '-')
+			delModes += toggleChannelMode(client, (it->first)[1], it->second, i, false);
+	}
+	if (!addModes.empty())
+		addModes.insert(0, "+");
+	if (!delModes.empty())
+		delModes.insert(0, "-");
+	return (addModes + delModes);
+}
 
-bool Server::isSign(char c)    {
+bool Server::isSign(char c)
+{
     if (c == '-' || c == '+')
         return (true);
     return (false);
 }
 
-bool    isValidChanMode(std::string mode)    {
-    if (mode == "+i" || mode == "+t" || mode == "+k" || mode == "+o" || mode == "+l" || mode == "-i" || mode == "-t" || mode == "-k" || mode == "-o" || mode == "-l")
-        return (true);
-    return false;
+bool    Server::isValidChanMode(std::string mode)
+{
+	if (mode == "+i" || mode == "+t" || mode == "+k" || mode == "+o" || mode == "+l" || mode == "-i" || mode == "-t" || mode == "-k" || mode == "-o" || mode == "-l")
+		return (true);
+	return false;
 }
 
-bool    isParNeededMode(std::string mode)    {
-    if (mode == "+k" || mode == "+o" || mode == "+l" || mode == "-o")
-        return true;
-    return (false);
+bool    Server::isParNeededMode(std::string mode)
+{
+	if (mode == "+k" || mode == "+o" || mode == "+l" || mode == "-o" || mode == "-k")
+		return true;
+	return (false);
 } 
 
 std::string	Server::parseMode(std::string mode)
 {
 	std::string	toExec;
 	const char	*m = mode.c_str();
+    char    latestSign = '\0';
     while (*m)    
 	{
-        char    latestSign;
         if (isSign(*m))
             latestSign = *m; 
         else if (!isSign(*m) && *(m + 1) != '\0')
@@ -141,37 +166,43 @@ std::string	Server::parseMode(std::string mode)
 	return(toExec);
 }
 
-void	Server::checkArg(std::vector<std::string> args)
+std::string	Server::checkArg(Client &client, std::vector<std::string> args, int i)
 {
 	std::map<std::string, std::string> modes;
 	std::string params;
+	size_t j = 2;
 
 	std::istringstream	issm(parseMode(args[1]));
 	std::string			tokenm;
 	int					mNb = 0, pNb = 0;
 	while (issm >> tokenm)    
 	{
-		if (pNb > 3)
-			return (1);
-		else if (!isValidChanMode(tokenm))
+		if (!isValidChanMode(tokenm))
 		{
 			std::string ERR_UMODEUNKNOWNFLAG = "501 " + client.getNickname() + " :Unknown MODE flag\r\n";
 			send(client.getSocket(), ERR_UMODEUNKNOWNFLAG.c_str(), ERR_UMODEUNKNOWNFLAG.size(), 0);
-			return (1);
+			return ("");
 		}
 		else
 		{
 			if (isParNeededMode(tokenm))
 			{
-				//parametre separe par un ,
-				if (args.size() == 2 && args[2].find(',') != std::string::npos)
-					
-				_mode[tokenm] = true;
-				pNb++;
+				if (args.size() > j)
+				{
+					modes[tokenm] = args[j];
+					j++;
+					pNb++;
+				}
+				else
+					modes[tokenm] = "";
 			}
+			else
+				modes[tokenm] = "";
 			mNb++;
 		}
 	}
+		
+	return (channelMode(client, modes, i));
 }
 
 int	Server::cmdMode(std::vector<std::string> args, Client &client)
@@ -194,7 +225,7 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 		//Si le channel n'existe pas, on retourne un msg d'erreur
 		if (!channelExist)
 		{
-			std::string ERR_NOSUCHCHANNEL = "403 " + client.getNickname() + ":No such channel\r\n";
+			std::string ERR_NOSUCHCHANNEL = "403 " + client.getNickname() + " :No such channel\r\n";
 			send(client.getSocket(), ERR_NOSUCHCHANNEL.c_str(), ERR_NOSUCHCHANNEL.size(), 0);
 			return (0);
 		}
@@ -221,7 +252,7 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 			//Channel valide + modestring, on vérifie check les modes a set ou unset		
 			//Puis on envoie les nouveaux modes a tout les utilisateurs
 				//_channels[i]->sendMode(channelMode(client, args, i));
-				checkArg(args);
+				_channels[i]->sendMode(checkArg(client, args, i));
 			}
 		}
 	}

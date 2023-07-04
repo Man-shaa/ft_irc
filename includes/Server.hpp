@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 17:45:15 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:07:42 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ class Channel;
 class Server
 {
 	typedef int (Server::*cmdFct)(std::vector<std::string>, Client &);
-	typedef void (Server::*modeFct)(Client &, std::vector<std::string>, std::string &, int, bool);
+	typedef void (Server::*modeFct)(Client &, std::string, std::string &, int, bool);
 	
 	private:
 		std::string 						_serverName;
@@ -117,13 +117,20 @@ class Server
 		
 		int			cmdMode(std::vector<std::string> args, Client &client);
 		void		initMode();
-		void		checkArg(std::vector<std::string> args);
-		std::string	toggleChannelMode(Client &client, std::vector<std::string> args, unsigned long pos, int i, bool change);
-		std::string	channelMode(Client &client, std::vector<std::string> args, int i);
-		void		mode_K(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
-		void		mode_T(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
-		void		mode_I(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
-		void		mode_O(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+		std::string	checkArg(Client &client, std::vector<std::string> args, int i);
+		std::string	toggleChannelMode(Client &client, char mode, std::string param, int i, bool change);
+		std::string	channelMode(Client &client, std::map<std::string, std::string> args, int i);
+		void		mode_K(Client &client, std::string param, std::string &validModes, int i, bool change);
+		void		mode_T(Client &client, std::string param, std::string &validModes, int i, bool change);
+		void		mode_I(Client &client, std::string param, std::string &validModes, int i, bool change);
+		void		mode_O(Client &client, std::string param, std::string &validModes, int i, bool change);
+		void		mode_L(Client &client, std::string param, std::string &validModes, int i, bool change);
+		bool    	isParNeededMode(std::string mode);
+		bool    	isValidChanMode(std::string mode);
+		bool		isSign(char c);
+		std::string	parseMode(std::string mode);
+		bool 		containsUppercase(const std::string& param);
+
 
 		std::vector<std::string>	listChannels(std::string chans);
 
