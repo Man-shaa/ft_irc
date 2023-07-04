@@ -6,17 +6,11 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 16:54:28 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:14:05 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
-
-
-
 #include "Channel.hpp"
-
 
 //MEMBER MANAGEMENT
 

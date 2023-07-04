@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 16:54:33 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:15:44 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,8 @@ std::string	Server::channelMode(Client &client, std::map<std::string, std::strin
 		addModes.insert(0, "+");
 	if (!delModes.empty())
 		delModes.insert(0, "-");
+
+	std::cout << (addModes + delModes) << std::endl;
 	return (addModes + delModes);
 }
 

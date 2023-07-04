@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 17:01:12 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/03 17:45:11 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:23:35 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	Server::cmdPart(std::vector<std::string> args, Client &client)
 	
 	if (args.size() >= 2 && !args[1].empty())
 		reason = args[1];
-
 	for (std::vector<std::string>::const_iterator it = listChannel.begin(); it != listChannel.end(); ++it)
 	{
 		bool 		channelExist = false;

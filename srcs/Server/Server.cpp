@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 16:52:33 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 17:19:20 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,7 @@ int Server::start(int port, std::string password)
 	_password = password;
 	serverManagement();
 	initCmd();
+	initMode();
 	dataManagement();
 	close(_sockets[0]);
 	return 0;
