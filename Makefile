@@ -7,6 +7,7 @@ INC_DIR		=	$(shell find includes -type d)
 vpath %.cpp $(foreach dir, $(SRC_DIR), $(dir):)
 vpath %.hpp $(foreach dir, $(INC_DIR), $(dir):)
 
+<<<<<<< HEAD
 SRCS	 	=	main.cpp			\
 				Channel.cpp			\
 				ChannelGets.cpp		\
@@ -30,6 +31,29 @@ SRCS	 	=	main.cpp			\
 				Ping.cpp			\
 				Command.cpp			\
 				Server.cpp			\
+=======
+SRCS	 	=	main.cpp	\
+				Channel.cpp	\
+				ChannelGets.cpp	\
+				ChannelOps.cpp \
+				ChannelSets.cpp \
+				Client.cpp	\
+				ClientGets.cpp	\
+				ClientOps.cpp	\
+				ClientSets.cpp \
+				ClientUtils.cpp	\
+				Nick.cpp	\
+				Pass.cpp	\
+				User.cpp	\
+				Join.cpp	\
+				Mode.cpp	\
+				Topic.cpp	\
+				Privmsg.cpp	\
+				ModeUser.cpp	\
+				Ping.cpp	\
+				Command.cpp	\
+				Server.cpp	\
+>>>>>>> 572949c ([WIP] Mode User (deso j'avais pas vu que je suis sur le main UwU))
 				ServerChannels.cpp	\
 				ServerClients.cpp	\
 				Part.cpp

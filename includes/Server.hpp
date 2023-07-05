@@ -6,7 +6,11 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/07/05 15:26:27 by msharifi         ###   ########.fr       */
+=======
+/*   Updated: 2023/07/03 17:56:37 by msharifi         ###   ########.fr       */
+>>>>>>> 572949c ([WIP] Mode User (deso j'avais pas vu que je suis sur le main UwU))
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +112,7 @@ class Server
 		int			isUserInChannel(std::string clientName, std::string channelName) const;
 
 		//COMMAND MANAGEMENT
+<<<<<<< HEAD
 		void		initCmd();
 
 		// NICK
@@ -167,6 +172,32 @@ class Server
 
 		// PING
 		int			cmdPing(std::vector<std::string> args, Client &client);
+=======
+		void	initCmd();
+		int		cmdNick(std::vector<std::string> args, Client &client);
+		int		cmdUser(std::vector<std::string> args, Client &client);
+		int		cmdJoin(std::vector<std::string> args, Client &client);
+		int		cmdJoinRPL(std::string channel, Client &client, int index);
+		int		cmdPing(std::vector<std::string> args, Client &client);
+		int		cmdPass(std::vector<std::string> args, Client &client);
+		
+		int		parseNickname(std::string &name) const;
+		int		usedNickname(std::string &name) const;
+		int		cmdPrivmsg(std::vector<std::string> args, Client &client);
+		int		cmdTopic(std::vector<std::string> args, Client &client);
+	
+		//MODE CMD
+		int			cmdMode(std::vector<std::string> args, Client &client);
+		void		initMode();
+		std::string	toggleChannelMode(Client &client, std::vector<std::string> args, unsigned long pos, int i, bool change);
+		std::string	channelMode(Client &client, std::vector<std::string> args, int i);
+		void		mode_K(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+		void		mode_T(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+		void		mode_I(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+		void		mode_O(Client &client, std::vector<std::string> args, std::string &validModes, int i, bool change);
+
+		int			handleModeUser(std::vector<std::string> args, Client &client);
+>>>>>>> 572949c ([WIP] Mode User (deso j'avais pas vu que je suis sur le main UwU))
 
 		//UTILS
 		void		printAllClient() const;

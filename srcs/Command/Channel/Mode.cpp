@@ -6,7 +6,11 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/07/04 20:55:52 by msharifi         ###   ########.fr       */
+=======
+/*   Updated: 2023/07/03 17:54:35 by msharifi         ###   ########.fr       */
+>>>>>>> 572949c ([WIP] Mode User (deso j'avais pas vu que je suis sur le main UwU))
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,7 +245,7 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 	// MODE CHANNEL
 	bool 	channelExist = false;
 	int		i;
-	
+
 	if (args[0][0] == '#')
 	{
 		//Récupere le channel
@@ -287,5 +291,8 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 			}
 		}
 	}
+	else
+		if (handleModeUser(args, client))
+			return (1);
 	return (0);
 }
