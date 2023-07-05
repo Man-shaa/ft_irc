@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:52:40 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/05 15:55:59 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:37:37 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	Server::cmdInviteErrorHandling(std::vector<std::string> args, Client &client
 			send(client.getSocket(), answer.c_str(), answer.size(), 0);
 			return (1);
 		}
+		getClientByName(args[0])->addInvitedChannel(args[1]);
 	}
 	return (0);
 }

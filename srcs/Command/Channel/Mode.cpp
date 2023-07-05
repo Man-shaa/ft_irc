@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 16:43:00 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 18:03:04 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,9 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 	if (!param.empty())
 	{
 		if (change == true)
-			_channels[i]->addModo(client);
+			_channels[i]->addModo(*getClientByName(param));
 		if (change == false)
-			_channels[i]->remOperator(client);
+			_channels[i]->remOperator(*getClientByName(param));
 		
 		//RPL_NAMREPLY sent to client
 		std::vector<std::string> listUsr = _channels[i]->getUsrList();

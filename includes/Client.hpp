@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/04 18:47:00 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:24:01 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ class Client
 		int							_modeLevel;
 		int							_id;
 		std::vector<Channel*>		_channels;
+		std::vector<std::string>	_invitedChannels;
 		struct 						pollfd _fds_clt;
 		
 
@@ -97,8 +98,10 @@ class Client
 		void				setStatus(int status);
 		void				setModeLevel(int status);
 	
-		void				removeChannel(const Channel& channel);
 		void				addChannel(Channel& channel);
+		void				addInvitedChannel(std::string channelName);
+		void				removeChannel(const Channel& channel);
+		int					isClientInvited(std::string channelName) const;
 
 		void							printAllClientChannel() const;
 		int								isClientInChannel(std::string channel) const;
