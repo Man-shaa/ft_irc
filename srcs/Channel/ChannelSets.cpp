@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:42 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 22:56:01 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:23:10 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,13 @@ void	Channel::setLogMsg(std::string logMsg) {
 int	Channel::setTopic(std::string topic, Client &user) 
 {	
 	if (_mode['t'] == false || (clientIsOp(user.getSocket()) && _mode['t'] == true ))
+	{
+		std::stringstream ss;
+		std::time_t now = std::time(0);
+		ss << now;
+		_setat = ss.str();
 		return(_topic = topic, 1);
+	}
 	else
 		return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 19:28:11 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/05 15:56:34 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:17:44 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	Server::cmdKick(std::vector<std::string> args, Client &client)
 		answer = ":" + client.getNickname() + "@localhost KICK " + args[0] + " " + args[1] + " :Unknown reason\r\n"; // ERR_NOTONCHANNEL
 	}
 	getChannelByName(args[0])->sendMsgToChannel(answer);
-	// send(client.getSocket(), answer.c_str(), answer.size(), 0);
+	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 
 	Channel	*channel = getChannelByName(args[0]);
 	client.removeChannel(*channel);
