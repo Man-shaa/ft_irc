@@ -6,7 +6,11 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:05 by ccheyrou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/07/04 22:16:59 by msharifi         ###   ########.fr       */
+=======
+/*   Updated: 2023/07/04 22:56:08 by ccheyrou         ###   ########.fr       */
+>>>>>>> 404ad83 ([WIP] Mode l)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +29,11 @@ std::string	Channel::getName(void) const	{
 int	Channel::getOwner(void) const	{
 	
 	return (_owner);
+}
+
+int	Channel::getMaxUsr(void) const	{
+	
+	return (_maxUsr);
 }
 
 bool	Channel::getSecured(void) const	{
@@ -83,7 +92,14 @@ std::string Channel::getModeChannel(void) const
 	return (modes);
 }
 
+<<<<<<< HEAD
 int	Channel::getUserNumber(void) const
 {
 	return (_usrList.size());
 }
+=======
+int    Channel::getUserNumber(void) const
+{
+    return (_usrList.size());
+}
+>>>>>>> 404ad83 ([WIP] Mode l)

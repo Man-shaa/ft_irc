@@ -7,10 +7,14 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2023/07/05 15:26:27 by msharifi         ###   ########.fr       */
 =======
 /*   Updated: 2023/07/03 17:56:37 by msharifi         ###   ########.fr       */
 >>>>>>> 572949c ([WIP] Mode User (deso j'avais pas vu que je suis sur le main UwU))
+=======
+/*   Updated: 2023/07/04 23:23:20 by ccheyrou         ###   ########.fr       */
+>>>>>>> 404ad83 ([WIP] Mode l)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +161,7 @@ class Server
 		bool    	isValidChanMode(std::string mode);
 		bool    	isParNeededMode(std::string mode);
 		std::string	parseMode(std::string mode);
+<<<<<<< HEAD
 		std::string	checkArg(Client &client, std::vector<std::string> args, int i);
 		int			cmdMode(std::vector<std::string> args, Client &client);
 
@@ -202,6 +207,18 @@ class Server
 		//UTILS
 		void		printAllClient() const;
 		void		printAllChannel() const;
+=======
+		bool 		containsUppercase(const std::string& param);
+		bool 		isDigits(const std::string& str);
+
+
+		std::vector<std::string>	listChannels(std::string chans);
+
+
+		//UTILS
+		void	printAllClient() const;
+		void	printAllChannel() const;
+>>>>>>> 404ad83 ([WIP] Mode l)
 };
 
 #endif

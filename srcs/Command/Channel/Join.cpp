@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 16:09:58 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 23:01:02 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,18 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 			if (_channels[i]->getName() == *it)
 			{
 				channelExist = true;
-				
+				//The channel is password-protected and the user does not give or returns a wrong password 
 				if ((_channels[i]->getSecured() == true && (args.size() == 1 || args[1] != _channels[i]->getPassword())))
 				{
 					std::string ERR_BADCHANNELKEY = "475 " + client.getNickname() + " " + args[0] + " :Cannot join channel (+k)\r\n";
 					send(client.getSocket(), ERR_BADCHANNELKEY.c_str(), ERR_BADCHANNELKEY.size(), 0);
+					return (1);
+				}
+				//The channel has a user limit and cannot add a new user
+				if (_channels[i]->getMaxUsr() != 0 && _channels[i]->getUserNumber() > _channels[i]->getMaxUsr())
+				{
+					std::string ERR_CHANNELISFULL = "471 " + client.getNickname() + " " + args[0] + " :Cannot join channel (+l)\r\n";
+					send(client.getSocket(), ERR_CHANNELISFULL.c_str(), ERR_CHANNELISFULL.size(), 0);
 					return (1);
 				}
 				_channels[i]->addUser(client);
