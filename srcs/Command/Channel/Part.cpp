@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 17:01:12 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 16:31:12 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 18:40:11 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	Server::cmdPart(std::vector<std::string> args, Client &client)
 		}
 		//L'utilisateur est supprime du channel (NB: Obliger de mettre @localhost sinon ca bug)
 		std::string PART = ":" + client.getNickname() + "@localhost PART " + _channels[i]->getName() + " " + reason + "\r\n";
-		send(client.getSocket(), PART.c_str(), PART.size(), 0);
+		_channels[i]->sendMsgToChannel(PART);
 		client.removeChannel(*_channels[i]);
 
 		if (_channels[i]->clientIsOp(client.getSocket()))

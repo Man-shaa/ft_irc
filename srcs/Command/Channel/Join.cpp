@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 18:27:32 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 18:37:36 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		Server::cmdJoinRPL(std::string channel, Client &client, int i)
 {
 	//JOIN sent to client
 	std::string JOIN = ":" + client.getNickname() + " JOIN " + channel + "\r\n";
-	send(client.getSocket(), JOIN.c_str(), JOIN.size(), 0);
+	_channels[i]->sendMsgToChannel(JOIN);
 
 	//RPL_RPL_TOPIC sent to client
 	std::string RPL_TOPIC =  "332 " + client.getNickname() + " " + channel + " :" + _channels[i]->getTopic() + "\r\n";
