@@ -3,22 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelGets.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:05 by ccheyrou          #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2023/07/04 22:16:59 by msharifi         ###   ########.fr       */
-=======
-/*   Updated: 2023/07/04 22:56:08 by ccheyrou         ###   ########.fr       */
->>>>>>> 404ad83 ([WIP] Mode l)
-=======
-/*   Updated: 2023/07/05 13:59:10 by ccheyrou         ###   ########.fr       */
->>>>>>> 6ffca4c ([ADD] mode OLI and [TODO] join inviteonly condition)
-=======
-/*   Updated: 2023/07/05 16:19:35 by ccheyrou         ###   ########.fr       */
->>>>>>> 48f6cdd (Revert "[WIP] Mode l")
+/*   Updated: 2023/07/05 16:25:04 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +25,11 @@ std::string	Channel::getName(void) const	{
 int	Channel::getOwner(void) const	{
 	
 	return (_owner);
+}
+
+int	Channel::getMaxUsr(void) const	{
+	
+	return (_maxUsr);
 }
 
 bool	Channel::getSecured(void) const	{
@@ -110,3 +103,8 @@ int    Channel::getUserNumber(void) const
 >>>>>>> 404ad83 ([WIP] Mode l)
 =======
 >>>>>>> 48f6cdd (Revert "[WIP] Mode l")
+
+int    Channel::getUserNumber(void) const
+{
+    return (_usrList.size());
+}

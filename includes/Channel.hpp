@@ -3,18 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2023/07/04 22:54:08 by msharifi         ###   ########.fr       */
-=======
-/*   Updated: 2023/07/04 22:55:53 by ccheyrou         ###   ########.fr       */
->>>>>>> 404ad83 ([WIP] Mode l)
-=======
-/*   Updated: 2023/07/05 16:19:16 by ccheyrou         ###   ########.fr       */
->>>>>>> 48f6cdd (Revert "[WIP] Mode l")
+/*   Updated: 2023/07/05 16:24:03 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +31,7 @@ class	Channel
 		std::string					_password;
 		bool						_secured;
 		int							_owner;
+		int							_maxUsr;
 		std::map<int, Client*> 		_usrList;
 		std::map<int, Client*>		_OpeList;
 		std::map<char, bool> 		_mode;
@@ -58,9 +51,6 @@ class	Channel
 		std::vector<std::string>	getOpeList(void) const;
 		int							getOwner(void) const;
 		bool						getSecured(void) const;
-<<<<<<< HEAD
-		int							getUserNumber(void) const;
-=======
 		int    						getUserNumber(void) const;
 		int							getMaxUsr(void) const;
 

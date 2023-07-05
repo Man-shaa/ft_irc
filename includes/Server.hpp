@@ -3,26 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2023/07/05 15:26:27 by msharifi         ###   ########.fr       */
-=======
-/*   Updated: 2023/07/03 17:56:37 by msharifi         ###   ########.fr       */
->>>>>>> 572949c ([WIP] Mode User (deso j'avais pas vu que je suis sur le main UwU))
-=======
-/*   Updated: 2023/07/04 23:23:20 by ccheyrou         ###   ########.fr       */
->>>>>>> 404ad83 ([WIP] Mode l)
-=======
-/*   Updated: 2023/07/05 16:13:37 by ccheyrou         ###   ########.fr       */
->>>>>>> 11634f3 ([MERGE] mode OLI)
-=======
-/*   Updated: 2023/07/05 16:19:29 by ccheyrou         ###   ########.fr       */
->>>>>>> 48f6cdd (Revert "[WIP] Mode l")
+/*   Updated: 2023/07/05 16:24:55 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,13 +153,9 @@ class Server
 		bool    	isValidChanMode(std::string mode);
 		bool    	isParNeededMode(std::string mode);
 		std::string	parseMode(std::string mode);
-<<<<<<< HEAD
 		std::string	checkArg(Client &client, std::vector<std::string> args, int i);
 		int			cmdMode(std::vector<std::string> args, Client &client);
-<<<<<<< HEAD
-=======
 		bool 		containsUppercase(const std::string& param);
->>>>>>> 48f6cdd (Revert "[WIP] Mode l")
 
 		int			handleModeUser(std::vector<std::string> args, Client &client);
 
@@ -190,7 +170,6 @@ class Server
 
 		// PING
 		int			cmdPing(std::vector<std::string> args, Client &client);
-=======
 		void	initCmd();
 		int		cmdNick(std::vector<std::string> args, Client &client);
 		int		cmdUser(std::vector<std::string> args, Client &client);
@@ -233,9 +212,7 @@ class Server
 		void	printAllClient() const;
 		void	printAllChannel() const;
 >>>>>>> 404ad83 ([WIP] Mode l)
-=======
 		void	printAllClient() const;
->>>>>>> 48f6cdd (Revert "[WIP] Mode l")
 };
 
 #endif
