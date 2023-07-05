@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:54:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 21:33:36 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:57:31 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	Server::isUserInChannel(std::string clientName, std::string channelName) con
 	std::vector<std::string> usrList = channel->getUsrList();
 	for (std::vector<std::string>::const_iterator it = usrList.begin(); it != usrList.end(); ++it)
 	{
-		std::cout << *it << std::endl;
 		std::string	opeName = "@" + clientName;
 		if (clientName == *it || opeName == *it)
 			return (1);
