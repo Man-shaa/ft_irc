@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 19:28:11 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/04 23:09:03 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 15:56:34 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ int	Server::cmdKick(std::vector<std::string> args, Client &client)
 {
 	if (cmdKickErrorHandling(args, client))
 		return (1);
-	// for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it)
-	// 	std::cout << *it << std::endl;
 	std::string answer = ":" + args[1] + "@localhost PART " + args[0] + "\r\n";
 	send(getClientByName(args[1])->getSocket(), answer.c_str(), answer.size(), 0);
 	if (args[2].size() != 1)
