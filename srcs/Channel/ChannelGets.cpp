@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 16:25:04 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:30:06 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,23 +88,8 @@ std::string Channel::getModeChannel(void) const
 	}
 	return (modes);
 }
-<<<<<<< HEAD
 
-<<<<<<< HEAD
 int	Channel::getUserNumber(void) const
 {
 	return (_usrList.size());
-}
-=======
-int    Channel::getUserNumber(void) const
-{
-    return (_usrList.size());
-}
->>>>>>> 404ad83 ([WIP] Mode l)
-=======
->>>>>>> 48f6cdd (Revert "[WIP] Mode l")
-
-int    Channel::getUserNumber(void) const
-{
-    return (_usrList.size());
 }

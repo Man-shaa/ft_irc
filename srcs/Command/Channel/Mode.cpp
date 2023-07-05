@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 16:25:55 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:33:03 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 		if (change == true)
 			_channels[i]->addModo(client);
 		if (change == false)
-			_channels[i]->remModo(client);
+			_channels[i]->remOperator(client);
 		
 		//RPL_NAMREPLY sent to client
 		std::vector<std::string> listUsr = _channels[i]->getUsrList();
@@ -312,8 +312,5 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 			}
 		}
 	}
-	else
-		if (handleModeUser(args, client))
-			return (1);
 	return (0);
 }
