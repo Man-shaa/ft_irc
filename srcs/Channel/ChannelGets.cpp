@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 22:56:08 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:59:10 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ std::vector<std::string> Channel::getUsrList(void)
 	{
 		if (clientIsOp(it->first))
 		{
+			std::cout << "1" << std::endl;
 			usrNames.push_back("@" + (it->second)->getNickname());
 		}
 		else
