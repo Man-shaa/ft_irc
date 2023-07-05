@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/05 17:24:01 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 19:44:52 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ enum ClientStatus
 enum ModeratorLevel
 {
 	USER,
-	OPERATOR
+	MODO
 };
 
 # define ORANGE "\033[33m"
@@ -80,31 +80,32 @@ class Client
 		Client(int soketFd, std::string nickName, int id);
 		~Client(void);
 
-		int					getSocket() const;
-		int					getStatus() const;
-		const std::string	&getNickname() const;
-		std::string			getFirstName() const;
-		std::string			getLastName() const;
-		std::string			getUserName() const;
-		pollfd				getPollStrc() const;
-		int					getId() const;
-		int					getModeLevel() const;
-		std::string			getModeLevelStr() const;
+		int						getSocket() const;
+		int						getStatus() const;
+		const std::string		&getNickname() const;
+		std::string				getFirstName() const;
+		std::string				getLastName() const;
+		std::string				getUserName() const;
+		pollfd					getPollStrc() const;
+		int						getId() const;
+		int						getModeLevel() const;
+		std::string				getModeLevelStr() const;
+		std::vector<Channel *>	getChannelList() const;
 
-		void				setNickname(std::string name);
-		void				setFirstName(std::string name);
-		void				setLastName(std::string name);
-		void				setUserName(std::string name);
-		void				setStatus(int status);
-		void				setModeLevel(int status);
+		void					setNickname(std::string name);
+		void					setFirstName(std::string name);
+		void					setLastName(std::string name);
+		void					setUserName(std::string name);
+		void					setStatus(int status);
+		void					setModeLevel(int status);
 	
-		void				addChannel(Channel& channel);
-		void				addInvitedChannel(std::string channelName);
-		void				removeChannel(const Channel& channel);
-		int					isClientInvited(std::string channelName) const;
+		void					addChannel(Channel& channel);
+		void					addInvitedChannel(std::string channelName);
+		void					removeChannel(const Channel& channel);
+		int						isClientInvited(std::string channelName) const;
 
-		void							printAllClientChannel() const;
-		int								isClientInChannel(std::string channel) const;
+		void					printAllClientChannel() const;
+		int						isClientInChannel(std::string channel) const;
 
 };
 

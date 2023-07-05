@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 19:28:47 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 19:31:21 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,5 @@ void	Server::initCmd()
 	_mapFcts["INVITE"] = &Server::cmdInvite;
 	_mapFcts["OPER"] = &Server::cmdOper;
 	_mapFcts["KICK"] = &Server::cmdKick;
+	_mapFcts["KILL"] = &Server::cmdKill;
 }
