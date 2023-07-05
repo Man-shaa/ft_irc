@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/05 17:17:05 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 18:27:46 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class	Channel
 	private:
 
 		std::string					_creationTime;
+		std::string					_setat;
 		std::string					_name;
 		std::string					_logMsg;
 		std::string					_topic;
@@ -43,6 +44,7 @@ class	Channel
 		~Channel(void);
 
 		std::string					getCreationTime(void) const;
+		std::string					getSetat(void) const;
 		std::string					getName(void) const;
 		std::string					getPassword(void) const;
 		std::string					getTopic(void) const;
