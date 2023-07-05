@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 23:12:03 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:43:00 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,20 @@ void	Server::initMode()
 
 bool Server::containsUppercase(const std::string& param)
 {
-    for (std::size_t i = 0; i < param.length(); ++i) {
-        if (std::isupper(param[i])) {
-            return true;
-        }
-    }
-    return false;
+	for (std::size_t i = 0; i < param.length(); ++i) {
+		if (std::isupper(param[i]))
+			return (true);
+	}
+	return (false);
+}
+
+bool Server::isDigits(const std::string& str)
+{
+	for (std::string::const_iterator it = str.begin(); it != str.end(); ++it) {
+		if (!std::isdigit(*it))
+			return (false);
+	}
+	return (true);
 }
 
 void Server::mode_K(Client &client, std::string param, std::string &validModes, int i, bool change)
@@ -54,7 +62,7 @@ void Server::mode_K(Client &client, std::string param, std::string &validModes, 
 			_channels[i]->setPassword(param, change);
 			_channels[i]->setSecured(change);
 			validModes += 'k';
-			change == false ? std::cout << "Password is set: " << param << "\n" << std::endl : std::cout << "Password is unset: " << param << "\n" << std::endl;
+			change == false ? std::cout << "Password is unset: " << param << "\n" << std::endl : std::cout << "Password is set: " << param << "\n" << std::endl;
 		}
 		
 	}
@@ -83,31 +91,31 @@ void	Server::mode_I(Client &client, std::string param, std::string &validModes, 
 
 void	Server::mode_O(Client &client, std::string param, std::string &validModes, int i, bool change)
 {
-	(void)client;
 	if (!param.empty())
 	{
 		if (change == true)
-		{
 			_channels[i]->addModo(client);
-			std::vector<std::string> listOP = _channels[i]->getOpeList();
-			std::string op;
-			for (std::vector<std::string>::const_iterator it = listOP.begin(); it != listOP.end(); ++it)
-			{
-				op += *it + " ";
-			}
-			std::cout << op << std::endl;
-		}
 		if (change == false)
-		{
 			_channels[i]->remOperator(client);
-			std::vector<std::string> listOP = _channels[i]->getOpeList();
-			std::string op;
-			for (std::vector<std::string>::const_iterator it = listOP.begin(); it != listOP.end(); ++it)
-			{
-				op += *it + " ";
-			}
-			std::cout << op << std::endl;
+		
+		//RPL_NAMREPLY sent to client
+		std::vector<std::string> listUsr = _channels[i]->getUsrList();
+		std::string RPL_NAMREPLY = "353 " + client.getNickname() + " = " + _channels[i]->getName() + " :";
+		for (std::vector<std::string>::const_iterator it = listUsr.begin(); it != listUsr.end(); ++it)
+		{
+			if (it == listUsr.begin())
+				RPL_NAMREPLY += *it;
+			else
+				RPL_NAMREPLY += " " + *it;
 		}
+		RPL_NAMREPLY += "\r\n";
+		std::cout << RPL_NAMREPLY << std::endl;
+		send(client.getSocket(), RPL_NAMREPLY.c_str(), RPL_NAMREPLY.size(), 0);
+		
+		//RPL_ENDOFNAMES sent to client
+		std::string RPL_ENDOFNAMES = "366 " + client.getNickname() + " " + _channels[i]->getName() + " :End of NAMES list\r\n";
+		send(client.getSocket(), RPL_ENDOFNAMES.c_str(), RPL_ENDOFNAMES.size(), 0);
+		
 		_channels[i]->setMode(change, 'o');
 		validModes += 'o';
 	}
@@ -121,9 +129,26 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 void	Server::mode_L(Client &client, std::string param, std::string &validModes, int i, bool change)
 {
 	(void)client;
-	(void)param;
-	_channels[i]->setMode(change, 'l');
-	validModes += 'l';
+	if ((change == true && !param.empty()) || change == false)
+	{
+		if (change == true && (atoi(param.c_str()) < 0 || atoi(param.c_str()) > 2147483647 || !isDigits(param)))
+		{
+			std::string ERR_INVALIDMODEPARAM = "696 " + client.getNickname() + " " + _channels[i]->getName() + " l " + param + " :Wrong number limit\r\n";
+			send(client.getSocket(), ERR_INVALIDMODEPARAM.c_str(), ERR_INVALIDMODEPARAM.size(), 0);
+		}
+		else
+		{
+			_channels[i]->setMode(change, 'l');
+			_channels[i]->setMaxUsr(atoi(param.c_str()), change);
+			validModes += 'l';
+			change == false ? std::cout << "User is unset\n" << std::endl : std::cout << "User limit is set: " << param << "\n" << std::endl;
+		}
+	}
+	else	
+	{
+		std::string ERR_NEEDMOREPARAMS = "461 " + client.getNickname() + " MODE :User limit number is missing\r\n";
+		send(client.getSocket(), ERR_NEEDMOREPARAMS.c_str(), ERR_NEEDMOREPARAMS.size(), 0);
+	}
 }
 
 
@@ -273,7 +298,7 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 		else
 		{
 			//Channel valide + modestring, on vérifie si le client est un opérateur du channel
-			if (client.getSocket() != _channels[i]->getOwner())
+			if (!_channels[i]->clientIsOp(client.getSocket()))
 			{
 				std::string ERR_CHANOPRIVSNEEDED = "482 " + client.getNickname() + args[0] + " :You're not channel operator\r\n";
 				send(client.getSocket(), ERR_CHANOPRIVSNEEDED.c_str(), ERR_CHANOPRIVSNEEDED.size(), 0);	
@@ -287,8 +312,5 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 			}
 		}
 	}
-	else
-		if (handleModeUser(args, client))
-			return (1);
 	return (0);
 }

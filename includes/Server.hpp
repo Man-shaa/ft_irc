@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 15:58:08 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:42:54 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,8 @@ class Server
 		// MODE
 		void		initMode();
 		bool 		containsUppercase(const std::string& param);
+		bool		isDigits(const std::string& str);
+
 		void		mode_K(Client &client, std::string param, std::string &validModes, int i, bool change);
 		void		mode_T(Client &client, std::string param, std::string &validModes, int i, bool change);
 		void		mode_I(Client &client, std::string param, std::string &validModes, int i, bool change);
@@ -156,9 +158,9 @@ class Server
 		int			cmdMode(std::vector<std::string> args, Client &client);
 
 		int			handleModeUser(std::vector<std::string> args, Client &client);
+
 		std::vector<std::string>	listChannels(std::string chans);
-		// PART
-		int			cmdPart(std::vector<std::string> args, Client &client);
+		int							cmdPart(std::vector<std::string> args, Client &client);
 
 		// TOPIC
 		int			cmdTopic(std::vector<std::string> args, Client &client);

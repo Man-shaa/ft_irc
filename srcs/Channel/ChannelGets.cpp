@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelGets.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 22:16:59 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:30:06 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ std::string	Channel::getName(void) const	{
 int	Channel::getOwner(void) const	{
 	
 	return (_owner);
+}
+
+int	Channel::getMaxUsr(void) const	{
+	
+	return (_maxUsr);
 }
 
 bool	Channel::getSecured(void) const	{
@@ -62,6 +67,7 @@ std::vector<std::string> Channel::getUsrList(void)
 	{
 		if (clientIsOp(it->first))
 		{
+			std::cout << "1" << std::endl;
 			usrNames.push_back("@" + (it->second)->getNickname());
 		}
 		else

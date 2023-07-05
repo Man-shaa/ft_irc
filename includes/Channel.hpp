@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/04 22:54:08 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:28:02 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ class	Channel
 		std::string					_password;
 		bool						_secured;
 		int							_owner;
+		int							_maxUsr;
 		std::map<int, Client*> 		_usrList;
 		std::map<int, Client*>		_OpeList;
 		std::map<char, bool> 		_mode;
@@ -50,13 +51,16 @@ class	Channel
 		std::vector<std::string>	getOpeList(void) const;
 		int							getOwner(void) const;
 		bool						getSecured(void) const;
-		int							getUserNumber(void) const;
+		int    						getUserNumber(void) const;
+		int							getMaxUsr(void) const;
 
 		void						setLogMsg(std::string logMsg);
 		int							setTopic(std::string topic, Client &user);
 		void 						setPassword(std::string password, bool change);
 		void						setSecured(bool	secured);
 		void						setMode(bool active, char i);
+		int							setMaxUsr(int maxUsr, bool change);
+
 
 		void						addUser(Client &user);
 		void						addModo(Client &user);
