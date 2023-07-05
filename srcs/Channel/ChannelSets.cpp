@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:42 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 22:56:01 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/04 12:25:09 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,25 @@ void	Channel::setLogMsg(std::string logMsg) {
 
 int	Channel::setTopic(std::string topic, Client &user) 
 {	
-	if (_mode['t'] == false || (clientIsOp(user.getSocket()) && _mode['t'] == true ))
-		return(_topic = topic, 1);
-	else
-		return (0);
+	for (std::map<char, bool>::const_iterator it = _mode.begin(); it != _mode.end(); ++it)
+	{
+		if ((it->first) == 't' && it->second == false)
+		{
+			_topic = topic;
+			break;
+		}
+		else if ((it->first) == 't' && it->second == true)
+		{
+			if (user.getSocket() == _owner)
+			{
+				_topic = topic;
+				break;
+			}
+			else
+				return (0);
+		}
+	}
+	return (1);
 }
 
 void	Channel::setPassword(std::string password, bool change)
@@ -30,14 +45,6 @@ void	Channel::setPassword(std::string password, bool change)
 		_password = "";
 	else
 		_password = password;
-}
-
-int	Channel::setMaxUsr(int maxUsr, bool change)
-{
-	if (change == false)
-		return (_maxUsr = 0, 0);
-	else
-		return (_maxUsr = maxUsr, 1);
 }
 
 void	Channel::setSecured(bool secured) {

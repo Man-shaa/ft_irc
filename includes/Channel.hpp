@@ -7,10 +7,14 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2023/07/04 22:54:08 by msharifi         ###   ########.fr       */
 =======
 /*   Updated: 2023/07/04 22:55:53 by ccheyrou         ###   ########.fr       */
 >>>>>>> 404ad83 ([WIP] Mode l)
+=======
+/*   Updated: 2023/07/05 16:19:16 by ccheyrou         ###   ########.fr       */
+>>>>>>> 48f6cdd (Revert "[WIP] Mode l")
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +39,6 @@ class	Channel
 		std::string					_password;
 		bool						_secured;
 		int							_owner;
-		int							_maxUsr;
 		std::map<int, Client*> 		_usrList;
 		std::map<int, Client*>		_OpeList;
 		std::map<char, bool> 		_mode;
@@ -69,6 +72,7 @@ class	Channel
 		void						setSecured(bool	secured);
 		void						setMode(bool active, char i);
 		int							setMaxUsr(int maxUsr, bool change);
+
 
 		void						addUser(Client &user);
 		void						addModo(Client &user);

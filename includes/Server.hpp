@@ -9,6 +9,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2023/07/05 15:26:27 by msharifi         ###   ########.fr       */
 =======
 /*   Updated: 2023/07/03 17:56:37 by msharifi         ###   ########.fr       */
@@ -19,6 +20,9 @@
 =======
 /*   Updated: 2023/07/05 16:13:37 by ccheyrou         ###   ########.fr       */
 >>>>>>> 11634f3 ([MERGE] mode OLI)
+=======
+/*   Updated: 2023/07/05 16:19:29 by ccheyrou         ###   ########.fr       */
+>>>>>>> 48f6cdd (Revert "[WIP] Mode l")
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +172,13 @@ class Server
 <<<<<<< HEAD
 		std::string	checkArg(Client &client, std::vector<std::string> args, int i);
 		int			cmdMode(std::vector<std::string> args, Client &client);
+<<<<<<< HEAD
+=======
+		bool 		containsUppercase(const std::string& param);
+>>>>>>> 48f6cdd (Revert "[WIP] Mode l")
 
-		// PART
+		int			handleModeUser(std::vector<std::string> args, Client &client);
+
 		std::vector<std::string>	listChannels(std::string chans);
 		int							cmdPart(std::vector<std::string> args, Client &client);
 
@@ -209,6 +218,7 @@ class Server
 >>>>>>> 572949c ([WIP] Mode User (deso j'avais pas vu que je suis sur le main UwU))
 
 		//UTILS
+<<<<<<< HEAD
 		void		printAllClient() const;
 		void		printAllChannel() const;
 =======
@@ -223,6 +233,9 @@ class Server
 		void	printAllClient() const;
 		void	printAllChannel() const;
 >>>>>>> 404ad83 ([WIP] Mode l)
+=======
+		void	printAllClient() const;
+>>>>>>> 48f6cdd (Revert "[WIP] Mode l")
 };
 
 #endif

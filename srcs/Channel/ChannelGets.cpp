@@ -8,6 +8,7 @@
 /*   Created: 2023/07/02 16:44:05 by ccheyrou          #+#    #+#             */
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2023/07/04 22:16:59 by msharifi         ###   ########.fr       */
 =======
 /*   Updated: 2023/07/04 22:56:08 by ccheyrou         ###   ########.fr       */
@@ -15,6 +16,9 @@
 =======
 /*   Updated: 2023/07/05 13:59:10 by ccheyrou         ###   ########.fr       */
 >>>>>>> 6ffca4c ([ADD] mode OLI and [TODO] join inviteonly condition)
+=======
+/*   Updated: 2023/07/05 16:19:35 by ccheyrou         ###   ########.fr       */
+>>>>>>> 48f6cdd (Revert "[WIP] Mode l")
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +37,6 @@ std::string	Channel::getName(void) const	{
 int	Channel::getOwner(void) const	{
 	
 	return (_owner);
-}
-
-int	Channel::getMaxUsr(void) const	{
-	
-	return (_maxUsr);
 }
 
 bool	Channel::getSecured(void) const	{
@@ -96,6 +95,7 @@ std::string Channel::getModeChannel(void) const
 	}
 	return (modes);
 }
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 int	Channel::getUserNumber(void) const
@@ -108,3 +108,5 @@ int    Channel::getUserNumber(void) const
     return (_usrList.size());
 }
 >>>>>>> 404ad83 ([WIP] Mode l)
+=======
+>>>>>>> 48f6cdd (Revert "[WIP] Mode l")
