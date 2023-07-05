@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 16:30:06 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:23:42 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 std::string	Channel::getCreationTime(void) const	{
 	
 	return (_creationTime);
+}
+
+std::string	Channel::getSetat(void) const	{
+	
+	return (_setat);
 }
 
 std::string	Channel::getName(void) const	{

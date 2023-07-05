@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:39 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/04 22:05:05 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:22:09 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ Channel::Channel(std::string name, Client& owner) : _name(name), _logMsg("toto")
 	std::time_t now = std::time(0);
     ss << now;
 	_creationTime = ss.str();
-	std::cout << _creationTime << std::endl;
+	_setat = ss.str();
 }
 
 Channel::~Channel(void)	{

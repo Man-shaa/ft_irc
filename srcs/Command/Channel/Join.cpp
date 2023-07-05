@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 16:25:16 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 18:19:19 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ int		Server::cmdJoinRPL(std::string channel, Client &client, int i)
 	//RPL_RPL_TOPIC sent to client
 	std::string RPL_TOPIC =  "332 " + client.getNickname() + " " + channel + " :" + _channels[i]->getTopic() + "\r\n";
 	send(client.getSocket(), RPL_TOPIC.c_str(), RPL_TOPIC.size(), 0);
+
+	std::string RPL_TOPICWHOTIME =  "333 " + client.getNickname() + " " + channel + " " + client.getNickname() + " " + _channels[i]->getSetat() + "\r\n";
+	send(client.getSocket(), RPL_TOPICWHOTIME.c_str(), RPL_TOPICWHOTIME.size(), 0);
 
 	//RPL_NAMREPLY sent to client
 	std::vector<std::string> listUsr = _channels[i]->getUsrList();

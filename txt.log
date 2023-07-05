@@ -1,0 +1,22 @@
+<< CAP LS
+<< PASS pas
+<< NICK ccheyrou
+<< USER ccheyrou ccheyrou 127.0.0.1 :Clementine CHEYROU-LAGREZE
+>> :bob NICK ccheyrou
+>> 001 ccheyrou :Welcome to the Internet Relay Network ccheyrou
+<< MODE ccheyrou +i
+<< PING 127.0.0.1
+>> PONG :server.name 127.0.0.1
+--> lag pong
+<< JOIN #q
+>> :ccheyrou JOIN #q
+>> 332 ccheyrou #q :TURLUTUTU
+>> 333 :ccheyrou@localhost #q ccheyrou 1688573827
+>> 353 ccheyrou = #q :@ccheyrou
+>> 366 ccheyrou #q :End of NAMES list
+<< MODE #q
+>> 324 ccheyrou #q i
+--> chanquery mode
+<< WHO #q
+>> 329 ccheyrou #q 1688573827
+--> event 329
