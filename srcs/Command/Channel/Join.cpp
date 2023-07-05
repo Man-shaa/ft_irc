@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 16:25:16 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:37:00 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 	
 	for (std::vector<std::string>::const_iterator it = args.begin(); it != args.end(); ++it)
 	{
-		for (i = 0; _channels[i]; ++i) 
+		// std::cout << _channels[i]->getModeChannel().find("i") << std::endl;
+		for (i = 0; _channels[i]; ++i)
 		{
 			if (_channels[i]->getName() == *it)
 			{
@@ -72,10 +73,10 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 					send(client.getSocket(), ERR_CHANNELISFULL.c_str(), ERR_CHANNELISFULL.size(), 0);
 					return (1);
 				}
-				if (_channels[i]->getModeChannel().find("i") == std::string::npos)
+				if (_channels[i]->getModeChannel().find("i") != std::string::npos && !client.isClientInvited(args[0]))
 				{
-					std::string ERR_CHANNELISFULL = "471 " + client.getNickname() + " " + args[0] + " :Cannot join channel (+l)\r\n";
-					send(client.getSocket(), ERR_CHANNELISFULL.c_str(), ERR_CHANNELISFULL.size(), 0);
+					std::string ERR_INVITEONLYCHAN = "473 " + client.getNickname() + " " + args[0] + " :Cannot join channel (+i)\r\n";
+					send(client.getSocket(), ERR_INVITEONLYCHAN.c_str(), ERR_INVITEONLYCHAN.size(), 0);
 					return (1);
 				}
 				_channels[i]->addUser(client);
