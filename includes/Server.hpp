@@ -8,6 +8,7 @@
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2023/07/05 15:26:27 by msharifi         ###   ########.fr       */
 =======
 /*   Updated: 2023/07/03 17:56:37 by msharifi         ###   ########.fr       */
@@ -15,6 +16,9 @@
 =======
 /*   Updated: 2023/07/04 23:23:20 by ccheyrou         ###   ########.fr       */
 >>>>>>> 404ad83 ([WIP] Mode l)
+=======
+/*   Updated: 2023/07/05 16:13:37 by ccheyrou         ###   ########.fr       */
+>>>>>>> 11634f3 ([MERGE] mode OLI)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +171,7 @@ class Server
 
 		// PART
 		std::vector<std::string>	listChannels(std::string chans);
-		int			cmdPart(std::vector<std::string> args, Client &client);
+		int							cmdPart(std::vector<std::string> args, Client &client);
 
 		// TOPIC
 		int			cmdTopic(std::vector<std::string> args, Client &client);
