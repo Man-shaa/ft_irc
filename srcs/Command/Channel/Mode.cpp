@@ -8,6 +8,7 @@
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2023/07/04 20:55:52 by msharifi         ###   ########.fr       */
 =======
 /*   Updated: 2023/07/03 17:54:35 by msharifi         ###   ########.fr       */
@@ -15,6 +16,9 @@
 =======
 /*   Updated: 2023/07/04 23:23:09 by ccheyrou         ###   ########.fr       */
 >>>>>>> 404ad83 ([WIP] Mode l)
+=======
+/*   Updated: 2023/07/05 15:44:32 by ccheyrou         ###   ########.fr       */
+>>>>>>> 6ffca4c ([ADD] mode OLI and [TODO] join inviteonly condition)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +103,11 @@ void	Server::mode_I(Client &client, std::string param, std::string &validModes, 
 
 void	Server::mode_O(Client &client, std::string param, std::string &validModes, int i, bool change)
 {
-	(void)client;
 	if (!param.empty())
 	{
 		if (change == true)
-		{
 			_channels[i]->addModo(client);
+<<<<<<< HEAD
 			std::vector<std::string> listOP = _channels[i]->getOpeList();
 			std::string op;
 			for (std::vector<std::string>::const_iterator it = listOP.begin(); it != listOP.end(); ++it)
@@ -123,7 +126,29 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 				op += *it + " ";
 			}
 			std::cout << op << std::endl;
+=======
+		if (change == false)
+			_channels[i]->remModo(client);
+		
+		//RPL_NAMREPLY sent to client
+		std::vector<std::string> listUsr = _channels[i]->getUsrList();
+		std::string RPL_NAMREPLY = "353 " + client.getNickname() + " = " + _channels[i]->getName() + " :";
+		for (std::vector<std::string>::const_iterator it = listUsr.begin(); it != listUsr.end(); ++it)
+		{
+			if (it == listUsr.begin())
+				RPL_NAMREPLY += *it;
+			else
+				RPL_NAMREPLY += " " + *it;
+>>>>>>> 6ffca4c ([ADD] mode OLI and [TODO] join inviteonly condition)
 		}
+		RPL_NAMREPLY += "\r\n";
+		std::cout << RPL_NAMREPLY << std::endl;
+		send(client.getSocket(), RPL_NAMREPLY.c_str(), RPL_NAMREPLY.size(), 0);
+		
+		//RPL_ENDOFNAMES sent to client
+		std::string RPL_ENDOFNAMES = "366 " + client.getNickname() + " " + _channels[i]->getName() + " :End of NAMES list\r\n";
+		send(client.getSocket(), RPL_ENDOFNAMES.c_str(), RPL_ENDOFNAMES.size(), 0);
+		
 		_channels[i]->setMode(change, 'o');
 		validModes += 'o';
 	}
@@ -306,7 +331,7 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 		else
 		{
 			//Channel valide + modestring, on vérifie si le client est un opérateur du channel
-			if (client.getSocket() != _channels[i]->getOwner())
+			if (!_channels[i]->clientIsOp(client.getSocket()))
 			{
 				std::string ERR_CHANOPRIVSNEEDED = "482 " + client.getNickname() + args[0] + " :You're not channel operator\r\n";
 				send(client.getSocket(), ERR_CHANOPRIVSNEEDED.c_str(), ERR_CHANOPRIVSNEEDED.size(), 0);	

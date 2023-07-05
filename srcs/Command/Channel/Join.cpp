@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 23:01:02 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 16:06:09 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,19 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 					return (1);
 				}
 				//The channel has a user limit and cannot add a new user
-				if (_channels[i]->getMaxUsr() != 0 && _channels[i]->getUserNumber() > _channels[i]->getMaxUsr())
+				if (_channels[i]->getMaxUsr() != 0 && _channels[i]->getUserNumber() >= _channels[i]->getMaxUsr())
+				{
+					std::string ERR_CHANNELISFULL = "471 " + client.getNickname() + " " + args[0] + " :Cannot join channel (+l)\r\n";
+					send(client.getSocket(), ERR_CHANNELISFULL.c_str(), ERR_CHANNELISFULL.size(), 0);
+					return (1);
+				}
+				if (_channels[i]->getModeChannel().find("i") == std::string::npos)
 				{
 					std::string ERR_CHANNELISFULL = "471 " + client.getNickname() + " " + args[0] + " :Cannot join channel (+l)\r\n";
 					send(client.getSocket(), ERR_CHANNELISFULL.c_str(), ERR_CHANNELISFULL.size(), 0);
 					return (1);
 				}
 				_channels[i]->addUser(client);
-				_channels[i]->addModo(client);
 				cmdJoinRPL(*it, client, i);
 				std::cout << BLUE << client.getNickname() << " intègre le channel déjà existant " << CLOSE << *it << std::endl;
 			}

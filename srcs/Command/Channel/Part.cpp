@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 17:01:12 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 17:23:35 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 13:54:03 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ int	Server::cmdPart(std::vector<std::string> args, Client &client)
 		std::string PART = ":" + client.getNickname() + "@localhost PART " + _channels[i]->getName() + " " + reason + "\r\n";
 		send(client.getSocket(), PART.c_str(), PART.size(), 0);
 		client.removeChannel(*_channels[i]);
-		//TODO:NE MARCHE PAS
+
+		if (_channels[i]->clientIsOp(client.getSocket()))
+			_channels[i]->remModo(client);
 		if (_channels[i]->remUser(client))
 			delChannel(*it);
 	}

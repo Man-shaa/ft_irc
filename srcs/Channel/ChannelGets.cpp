@@ -7,10 +7,14 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:05 by ccheyrou          #+#    #+#             */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2023/07/04 22:16:59 by msharifi         ###   ########.fr       */
 =======
 /*   Updated: 2023/07/04 22:56:08 by ccheyrou         ###   ########.fr       */
 >>>>>>> 404ad83 ([WIP] Mode l)
+=======
+/*   Updated: 2023/07/05 13:59:10 by ccheyrou         ###   ########.fr       */
+>>>>>>> 6ffca4c ([ADD] mode OLI and [TODO] join inviteonly condition)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +75,7 @@ std::vector<std::string> Channel::getUsrList(void)
 	{
 		if (clientIsOp(it->first))
 		{
+			std::cout << "1" << std::endl;
 			usrNames.push_back("@" + (it->second)->getNickname());
 		}
 		else
