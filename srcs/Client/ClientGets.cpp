@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:50:00 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 19:44:50 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/06 14:11:42 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,21 @@ int	Client::getId() const
 int	Client::getStatus() const
 {
 	return (_status);
+}
+
+std::string	Client::getLastName() const
+{
+	return (_lastName);
+}
+
+std::string	Client::getFirstName() const
+{
+	return (_firstName);
+}
+
+std::string	Client::getUserName() const
+{
+	return (_userName);
 }
 
 pollfd	Client::getPollStrc() const
