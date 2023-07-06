@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/02 16:44:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 17:23:42 by ccheyrou         ###   ########.fr       */
+/*   Created: 2023/07/05 20:54:57 by ccheyrou          #+#    #+#             */
+/*   Updated: 2023/07/05 20:57:26 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "Channel.hpp"
 
@@ -71,15 +72,17 @@ std::vector<std::string> Channel::getUsrList(void)
 	for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
 	{
 		if (clientIsOp(it->first))
-		{
-			std::cout << "1" << std::endl;
 			usrNames.push_back("@" + (it->second)->getNickname());
-		}
 		else
 			usrNames.push_back((it->second)->getNickname());
 	}
 	
 	return (usrNames);
+}
+
+std::map<int, Client*>Channel::getUsrListMap(void)
+{
+	return (_usrList);
 }
 
 std::string Channel::getModeChannel(void) const

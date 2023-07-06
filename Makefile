@@ -28,6 +28,7 @@ SRCS	 	=	main.cpp			\
 				Topic.cpp			\
 				Privmsg.cpp			\
 				Ping.cpp			\
+				Who.cpp				\
 				Command.cpp			\
 				Server.cpp			\
 				ServerChannels.cpp	\

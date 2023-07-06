@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 18:37:36 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 19:07:15 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,11 @@ int		Server::cmdJoinRPL(std::string channel, Client &client, int i)
 			RPL_NAMREPLY += " " + *it;
 	}
 	RPL_NAMREPLY += "\r\n";
-	std::cout << RPL_NAMREPLY << std::endl;
-	send(client.getSocket(), RPL_NAMREPLY.c_str(), RPL_NAMREPLY.size(), 0);
+	_channels[i]->sendMsgToChannel(RPL_NAMREPLY);
 	
 	//RPL_ENDOFNAMES sent to client
 	std::string RPL_ENDOFNAMES = "366 " + client.getNickname() + " " + channel + " :End of NAMES list\r\n";
-	send(client.getSocket(), RPL_ENDOFNAMES.c_str(), RPL_ENDOFNAMES.size(), 0);
+	_channels[i]->sendMsgToChannel(RPL_ENDOFNAMES);
 	
 	client.addChannel(*_channels[i]);
 	return (0);

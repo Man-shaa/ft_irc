@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/05 17:24:01 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 19:43:26 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ class Client
 		int					getId() const;
 		int					getModeLevel() const;
 		std::string			getModeLevelStr() const;
+		std::vector<Channel*> getClientChannels() const;
 
 		void				setNickname(std::string name);
 		void				setFirstName(std::string name);

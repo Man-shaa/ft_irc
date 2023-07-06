@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 18:49:46 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 20:41:46 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@
 
 # define OPERPASS	"Admin1234!"
 # define OPERNAME	"admin"
+# define SERVERNAME "server.name"
 
 class Client;
 class Channel;
@@ -171,6 +172,9 @@ class Server
 
 		// PING
 		int			cmdPing(std::vector<std::string> args, Client &client);
+
+		//WHO
+		int			cmdWho(std::vector<std::string> args, Client &client);
 
 		//UTILS
 		void		printAllClient() const;

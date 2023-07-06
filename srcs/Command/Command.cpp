@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 18:41:05 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 19:28:47 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/05 18:59:09 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	Server::initCmd()
 	_mapFcts["MODE"] = &Server::cmdMode;
 	_mapFcts["PING"] = &Server::cmdPing;
 	_mapFcts["TOPIC"] = &Server::cmdTopic;
+	_mapFcts["WHO"] = 	&Server::cmdWho;
 	_mapFcts["PRIVMSG"] = &Server::cmdPrivmsg;
 	_mapFcts["INVITE"] = &Server::cmdInvite;
 	_mapFcts["OPER"] = &Server::cmdOper;

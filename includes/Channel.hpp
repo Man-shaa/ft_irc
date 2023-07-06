@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/05 18:27:46 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/05 20:57:39 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ class	Channel
 		bool						getSecured(void) const;
 		int    						getUserNumber(void) const;
 		int							getMaxUsr(void) const;
+		std::map<int, Client*>		getUsrListMap(void);
+
 
 		void						setLogMsg(std::string logMsg);
 		int							setTopic(std::string topic, Client &user);
