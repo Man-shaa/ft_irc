@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 18:49:46 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/06 14:13:48 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,6 @@ class Server
 		int			cmdNickErrorHandling(std::vector<std::string> args, Client &client);
 		int			cmdNick(std::vector<std::string> args, Client &client);
 
-		// OPER
-		int			cmdOperErrorHandling(std::vector<std::string> args, Client &client);
-		int			cmdOper(std::vector<std::string> args, Client &client);
-
 		// PASS
 		int			cmdPass(std::vector<std::string> args, Client &client);
 
@@ -168,6 +164,14 @@ class Server
 
 		// PRIVMSG
 		int			cmdPrivmsg(std::vector<std::string> args, Client &client);
+
+		// KILL
+		int			cmdKillErrorHandling(std::vector<std::string> args, Client &client);
+		int			cmdKill(std::vector<std::string> args, Client &client);
+
+		// OPER
+		int			cmdOperErrorHandling(std::vector<std::string> args, Client &client);
+		int			cmdOper(std::vector<std::string> args, Client &client);
 
 		// PING
 		int			cmdPing(std::vector<std::string> args, Client &client);
