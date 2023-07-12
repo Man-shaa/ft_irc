@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 18:58:39 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/12 17:10:25 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:18:17 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		Server::cmdWho(std::vector<std::string> args, Client &client)
 		//An exact nickname
 		if (!getClientByName(args[0]))
 			return (1);
-		client.getClientChannels().empty() ? channel = "*" : channel = client.getClientChannels()[0]->getName();
+		client.getChannelList().empty() ? channel = "*" : channel = client.getChannelList()[0]->getName();
 
 		//TODO:gerer <flags> H ou G 
 		std::string RPL_WHOREPLY = "352 " \

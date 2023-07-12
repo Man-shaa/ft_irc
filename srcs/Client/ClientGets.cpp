@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:50:00 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/12 17:11:59 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:17:56 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,4 @@ std::string			Client::getLastName() const
 std::string			Client::getUserName() const
 {
 	return (_userName);	
-}
-
-std::vector<Channel*> Client::getClientChannels() const
-{
-	return (_channels);
 }
