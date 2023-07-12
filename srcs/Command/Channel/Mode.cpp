@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/12 17:43:32 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/12 18:12:40 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void Server::mode_K(Client &client, std::string param, std::string &validModes, 
 			_channels[i]->setPassword(param, change);
 			_channels[i]->setSecured(change);
 			validModes += 'k';
+			_params_mode += param + " ";
 			change == false ? std::cout << "Password is unset: " << param << "\n" << std::endl : std::cout << "Password is set: " << param << "\n" << std::endl;
 		}
 		
@@ -133,6 +134,7 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 		
 		_channels[i]->setMode(change, 'o');
 		validModes += 'o';
+		_params_mode += param + " ";
 	}
 	else
 	{
@@ -156,6 +158,8 @@ void	Server::mode_L(Client &client, std::string param, std::string &validModes, 
 			_channels[i]->setMode(change, 'l');
 			_channels[i]->setMaxUsr(atoi(param.c_str()), change);
 			validModes += 'l';
+			if (change == true)
+				_params_mode += param + " ";
 			change == false ? std::cout << "User is unset\n" << std::endl : std::cout << "User limit is set: " << param << "\n" << std::endl;
 		}
 	}
@@ -193,8 +197,7 @@ std::string	Server::channelMode(Client &client, std::map<std::string, std::strin
 	if (!delModes.empty())
 		delModes.insert(0, "-");
 
-	std::cout << (addModes + delModes) << std::endl;
-	return (addModes + delModes);
+	return (addModes + delModes + _params_mode);
 }
 
 bool Server::isSign(char c)
@@ -326,6 +329,7 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 			//Puis on envoie les nouveaux modes a tout les utilisateurs
 				//_channels[i]->sendMode(channelMode(client, args, i));
 				_channels[i]->sendMode(checkArg(client, args, i));
+				_params_mode = " ";
 			}
 		}
 	}

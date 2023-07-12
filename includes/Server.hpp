@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/12 17:26:26 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:56:37 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ class Server
 		std::map<std::string, cmdFct>		_mapFcts;
 		std::map<char, modeFct>				_modeFcts;
 		std::string 						_IP;
+		std::string 						_params_mode;
 
 	public:
 		Server(void);
