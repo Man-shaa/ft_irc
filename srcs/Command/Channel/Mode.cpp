@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/12 17:12:06 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:43:32 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	Server::initMode()
 	_modeFcts['i'] = &Server::mode_I;
 	_modeFcts['o'] = &Server::mode_O;
 	_modeFcts['l'] = &Server::mode_L;
+	_modeFcts['b'] = &Server::mode_B;
 }
 
 bool Server::containsUppercase(const std::string& param)
@@ -87,6 +88,20 @@ void	Server::mode_I(Client &client, std::string param, std::string &validModes, 
 	(void)param;
 	_channels[i]->setMode(change, 'i');
 	validModes += 'i';
+}
+
+void	Server::mode_B(Client &client, std::string param, std::string &validModes, int i, bool change)
+{
+	(void)client;
+	(void)param;
+	(void)change;
+	(void)validModes;
+	
+	std::string RPL_BANLIST = "367 " + client.getNickname() + " " + _channels[i]->getName() + "\r\n";
+	send(client.getSocket(), RPL_BANLIST.c_str(), RPL_BANLIST.size(), 0);
+
+	std::string RPL_ENDOFBANLIST = "368 " + client.getNickname() + " " + _channels[i]->getName() + " :End of channel ban list\r\n";
+	send(client.getSocket(), RPL_ENDOFBANLIST.c_str(), RPL_ENDOFBANLIST.size(), 0);
 }
 
 void	Server::mode_O(Client &client, std::string param, std::string &validModes, int i, bool change)
@@ -208,6 +223,9 @@ std::string	Server::parseMode(std::string mode)
 	std::string	toExec;
 	const char	*m = mode.c_str();
     char    latestSign = '\0';
+	std::cout << mode << std::endl;
+	if (mode == "b")
+		return("+" + mode);
     while (*m)    
 	{
         if (isSign(*m))

@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/12 17:15:59 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:26:26 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ class Server
 		void		mode_I(Client &client, std::string param, std::string &validModes, int i, bool change);
 		void		mode_O(Client &client, std::string param, std::string &validModes, int i, bool change);
 		void		mode_L(Client &client, std::string param, std::string &validModes, int i, bool change);
+		void		mode_B(Client &client, std::string param, std::string &validModes, int i, bool change);
 		std::string	toggleChannelMode(Client &client, char mode, std::string param, int i, bool change);
 		std::string	channelMode(Client &client, std::map<std::string, std::string> args, int i);
 		bool		isSign(char c);
