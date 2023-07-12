@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:27:54 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/10 14:42:04 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:16:38 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ int	Server::cmdNickErrorHandling(std::vector<std::string> args, Client &client)
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 		return (1);
 	}
-	else if (usedNickname(args[0]))
-	{
-		std::string answer = "433 " + client.getNickname() + " " + args[0] + " :Nickname is already in use\r\n"; // ERR_ERRONEUSNICKNAME
-		send(client.getSocket(), answer.c_str(), answer.size(), 0);
-		return (1);
-	}
+	// else if (usedNickname(args[0]))
+	// {
+	// 	std::string answer = "433 " + client.getNickname() + " " + args[0] + " :Nickname is already in use\r\n"; // ERR_ERRONEUSNICKNAME
+	// 	send(client.getSocket(), answer.c_str(), answer.size(), 0);
+	// 	return (1);
+	// }
 	return (0);
 }
 

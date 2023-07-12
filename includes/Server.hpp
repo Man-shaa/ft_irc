@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 20:41:46 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:15:59 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,6 @@ class Server
 		int			cmdNickErrorHandling(std::vector<std::string> args, Client &client);
 		int			cmdNick(std::vector<std::string> args, Client &client);
 
-		// OPER
-		int			cmdOperErrorHandling(std::vector<std::string> args, Client &client);
-		int			cmdOper(std::vector<std::string> args, Client &client);
-
 		// PASS
 		int			cmdPass(std::vector<std::string> args, Client &client);
 
@@ -169,6 +165,14 @@ class Server
 
 		// PRIVMSG
 		int			cmdPrivmsg(std::vector<std::string> args, Client &client);
+
+		// KILL
+		int			cmdKillErrorHandling(std::vector<std::string> args, Client &client);
+		int			cmdKill(std::vector<std::string> args, Client &client);
+
+		// OPER
+		int			cmdOperErrorHandling(std::vector<std::string> args, Client &client);
+		int			cmdOper(std::vector<std::string> args, Client &client);
 
 		// PING
 		int			cmdPing(std::vector<std::string> args, Client &client);

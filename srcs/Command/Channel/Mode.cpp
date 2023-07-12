@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/10 14:21:14 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:12:06 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,7 @@ bool Server::isSign(char c)
 
 bool    Server::isValidChanMode(std::string mode)
 {
-	if (mode == "+i" || mode == "+t" || mode == "+k" || mode == "+o" || mode == "+l" || mode == "-i" || mode == "-t" || mode == "-k" || mode == "-o" || mode == "-l")
+	if (mode == "+i" || mode == "+t" || mode == "+k" || mode == "+o" || mode == "+l" || mode == "-i" || mode == "-t" || mode == "-k" || mode == "-o" || mode == "-l" || mode == "+b")
 		return (true);
 	return false;
 }

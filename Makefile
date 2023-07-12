@@ -18,7 +18,6 @@ SRCS	 	=	main.cpp			\
 				ClientSets.cpp		\
 				ClientUtils.cpp		\
 				Nick.cpp			\
-				Oper.cpp			\
 				Pass.cpp			\
 				User.cpp			\
 				Invite.cpp			\
@@ -27,6 +26,8 @@ SRCS	 	=	main.cpp			\
 				Mode.cpp			\
 				Topic.cpp			\
 				Privmsg.cpp			\
+				Kill.cpp			\
+				Oper.cpp			\
 				Ping.cpp			\
 				Who.cpp				\
 				Command.cpp			\

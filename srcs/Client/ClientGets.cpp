@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:50:00 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/10 14:18:00 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/12 17:11:59 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,14 @@ std::string	Client::getModeLevelStr() const
 	std::string	str;
 	if (_modeLevel == USER)
 		str = "+r";
-	else if (_modeLevel == OPERATOR)
+	else if (_modeLevel == MODO)
 		str = "+o";
 	return (str);
+}
+
+std::vector<Channel *>	Client::getChannelList() const
+{
+	return (_channels);
 }
 
 std::string			Client::getFirstName() const
