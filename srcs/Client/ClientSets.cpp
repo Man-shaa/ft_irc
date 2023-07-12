@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ClientSets.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:50:20 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 17:23:14 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/10 14:46:23 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	Client::setStatus(int status)
 
 void	Client::setUserName(std::string name)
 {
-	name = _userName;
+	_userName = name;
 }
 
 void	Client::setModeLevel(int level)

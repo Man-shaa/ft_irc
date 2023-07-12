@@ -1,0 +1,10 @@
+<< CAP LS
+<< PASS pas
+<< NICK ccheyrou
+<< USER ccheyrou ccheyrou 127.0.0.1 :Clementine CHEYROU-LAGREZE
+>> :bob NICK :ccheyrou
+>> 001 ccheyrou :Welcome to the Internet Relay Network ccheyrou
+<< MODE ccheyrou +i
+<< PING 127.0.0.1
+>> PONG :server.name 127.0.0.1
+--> lag pong
