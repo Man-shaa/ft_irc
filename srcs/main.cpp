@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:26 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/06/29 16:32:38 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:00:25 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int main(int ac, char **av)
 {
 	Server server;
 	if (ac != 3)
-		return (std::cout << "tuto: ./ft_irc <port> <password>" << std::endl, 1);
+		return (std::cerr << "tuto: ./ft_irc <port> <password>" << std::endl, 1);
 	if (!checkArg(av))
-		return (std::cout << "Incorrect port or invalid port" << std::endl, 0);
+		return (std::cerr << "Incorrect port or invalid port" << std::endl, 0);
 	server.start(atoi(av[1]), std::string(av[2]));
 	return (0);
 }

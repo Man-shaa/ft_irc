@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerChannels.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:54:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 15:57:31 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:01:19 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void Server::createChannel(std::string channelName, Client &client)
 			break ;
 		}
 		if (i == MAX_CHANNEL - 1)
-			std::cout << "Can not add more channels to the server" << std::endl;
+			std::cerr << "Can not add more channels to the server" << std::endl;
 	}
 }
 

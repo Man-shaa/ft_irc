@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/12 18:02:21 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:01:46 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int	Server::manageClientMsg()
 	else if (bytesRead == 0) 
 	{
 		_socketsToRemove.push_back(_fd);
-		std::cout << "Déconnexion du client " << _fd << std::endl;
+		std::cerr << "Déconnexion du client " << _fd << std::endl;
 		return (1) ;
 	} 
 	else if (errno != EWOULDBLOCK && errno != EAGAIN) 

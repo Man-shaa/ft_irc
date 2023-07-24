@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerClients.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:55:37 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 15:57:37 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:01:07 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	Server::addClient(std::string nickname, int fd)
 			break ;
 		}
 		if (i == MAX_CLIENTS - 1)
-			std::cout << "Can not add more clients to the server" << std::endl;
+			std::cerr << "Can not add more clients to the server" << std::endl;
 	}
 }
 

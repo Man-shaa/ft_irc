@@ -1,4 +1,4 @@
-NAME		=	ft_irc
+NAME		=	ircserv
 
 OBJ_DIR		=	objs
 SRC_DIR		=	$(shell find srcs -type d)
