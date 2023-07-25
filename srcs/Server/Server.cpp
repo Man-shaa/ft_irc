@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/24 15:01:46 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:30:47 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,17 @@
 
 const char* welcomeMessage = "Welcome to the IRC server!\r\n";
 
-Server::Server()
+Server::Server() : _params_mode(" ")
 {
-	for (int i = 0; i < MAX_CLIENTS; ++i)
-		_clients[i] = NULL;
-	for (int i = 0; i < MAX_CHANNEL; ++i)
-		_channels[i] = NULL;
-	_params_mode = " ";
+
 }
 
 Server::~Server()
 {
-	for (int i = 0; i < MAX_CLIENTS; ++i)
-	{
-		if (_clients[i] != NULL)
-			delete(_clients[i]);
-	}
+	for (size_t i = 0; i < _clients.size(); ++i)
+		delete(_clients[i]);
+	for (size_t i = 0; i < _channels.size(); ++i)
+		delete(_channels[i]);
 }
 
 /* Creation socket d'écoute (listen socket) est un type de socket utilisé \
@@ -204,7 +199,7 @@ int Server::dataManagement()
 			if (_fd == *_sockets.begin())
 				fds_rd = _fds_srv;
 			else
-				fds_rd = _clients[getClientByFd(_fd)->getId()]->getPollStrc();
+				fds_rd = getClientByFd(_fd)->getPollStrc();
 			if ((_ret = poll(&fds_rd, 1, 0)) <= 0)
 			{
 				if (_ret == 0 || errno == EINTR)

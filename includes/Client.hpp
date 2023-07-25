@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/12 17:17:08 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:25:44 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ class Client
 		std::string					_userName;
 		int							_status;
 		int							_modeLevel;
-		int							_id;
 		std::vector<Channel*>		_channels;
 		std::vector<std::string>	_invitedChannels;
 		struct 						pollfd _fds_clt;
@@ -77,7 +76,7 @@ class Client
 	public:
 
 		Client(void);
-		Client(int soketFd, std::string nickName, int id);
+		Client(int soketFd, std::string nickName);
 		~Client(void);
 
 		int						getSocket() const;
@@ -87,7 +86,6 @@ class Client
 		std::string				getLastName() const;
 		std::string				getUserName() const;
 		pollfd					getPollStrc() const;
-		int						getId() const;
 		int						getModeLevel() const;
 		std::string				getModeLevelStr() const;
 		std::vector<Channel *>	getChannelList() const;

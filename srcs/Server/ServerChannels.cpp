@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:54:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/24 15:01:19 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:49:00 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,13 @@
 
 void Server::createChannel(std::string channelName, Client &client)
 {
-	for (int i = 0; i < MAX_CHANNEL; ++i)
-	{
-		if (_channels[i] == NULL)
-		{
-			_channels[i] = new Channel(channelName, client);
-			break ;
-		}
-		if (i == MAX_CHANNEL - 1)
-			std::cerr << "Can not add more channels to the server" << std::endl;
-	}
+	_channels.push_back(new Channel(channelName, client));
 }
 
 // Return 1 if the channel exist, 0 otherwise
 int	Server::doesChannelExist(std::string &name) const
 {
-	for (int i = 0; i < MAX_CLIENTS; ++i)
+	for (size_t i = 0; i < _channels.size(); ++i)
 	{
 		if (_channels[i] != NULL && _channels[i]->getName() == name)
 			return (1);
@@ -40,7 +31,7 @@ int	Server::doesChannelExist(std::string &name) const
 // Return the channel [name] if it exist in server::_channels[MAX_CLIENTS] or NULL if it doesn't
 Channel	*Server::getChannelByName(std::string name) const
 {
-	for (int i = 0; i < MAX_CLIENTS; ++i)
+	for (size_t i = 0; i < _channels.size(); ++i)
 	{
 		if (_channels[i] != NULL && _channels[i]->getName() == name)
 			return (_channels[i]);
@@ -66,7 +57,7 @@ int	Server::isUserInChannel(std::string clientName, std::string channelName) con
 
 void Server::delChannel(std::string channelName)
 {
-	for (int i = 0; i < MAX_CHANNEL; ++i)
+	for (size_t i = 0; i < _channels.size(); ++i)
 	{
 		if (_channels[i] != NULL && _channels[i]->getName() == channelName)
 		{
@@ -81,7 +72,7 @@ void Server::delChannel(std::string channelName)
 // Print all channels in server
 void	Server::printAllChannel() const
 {
-	for (int i = 0; i < MAX_CHANNEL; ++i)
+	for (size_t i = 0; i < _channels.size(); ++i)
 	{
 		if (_channels[i] != NULL)
 		{
@@ -93,7 +84,7 @@ void	Server::printAllChannel() const
 
 void	Server::deleteUnusedChannel()
 {
-	for (int i = 0; i < MAX_CHANNEL; ++i)
+	for (size_t i = 0; i < _channels.size(); ++i)
 	{
 		if (_channels[i] && _channels[i]->getUserNumber() == 0)
 		{

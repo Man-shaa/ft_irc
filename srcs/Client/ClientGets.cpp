@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:50:00 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/12 17:17:56 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:02:05 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@ int	Client::getSocket() const
 const std::string	&Client::getNickname() const
 {
 	return (_nickName);
-}
-
-int	Client::getId() const
-{
-	return (_id);
 }
 
 int	Client::getStatus() const

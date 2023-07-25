@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 19:07:15 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:09:08 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,12 @@ int		Server::cmdJoinRPL(std::string channel, Client &client, int i)
 
 int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 {
-	//TODO Servers MAY restrict the number of channels a client may be joined to at one time cf. https://modern.ircdocs.horse/#chanlimit-parameter
-	//TODO Definir le type de channel accepte cf.https://modern.ircdocs.horse/#chantypes-parameter
 	bool channelExist = false;
-	int i;
+	size_t i;
 	
 	for (std::vector<std::string>::const_iterator it = args.begin(); it != args.end(); ++it)
 	{
-		// std::cout << _channels[i]->getModeChannel().find("i") << std::endl;
-		for (i = 0; _channels[i]; ++i)
+		for (i = 0; i < _channels.size(); ++i)
 		{
 			if (_channels[i]->getName() == *it)
 			{

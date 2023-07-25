@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/12 17:56:37 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/07/25 15:48:24 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@
 # define RED "\033[31m"
 # define CLOSE "\033[0m"
 
-# define MAX_CLIENTS 10
-# define MAX_CHANNEL 10
 # define BUFFER_SIZE 4096
 
 # define OPERPASS	"Admin1234!"
@@ -65,8 +63,8 @@ class Server
 		sockaddr_in 						_clientAddress;
 		std::vector<int> 					_sockets;
 		std::vector<int> 					_socketsToRemove;
-		Client								*_clients[MAX_CLIENTS];
-		Channel								*_channels[MAX_CLIENTS];
+		std::vector<Client*>				_clients;
+		std::vector<Channel*>				_channels;
 		struct 								pollfd _fds_srv;
 		int           						_ret;
 		int									_fd;
