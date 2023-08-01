@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/01 14:53:41 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/01 16:27:36 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,7 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 	bool 	channelExist = false;
 	int		i;
 
-	if (args[0][0] == '#')
+	if (args[0][0] == '#' || args[0][0] == '&' || args[0][0] == '+')
 	{
 		//Récupere le channel
 		for (i = 0; _channels[i]; ++i)
