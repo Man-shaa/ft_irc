@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 17:01:12 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 18:40:11 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:45:30 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 std::vector<std::string>	Server::listChannels(std::string chans)
 {
+	if (chans.empty())
+		return std::vector<std::string>();
 	std::vector<std::string> listChannel;
 	std::istringstream iss(chans);
 	std::string token;

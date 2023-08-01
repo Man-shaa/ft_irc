@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/25 15:09:08 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/01 16:18:38 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,44 +51,65 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 	bool channelExist = false;
 	size_t i;
 	
-	for (std::vector<std::string>::const_iterator it = args.begin(); it != args.end(); ++it)
+	std::vector<std::string> listChannel = listChannels(args[0]);
+	std::vector<std::string> listPassword;
+	
+	if (args.size() == 2)
+		listPassword = listChannels(args[1]);
+		
+	std::map<std::string, std::string> channels;
+	
+	std::vector<std::string>::iterator password = listPassword.begin();
+
+	for (std::vector<std::string>::const_iterator channelName = listChannel.begin(); channelName != listChannel.end(); ++channelName)
+	{
+		if (!listPassword.empty() && password != listPassword.end())
+		{
+			channels[*channelName] = *password;
+			password++;
+		}
+		else
+			channels[*channelName] = "";
+	}
+	
+	for (std::map<std::string, std::string>::const_iterator it = channels.begin(); it != channels.end(); ++it)
 	{
 		for (i = 0; i < _channels.size(); ++i)
 		{
-			if (_channels[i]->getName() == *it)
+			if (_channels[i]->getName() == it->first)
 			{
 				channelExist = true;
 				//The channel is password-protected and the user does not give or returns a wrong password 
-				if ((_channels[i]->getSecured() == true && (args.size() == 1 || args[1] != _channels[i]->getPassword())))
+				if ((_channels[i]->getSecured() == true && (it->second == "" || it->second != _channels[i]->getPassword())))
 				{
-					std::string ERR_BADCHANNELKEY = "475 " + client.getNickname() + " " + args[0] + " :Cannot join channel (+k)\r\n";
+					std::string ERR_BADCHANNELKEY = "475 " + client.getNickname() + " " + it->first + " :Cannot join channel (+k)\r\n";
 					send(client.getSocket(), ERR_BADCHANNELKEY.c_str(), ERR_BADCHANNELKEY.size(), 0);
 					return (1);
 				}
 				//The channel has a user limit and cannot add a new user
 				if (_channels[i]->getMaxUsr() != 0 && _channels[i]->getUserNumber() >= _channels[i]->getMaxUsr())
 				{
-					std::string ERR_CHANNELISFULL = "471 " + client.getNickname() + " " + args[0] + " :Cannot join channel (+l)\r\n";
+					std::string ERR_CHANNELISFULL = "471 " + client.getNickname() + " " + it->first + " :Cannot join channel (+l)\r\n";
 					send(client.getSocket(), ERR_CHANNELISFULL.c_str(), ERR_CHANNELISFULL.size(), 0);
 					return (1);
 				}
-				if (_channels[i]->getModeChannel().find("i") != std::string::npos && !client.isClientInvited(args[0]))
+				if (_channels[i]->getModeChannel().find("i") != std::string::npos && !client.isClientInvited(it->first))
 				{
-					std::string ERR_INVITEONLYCHAN = "473 " + client.getNickname() + " " + args[0] + " :Cannot join channel (+i)\r\n";
+					std::string ERR_INVITEONLYCHAN = "473 " + client.getNickname() + " " + it->first + " :Cannot join channel (+i)\r\n";
 					send(client.getSocket(), ERR_INVITEONLYCHAN.c_str(), ERR_INVITEONLYCHAN.size(), 0);
 					return (1);
 				}
 				_channels[i]->addUser(client);
-				cmdJoinRPL(*it, client, i);
-				std::cout << BLUE << client.getNickname() << " intègre le channel déjà existant " << CLOSE << *it << std::endl;
+				cmdJoinRPL(it->first, client, i);
+				std::cout << BLUE << client.getNickname() << " intègre le channel déjà existant " << CLOSE << it->first << std::endl;
 			}
 		}
 		
 		if (!channelExist)
 		{
-			createChannel(*it, client);
-			std::cout << "CLIENT: " << GREEN << client.getNickname() << " a crée un nouveau channel " << CLOSE << *it << "\n" << std::endl;
-			cmdJoinRPL(*it, client, i);
+			createChannel(it->first, client);
+			std::cout << "CLIENT: " << GREEN << client.getNickname() << " a crée un nouveau channel " << CLOSE << it->first << "\n" << std::endl;
+			cmdJoinRPL(it->first, client, i);
 		}
 	}
 
