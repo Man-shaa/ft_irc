@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerClients.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:55:37 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/25 16:25:15 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/04 14:18:36 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	Server::removeClient(int fd)
 {
 	for (size_t i = 0; i < _clients.size(); ++i)
 	{
-		if (_clients[i]->getSocket() == fd)
+		if (_clients[i] && _clients[i]->getSocket() == fd)
 		{
 			_socketsToRemove.push_back(fd);
 			delete(_clients[i]);
@@ -48,7 +48,7 @@ Client	*Server::getClientByFd(int fd) const
 {
 	for (size_t i = 0; i < _clients.size(); ++i)
 	{
-		if (_clients[i]->getSocket() == fd)
+		if (_clients[i] && _clients[i]->getSocket() == fd)
 			return (_clients[i]);
 	}
 	return (NULL);
@@ -59,7 +59,7 @@ Client	*Server::getClientByName(std::string nickname) const
 {
 	for (size_t i = 0; i < _clients.size(); ++i)
 	{
-		if (_clients[i]->getNickname() == nickname)
+		if (_clients[i] && _clients[i]->getNickname() == nickname)
 			return (_clients[i]);
 	}
 	return (NULL);
