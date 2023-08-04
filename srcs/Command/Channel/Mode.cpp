@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/12 18:12:40 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:53:41 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,7 @@ std::string	Server::parseMode(std::string mode)
 	std::string	toExec;
 	const char	*m = mode.c_str();
     char    latestSign = '\0';
-	std::cout << mode << std::endl;
+
 	if (mode == "b")
 		return("+" + mode);
     while (*m)    
