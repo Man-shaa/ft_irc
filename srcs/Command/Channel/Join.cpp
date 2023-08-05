@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/01 16:18:38 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/05 20:54:42 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 	{
 		for (i = 0; i < _channels.size(); ++i)
 		{
-			if (_channels[i]->getName() == it->first)
+			if (_channels[i] && _channels[i]->getName() == it->first)
 			{
 				channelExist = true;
 				//The channel is password-protected and the user does not give or returns a wrong password 

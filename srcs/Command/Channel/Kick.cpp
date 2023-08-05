@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 19:28:11 by msharifi          #+#    #+#             */
-/*   Updated: 2023/08/05 20:35:30 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/05 20:51:05 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	Server::cmdKickErrorHandling(std::vector<std::string> args, Client &client)
 	}
 	else if (!getChannelByName(args[0])->clientIsOp(client.getSocket()))
 	{
-		std::cout << args[0] << std::endl;
 		std::string answer = "482 " + client.getBanger() + " " + args[0] + " :You're not channel operator\r\n"; // ERR_CHANOPRIVSNEEDED
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 		return (1);
@@ -66,11 +65,11 @@ int	Server::cmdKick(std::vector<std::string> args, Client &client)
 		answer = ":" + client.getBanger() + " KICK " + args[0] + " " + args[1] + " :Unknown reason\r\n"; // ERR_NOTONCHANNEL
 	}
 	getChannelByName(args[0])->sendMsgToChannel(answer);
-	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 
 	Channel	*channel = getChannelByName(args[0]);
-	client.removeChannel(*channel);
-	if (channel->remUser(client))
+	Client	*target = getClientByName(args[1]);
+	target->removeChannel(*channel);
+	if (channel->remUser(*target))
 		delChannel(args[0]);
 	return (0);
 }

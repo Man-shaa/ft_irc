@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 18:00:30 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/05 20:50:50 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	Channel::addModo(Client &user)
 }
 
 // Remove [user] from this channel [usrList] and from the [OpeList] if user is an operator from this channel
+// Return 1 if channel is let empty, 0 otherwise
 int	Channel::remUser(Client &user)	
 {
     for (std::map<int, Client*>::iterator it = _usrList.begin(); it != _usrList.end(); ++it)
