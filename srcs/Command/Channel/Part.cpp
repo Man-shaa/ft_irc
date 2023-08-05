@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 17:01:12 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/01 15:45:30 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/05 18:13:41 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,19 @@ int	Server::cmdPart(std::vector<std::string> args, Client &client)
 		//Si le channel n'existe pas, on retourne un msg d'erreur
 		if (!channelExist)
 		{
-			std::string ERR_NOSUCHCHANNEL = "403 " + client.getNickname() + " :No such channel\r\n";
+			std::string ERR_NOSUCHCHANNEL = "403 " + client.getBanger()+ " " + args[0] + " :No such channel\r\n";
 			send(client.getSocket(), ERR_NOSUCHCHANNEL.c_str(), ERR_NOSUCHCHANNEL.size(), 0);
 			return (1);
 		}
 		//Si le channel existe, mais que l'utilisateur n'en fait pas parti
 		if (!client.isClientInChannel(_channels[i]->getName()))
 		{
-			std::string ERR_NOTONCHANNEL = "442 " + client.getNickname() + " " + _channels[i]->getName() + " :You're not on that channel\r\n";
+			std::string ERR_NOTONCHANNEL = "442 " + client.getBanger() + " " + args[0] + " :You're not on that channel\r\n";
 			send(client.getSocket(), ERR_NOTONCHANNEL.c_str(), ERR_NOTONCHANNEL.size(), 0);
 			return (1);
 		}
 		//L'utilisateur est supprime du channel (NB: Obliger de mettre @localhost sinon ca bug)
-		std::string PART = ":" + client.getNickname() + "@localhost PART " + _channels[i]->getName() + " " + reason + "\r\n";
+		std::string PART = ":" + client.getBanger() + " PART " + _channels[i]->getName() + " " + reason + "\r\n";
 		_channels[i]->sendMsgToChannel(PART);
 		client.removeChannel(*_channels[i]);
 
