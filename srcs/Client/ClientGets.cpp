@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ClientGets.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:50:00 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/25 16:02:05 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:27:32 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ const std::string	&Client::getNickname() const
 int	Client::getStatus() const
 {
 	return (_status);
+}
+
+std::string	Client::getBanger() const
+{
+	return (_banger);
 }
 
 pollfd	Client::getPollStrc() const
