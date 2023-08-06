@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 03:57:31 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 04:40:29 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,14 +285,14 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 {
 	// MODE CHANNEL
 	bool 	channelExist = false;
-	int		i;
+	size_t		i;
 
 	if (args[0][0] == '#' || args[0][0] == '&' || args[0][0] == '+')
 	{
 		//Récupere le channel
-		for (i = 0; _channels[i]; ++i)
+		for (i = 0; i < _channels.size(); ++i)
 		{
-			if (_channels[i]->getName() == args[0])
+			if (_channels[i] && _channels[i]->getName() == args[0])
 			{
 				channelExist = true;
 				break;
