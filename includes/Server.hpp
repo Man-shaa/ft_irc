@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 04:29:10 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/06 20:59:19 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,9 +179,6 @@ class Server
 
 		// PING
 		int			cmdPing(std::vector<std::string> args, Client &client);
-
-		//WHO
-		int			cmdWho(std::vector<std::string> args, Client &client);
 
 		//UTILS
 		void		printAllClient() const;

@@ -30,7 +30,6 @@ SRCS	 	=	main.cpp			\
 				Kill.cpp			\
 				Oper.cpp			\
 				Ping.cpp			\
-				Who.cpp				\
 				Command.cpp			\
 				Server.cpp			\
 				ServerChannels.cpp	\

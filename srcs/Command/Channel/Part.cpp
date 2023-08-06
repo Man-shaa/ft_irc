@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 17:01:12 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 04:14:06 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 20:58:47 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ int	Server::cmdPart(std::vector<std::string> args, Client &client)
 	
 	std::vector<std::string> listChannel = listChannels(args[0]);
 	std::string reason;
-	int 		i;
+	size_t 		i;
 	
 	if (args.size() >= 2 && !args[1].empty())
 		reason = args[1];
 	for (std::vector<std::string>::const_iterator it = listChannel.begin(); it != listChannel.end(); ++it)
 	{
 		bool 		channelExist = false;
-		for (i = 0; _channels[i]; ++i)
+		for (i = 0; i < _channels.size(); ++i)
 		{
 			if (_channels[i]->getName() == *it)
 			{
