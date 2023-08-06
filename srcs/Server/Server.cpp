@@ -221,14 +221,6 @@ int Server::dataManagement()
 	return (0);
 }
 
-// void	Server::initTarg(Client &client)
-// {
-// 	std::string TARGMAX =  "TARGMAX=PRIVMSG:3,WHOIS:1,JOIN:1,KICK:1,NAMES:1\r\n";
-// 	send(client.getSocket(), TARGMAX.c_str(), TARGMAX.size(), 0);
-// 	std::string CHANMODES =  "CHANMODES=,ko,,ti\r\n";
-// 	send(client.getSocket(), CHANMODES.c_str(), CHANMODES.size(), 0);
-// }
-
 int Server::start(int port, std::string password) 
 {
 	_port = port;
@@ -240,4 +232,9 @@ int Server::start(int port, std::string password)
 	dataManagement();
 	close(_sockets[0]);
 	return (0);
+}
+
+void	Server::removeExit()
+{
+	_mapFcts.clear();
 }
