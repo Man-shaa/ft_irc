@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 04:31:07 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 19:52:44 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	Channel::sendMode(std::string msg) const
 {
 	if (!msg.empty())
 	{
-		std::string MODE_COMMAND = "MODE " + _name + " " + msg + "\r\n";
+		std::string MODE_COMMAND = ":msharifi!msharifi@127.0.0.1 MODE " + _name + " " + msg + "\r\n";
 		std::cout << MODE_COMMAND << std::endl;
 		for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
 		{
