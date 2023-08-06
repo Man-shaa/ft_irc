@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Privmsg.cpp                                        :+:      :+:    :+:   */
+/*   Notice.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/02 16:30:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 04:24:53 by ccheyrou         ###   ########.fr       */
+/*   Created: 2023/08/06 04:28:18 by ccheyrou          #+#    #+#             */
+/*   Updated: 2023/08/06 04:30:42 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-int Server::cmdPrivmsg(std::vector<std::string> args, Client &client)
+int Server::cmdNotice(std::vector<std::string> args, Client &client)
 {
 	for (size_t i = 0; i < _channels.size(); ++i) 
 	{

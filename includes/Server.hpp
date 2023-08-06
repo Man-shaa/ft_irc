@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/05 16:30:29 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 04:29:10 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,9 @@ class Server
 		// TOPIC
 		int			cmdTopic(std::vector<std::string> args, Client &client);
 
+		//NOTICE
+		int			cmdNotice(std::vector<std::string> args, Client &client);
+		
 		// PRIVMSG
 		int			cmdPrivmsg(std::vector<std::string> args, Client &client);
 

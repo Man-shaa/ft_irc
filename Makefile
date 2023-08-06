@@ -25,6 +25,7 @@ SRCS	 	=	main.cpp			\
 				Kick.cpp			\
 				Mode.cpp			\
 				Topic.cpp			\
+				Notice.cpp			\
 				Privmsg.cpp			\
 				Kill.cpp			\
 				Oper.cpp			\
