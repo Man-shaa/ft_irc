@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 20:52:40 by msharifi          #+#    #+#             */
-/*   Updated: 2023/08/05 19:26:06 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 04:11:28 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	Server::cmdInviteErrorHandling(std::vector<std::string> args, Client &client
 {
 	if (args.size() < 2)
 	{
-		std::string answer = "461 " + client.getNickname() + "@localhost INVITE :not enough parameters\r\n"; // ERR_NEEDMOREPARAMS
+		std::string answer = "461 " + client.getBanger() + " INVITE :not enough parameters\r\n"; // ERR_NEEDMOREPARAMS
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 		return (1);
 	}

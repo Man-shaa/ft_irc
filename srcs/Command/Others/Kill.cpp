@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 19:28:47 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/05 20:00:17 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 04:36:29 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@ int	Server::cmdKillErrorHandling(std::vector<std::string> args, Client &client)
 {
 	if (client.getModeLevel() != MODO)
 	{
-		std::string answer = "481 " + client.getNickname() + " :Permission Denied- You're not an IRC operator\r\n"; // ERR_NEEDMOREPARAMS
+		std::string answer = "481 " + client.getBanger() + " :Permission Denied- You're not an IRC operator\r\n"; // ERR_NOPRIVILEGES
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 		removeClient(client.getSocket());
 		return (1);
 	}
 	else if (args.size() < 2)
 	{
-		std::string answer = "461 " + client.getNickname() + " KILL :Not enough parameters\r\n"; // ERR_NEEDMOREPARAMS
+		std::string answer = "461 " + client.getBanger() + " KILL :Not enough parameters\r\n"; // ERR_NEEDMOREPARAMS
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 		removeClient(client.getSocket());
 		return (1);
 	}
 	else if (!getClientByName(args[0]))
 	{
-		std::string answer = "401 " + client.getNickname() + "@localhost " + args[0] + " :No such nick\r\n"; // ERR_NOSUCHNICK
+		std::string answer = "401 " + client.getBanger() + " " + args[0] + " :No such nick\r\n"; // ERR_NOSUCHNICK
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 		return (1);
 	}

@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 17:01:12 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/05 18:13:41 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 04:14:06 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	Server::cmdPart(std::vector<std::string> args, Client &client)
 	//Si le channel n'est pas precisé
 	if (args.size() < 1)
 	{
-		std::string ERR_NEEDMOREPARAMS = "461 " + client.getNickname() + " PART :Not enough parameters\r\n";
+		std::string ERR_NEEDMOREPARAMS = "461 " + client.getBanger() + " PART :Not enough parameters\r\n";
 		send(client.getSocket(), ERR_NEEDMOREPARAMS.c_str(), ERR_NEEDMOREPARAMS.size(), 0);
 		return (1);	
 	}
