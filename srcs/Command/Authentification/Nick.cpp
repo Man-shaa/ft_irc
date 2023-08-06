@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:27:54 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 17:47:48 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 20:09:14 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,18 @@ int	Server::cmdNickErrorHandling(std::vector<std::string> args, Client &client)
 		return (1);
 	}
 	(void)args;
-	// if (parseNickname(args[0]))
-	// {
-	// 	std::string answer = "432 " + client.getBanger() + " " + args[0] + " :Erroneus nickname\r\n"; // ERR_ERRONEUSNICKNAME
-	// 	send(client.getSocket(), answer.c_str(), answer.size(), 0);
-	// 	return (1);
-	// }
-	// else if (usedNickname(args[0]))
-	// {
-	// 	std::string answer = "433 " + client.getBanger() + " " + args[0] + " :Nickname is already in use\r\n"; // ERR_ERRONEUSNICKNAME
-	// 	send(client.getSocket(), answer.c_str(), answer.size(), 0);
-	// 	return (1);
-	// }
+	if (parseNickname(args[0]))
+	{
+		std::string answer = "432 " + client.getBanger() + " " + args[0] + " :Erroneus nickname\r\n"; // ERR_ERRONEUSNICKNAME
+		send(client.getSocket(), answer.c_str(), answer.size(), 0);
+		return (1);
+	}
+	else if (usedNickname(args[0]))
+	{
+		std::string answer = "433 " + client.getBanger() + " " + args[0] + " :Nickname is already in use\r\n"; // ERR_ERRONEUSNICKNAME
+		send(client.getSocket(), answer.c_str(), answer.size(), 0);
+		return (1);
+	}
 	return (0);
 }
 
