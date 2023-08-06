@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelOps.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 18:00:30 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/04 17:06:08 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ int	Channel::remUser(Client &user)
 	{
         if (it->first == user.getSocket())
 		{
+			std::map<int, Client*>::iterator nextIt = it;
+			++nextIt;
+			if (_OpeList.size() == 0 && nextIt != _usrList.end())
+				_OpeList[nextIt->first] = nextIt->second;
+				
             _usrList.erase(it);
 			if (clientIsOp(user.getSocket()))
 				remOperator(user);
