@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelOps.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 03:57:18 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 20:37:40 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,22 @@ int	Channel::isChannelInviteOnly(void) const
 void	Channel::sendMsg(std::string msg, Client &user) const
 {
     for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
+	{
+		if (it->first != user.getSocket())
+		{
+			if (send(it->second->getSocket(), msg.c_str(), msg.size(), 0) == -1)
+			{
+				std::string ERR_CANNOTSENDTOCHAN = "404 " + user.getNickname() + " " + _name + " :Cannot send to channel\r\n";
+				send(user.getSocket(), ERR_CANNOTSENDTOCHAN.c_str(), ERR_CANNOTSENDTOCHAN.size(), 0);
+			}
+		}	
+	}
+	return ;
+}
+
+void	Channel::sendMsgOpe(std::string msg, Client &user) const
+{
+    for (std::map<int, Client*>::const_iterator it = _OpeList.begin(); it != _OpeList.end(); ++it)
 	{
 		if (it->first != user.getSocket())
 		{

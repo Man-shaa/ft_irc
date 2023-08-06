@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/05 16:30:29 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 21:32:10 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,10 @@ class Server
 
 		// PRIVMSG
 		int			cmdPrivmsg(std::vector<std::string> args, Client &client);
-
+		void		privMsgChannel(std::vector<std::string> args, Client &client, std::string name);
+		void		privMsgChannelOps(std::vector<std::string> args, Client &client, std::string name);
+		void		privMsgUser(std::vector<std::string> args, Client &client);
+		
 		// KILL
 		int			cmdKillErrorHandling(std::vector<std::string> args, Client &client);
 		int			cmdKill(std::vector<std::string> args, Client &client);
