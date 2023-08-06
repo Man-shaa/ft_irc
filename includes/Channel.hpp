@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/07/25 16:09:38 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/06 17:45:02 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ class	Channel
 		void						setSecured(bool	secured);
 		void						setMode(bool active, char i);
 		int							setMaxUsr(int maxUsr, bool change);
-
 
 		void						addUser(Client &user);
 		void						addModo(Client &user);

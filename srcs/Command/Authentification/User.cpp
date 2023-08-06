@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:29:10 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/25 15:40:50 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/06 04:08:18 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		Server::cmdUser(std::vector<std::string> args, Client &client)
 		return (1);
 	else if (client.getStatus() == CONNECT)
 	{
-		std::string	answer = "462 " + client.getNickname() + " :You may not reregister\r\n";
+		std::string	answer = "462 " + client.getBanger() + " :You may not reregister\r\n";
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 	}
 	if (args[0].empty())
