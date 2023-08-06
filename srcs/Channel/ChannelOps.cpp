@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 18:00:30 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 03:57:18 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,18 @@ void	Channel::addModo(Client &user)
 }
 
 // Remove [user] from this channel [usrList] and from the [OpeList] if user is an operator from this channel
+// Return 1 if channel is let empty, 0 otherwise
 int	Channel::remUser(Client &user)	
 {
     for (std::map<int, Client*>::iterator it = _usrList.begin(); it != _usrList.end(); ++it)
 	{
         if (it->first == user.getSocket())
 		{
+			std::map<int, Client*>::iterator nextIt = it;
+			++nextIt;
+			if (_OpeList.size() == 0 && nextIt != _usrList.end())
+				_OpeList[nextIt->first] = nextIt->second;
+				
             _usrList.erase(it);
 			if (clientIsOp(user.getSocket()))
 				remOperator(user);
@@ -115,7 +121,7 @@ void	Channel::sendTopic(std::string msg, Client &user) const
 {
 	if (!msg.empty())
 	{
-		std::string TOPIC_COMMAND = ":" + user.getNickname() + " TOPIC " + _name + " " + msg + "\r\n";
+		std::string TOPIC_COMMAND = ":" + user.getBanger() + " TOPIC " + _name + " " + msg + "\r\n";
 		std::cout << TOPIC_COMMAND << std::endl;
 		for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
 		{

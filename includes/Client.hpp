@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/25 16:25:44 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:28:10 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ class Client
 		std::string					_firstName;
 		std::string					_lastName;
 		std::string					_userName;
+		std::string					_banger;
 		int							_status;
 		int							_modeLevel;
 		std::vector<Channel*>		_channels;
@@ -85,6 +86,7 @@ class Client
 		std::string				getFirstName() const;
 		std::string				getLastName() const;
 		std::string				getUserName() const;
+		std::string				getBanger() const;
 		pollfd					getPollStrc() const;
 		int						getModeLevel() const;
 		std::string				getModeLevelStr() const;
@@ -94,6 +96,7 @@ class Client
 		void					setFirstName(std::string name);
 		void					setLastName(std::string name);
 		void					setUserName(std::string name);
+		void					setBanger(std::string name);
 		void					setStatus(int status);
 		void					setModeLevel(int status);
 	

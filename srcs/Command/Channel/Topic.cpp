@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/01 15:48:38 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 18:54:04 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 03:19:50 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,19 @@ int		Server::cmdTopic(std::vector<std::string> args, Client &client)
 		send(client.getSocket(), ERR_NOTONCHANNEL.c_str(), ERR_NOTONCHANNEL.size(), 0);
 		return (1);
 	}
-	if (args.size() == 1)
+	if (args.size() >= 2)
 	{
-		if (!_channels[i]->getTopic().empty())
+		std::string	msg;
+		for (std::vector<std::string>::iterator it = args.begin() + 1; it != args.end(); ++it)
 		{
-			std::string RPL_NOTOPIC = "331 " + client.getNickname() + " " + args[0] + " :No topic is set\r\n";
-			send(client.getSocket(), RPL_NOTOPIC.c_str(), RPL_NOTOPIC.size(), 0);				
+			if (it == args.begin() + 1)
+				msg = (*it).erase(0,1);
+			else
+				msg += " " + *it;
 		}
-		else
-		{
-			std::string RPL_TOPIC = "332 " + client.getNickname() + " " + args[0] + " :" + _channels[i]->getTopic() + "\r\n";
-			send(client.getSocket(), RPL_TOPIC.c_str(), RPL_TOPIC.size(), 0);						
-			//topictime
-		}
-	}
-	if (args.size() == 2)
-	{
-		if (_channels[i]->setTopic(args[1], client))
-			_channels[i]->sendTopic(args[1], client);
+		msg += "\r\n";
+		if (_channels[i]->setTopic(msg, client))
+			_channels[i]->sendTopic(msg, client);
 		else
 		{
 			std::string ERR_CHANOPRIVSNEEDED = "482 " + client.getNickname() + " :You're not channel operator\r\n";

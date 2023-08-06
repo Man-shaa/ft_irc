@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelSets.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:44:42 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 17:23:10 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/06 02:53:59 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int	Channel::setTopic(std::string topic, Client &user)
 		std::time_t now = std::time(0);
 		ss << now;
 		_setat = ss.str();
-		return(_topic = topic, 1);
+		std::cout << topic << std::endl;
+		_topic = topic;
+		return(1);
 	}
 	else
 		return (0);

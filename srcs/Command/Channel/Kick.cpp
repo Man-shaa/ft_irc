@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 19:28:11 by msharifi          #+#    #+#             */
-/*   Updated: 2023/07/05 17:17:44 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/05 20:51:05 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,39 +16,31 @@ int	Server::cmdKickErrorHandling(std::vector<std::string> args, Client &client)
 {
 	if (args.size() < 2)
 	{
-		std::string answer = "461 " + client.getNickname() + "@localhost KICK :not enough parameters\r\n"; // ERR_NEEDMOREPARAMS
+		std::string answer = "461 " + client.getBanger() + " KICK :not enough parameters\r\n"; // ERR_NEEDMOREPARAMS
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 		return (1);
 	}
 	else if (!doesChannelExist(args[0]))
 	{
-		std::string answer = "403 " + client.getNickname() + "@localhost " + args[0] + " :No such channel\r\n"; // ERR_NOSUCHCHANNEL
-		send(client.getSocket(), answer.c_str(), answer.size(), 0);
-		return (1);
-	}
-	
-	
-	
-	
-	
-	
-	
-	// ICI
-	if (!getChannelByName(args[0])->clientIsOp(client.getSocket()))
-	{
-		std::string answer = "482 " + client.getNickname() + "@localhost " + args[0] + " :You're not channel operator\r\n"; // ERR_CHANOPRIVSNEEDED
-		send(client.getSocket(), answer.c_str(), answer.size(), 0);
-		return (1);
-	}
-	else if (!isUserInChannel(args[1], args[0]))
-	{
-		std::string answer = "441 " + client.getNickname() + "@localhost " + args[1] + " " + args[0] + " :They aren't on that channel\r\n"; // ERR_USERNOTINCHANNEL
+		std::string answer = "403 " + client.getBanger() + " " + args[0] + " :No such channel\r\n"; // ERR_NOSUCHCHANNEL
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 		return (1);
 	}
 	else if (!isUserInChannel(client.getNickname(), args[0]))
 	{
-		std::string answer = "442 " + client.getNickname() + "@localhost " + args[0] + " :You're not on that channel\r\n"; // ERR_NOTONCHANNEL
+		std::string answer = "442 " + client.getBanger() + " " + args[0] + " :You're not on that channel\r\n"; // ERR_NOTONCHANNEL
+		send(client.getSocket(), answer.c_str(), answer.size(), 0);
+		return (1);
+	}
+	else if (!isUserInChannel(args[1], args[0]))
+	{
+		std::string answer = "441 " + client.getBanger() + " " + args[1] + " " + args[0] + " :They aren't on that channel\r\n"; // ERR_USERNOTINCHANNEL
+		send(client.getSocket(), answer.c_str(), answer.size(), 0);
+		return (1);
+	}
+	else if (!getChannelByName(args[0])->clientIsOp(client.getSocket()))
+	{
+		std::string answer = "482 " + client.getBanger() + " " + args[0] + " :You're not channel operator\r\n"; // ERR_CHANOPRIVSNEEDED
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
 		return (1);
 	}
@@ -59,25 +51,25 @@ int	Server::cmdKick(std::vector<std::string> args, Client &client)
 {
 	if (cmdKickErrorHandling(args, client))
 		return (1);
-	std::string answer = ":" + args[1] + "@localhost PART " + args[0] + "\r\n";
+	std::string answer = ":" + getClientByName(args[1])->getBanger() + " PART " + args[0] + "\r\n";
 	send(getClientByName(args[1])->getSocket(), answer.c_str(), answer.size(), 0);
 	if (args[2].size() != 1)
 	{
 		std::string	argsStr;
 		for (std::vector<std::string>::iterator it = args.begin() + 2; it != args.end(); ++it)
 			argsStr += *it + " ";
-		answer = ":" + client.getNickname() + "@localhost KICK " + args[0] + " " + args[1] + " :" + argsStr.substr(1, argsStr.size() - 2) + "\r\n"; // ERR_NOTONCHANNEL
+		answer = ":" + client.getBanger() + " KICK " + args[0] + " " + args[1] + " :" + argsStr.substr(1, argsStr.size() - 2) + "\r\n"; // ERR_NOTONCHANNEL
 	}
 	else
 	{
-		answer = ":" + client.getNickname() + "@localhost KICK " + args[0] + " " + args[1] + " :Unknown reason\r\n"; // ERR_NOTONCHANNEL
+		answer = ":" + client.getBanger() + " KICK " + args[0] + " " + args[1] + " :Unknown reason\r\n"; // ERR_NOTONCHANNEL
 	}
 	getChannelByName(args[0])->sendMsgToChannel(answer);
-	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 
 	Channel	*channel = getChannelByName(args[0]);
-	client.removeChannel(*channel);
-	if (channel->remUser(client))
+	Client	*target = getClientByName(args[1]);
+	target->removeChannel(*channel);
+	if (channel->remUser(*target))
 		delChannel(args[0]);
 	return (0);
 }
