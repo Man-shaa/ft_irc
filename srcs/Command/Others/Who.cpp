@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 18:58:39 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/05 16:43:33 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 03:58:00 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		Server::cmdWho(std::vector<std::string> args, Client &client)
 {
 	std::string channel;
 	//A channel name
-	if (args[0][0] == '#')
+	if (args[0][0] == '#' || args[0][0] == '&' || args[0][0] == '+')
 	{
 		std::string channel = args[0];
 		std::map<int, Client*> _usrList = getChannelByName(channel)->getUsrListMap();
