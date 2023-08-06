@@ -6,10 +6,9 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 20:54:57 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/05 20:57:26 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/06 17:49:54 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "Channel.hpp"
 
@@ -100,4 +99,9 @@ std::string Channel::getModeChannel(void) const
 int	Channel::getUserNumber(void) const
 {
 	return (_usrList.size());
+}
+
+int	Channel::getOpNumber(void) const
+{
+	return (_OpeList.size());
 }

@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 05:00:03 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:57:54 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ int	Channel::remUser(Client &user)
 	{
         if (it->first == user.getSocket())
 		{
-			std::map<int, Client*>::iterator nextIt = it;
-			++nextIt;
-			if (_OpeList.size() == 0 && nextIt != _usrList.end())
-				_OpeList[nextIt->first] = nextIt->second;
-				
             _usrList.erase(it);
 			if (clientIsOp(user.getSocket()))
 				remOperator(user);
@@ -58,6 +53,11 @@ void	Channel::remOperator(Client &user)
 	{
         if (it->first == user.getSocket())
 		{
+			for (std::map<int, Client*>::iterator usr = _usrList.begin(); usr != _usrList.end(); ++usr)
+			{
+				if (!clientIsOp(usr->second->getSocket()))
+					_OpeList[usr->first] = usr->second;
+			}
             _OpeList.erase(it);
             break;
 		}

@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 05:00:47 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/06 19:02:46 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 {
 	if (!param.empty())
 	{
-		if (getClientByName(param) == NULL)
+		if (getClientByName(param) == NULL || (_channels[i]->getUserNumber() == 1 && _channels[i]->clientIsOp(getClientByName(param)->getSocket())))
 			return ;
 		if (change == true)
 			_channels[i]->addModo(*getClientByName(param));
