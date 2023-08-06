@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 20:16:06 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/06 20:40:56 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,11 @@ void	Channel::sendMsg(std::string msg, Client &user) const
 	return ;
 }
 
-void	Channel::sendMode(std::string msg) const
+void	Channel::sendMode(std::string msg, std::string client) const
 {
 	if (!msg.empty())
 	{
-		std::string MODE_COMMAND = ":msharifi!msharifi@127.0.0.1 MODE " + _name + " " + msg + "\r\n";
-		std::cout << MODE_COMMAND << std::endl;
+		std::string MODE_COMMAND = ":" + client + " MODE " + _name + " " + msg + "\r\n";
 		for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
 		{
 			send(it->second->getSocket(), MODE_COMMAND.c_str(), MODE_COMMAND.size(), 0);
@@ -122,7 +121,6 @@ void	Channel::sendTopic(std::string msg, Client &user) const
 	if (!msg.empty())
 	{
 		std::string TOPIC_COMMAND = ":" + user.getBanger() + " TOPIC " + _name + " " + msg + "\r\n";
-		std::cout << TOPIC_COMMAND << std::endl;
 		for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
 		{
 			send(it->second->getSocket(), TOPIC_COMMAND.c_str(), TOPIC_COMMAND.size(), 0);

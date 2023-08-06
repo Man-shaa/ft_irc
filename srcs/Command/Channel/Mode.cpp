@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 20:15:53 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/06 20:39:50 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,7 +330,7 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 			//Channel valide + modestring, on vérifie check les modes a set ou unset		
 			//Puis on envoie les nouveaux modes a tout les utilisateurs
 				//_channels[i]->sendMode(channelMode(client, args, i));
-				_channels[i]->sendMode(checkArg(client, args, i));
+				_channels[i]->sendMode(checkArg(client, args, i), client.getBanger());
 				_params_mode = " ";
 			}
 		}
