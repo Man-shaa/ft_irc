@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 14:22:26 by msharifi          #+#    #+#             */
-/*   Updated: 2023/08/06 04:40:26 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 17:21:03 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	Server::cmdOper(std::vector<std::string> args, Client &client)
 {
 	if (cmdOperErrorHandling(args, client))
 		return (1);
+	client.setModeLevel(MODO);
 	std::string answer = "381 " + client.getBanger() + " :You are now an IRC operator\r\n"; // RPL_YOUREOPER
 	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 	answer = ":" + client.getBanger() + " MODE " + client.getNickname() + " +o\r\n"; // RPL_YOUREOPER
