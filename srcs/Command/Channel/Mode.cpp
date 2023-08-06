@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 20:03:31 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 20:08:47 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void Server::mode_K(Client &client, std::string param, std::string &validModes, 
 		//On doit donner le bon mot de passe pour le supprimer
 		if (change == false && _channels[i]->getPassword() != param)
 		{
-			std::string ERR_INVALIDMODEPARAM = "696 " + client.getBanger() + " " + _channels[i]->getName() + " k " + param + " :Wrong password\r\n";
+			std::string ERR_INVALIDMODEPARAM = "696 " + client.getNickname() + " " + _channels[i]->getName() + " k " + param + " :Wrong password\r\n";
 			send(client.getSocket(), ERR_INVALIDMODEPARAM.c_str(), ERR_INVALIDMODEPARAM.size(), 0);
 		}
 		//On doit vérifier le format du passsword est valide
 		else if (change == true && (param.size() < 6 || !containsUppercase(param)))
 		{
-			std::string ERR_INVALIDKEY = "525 " + client.getBanger() + " " + _channels[i]->getName() + " :Your password must be at least 6 characters long and must contain at least one uppercase.\r\n";
+			std::string ERR_INVALIDKEY = "525 " + client.getNickname() + " " + _channels[i]->getName() + " :Your password must be at least 6 characters long and must contain at least one uppercase.\r\n";
 			send(client.getSocket(), ERR_INVALIDKEY.c_str(), ERR_INVALIDKEY.size(), 0);
 		}
 		else
@@ -70,7 +70,7 @@ void Server::mode_K(Client &client, std::string param, std::string &validModes, 
 	}
 	else
 	{
-		std::string ERR_NEEDMOREPARAMS = "461 " + client.getBanger() + " MODE :Password is missing\r\n";
+		std::string ERR_NEEDMOREPARAMS = "461 " + client.getNickname() + " MODE :Password is missing\r\n";
 		send(client.getSocket(), ERR_NEEDMOREPARAMS.c_str(), ERR_NEEDMOREPARAMS.size(), 0);
 	}
 }
@@ -98,10 +98,10 @@ void	Server::mode_B(Client &client, std::string param, std::string &validModes, 
 	(void)change;
 	(void)validModes;
 	
-	std::string RPL_BANLIST = "367 " + client.getBanger() + " " + _channels[i]->getName() + "\r\n";
+	std::string RPL_BANLIST = "367 " + client.getNickname() + " " + _channels[i]->getName() + "\r\n";
 	send(client.getSocket(), RPL_BANLIST.c_str(), RPL_BANLIST.size(), 0);
 
-	std::string RPL_ENDOFBANLIST = "368 " + client.getBanger() + " " + _channels[i]->getName() + " :End of channel ban list\r\n";
+	std::string RPL_ENDOFBANLIST = "368 " + client.getNickname() + " " + _channels[i]->getName() + " :End of channel ban list\r\n";
 	send(client.getSocket(), RPL_ENDOFBANLIST.c_str(), RPL_ENDOFBANLIST.size(), 0);
 }
 
@@ -109,6 +109,8 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 {
 	if (!param.empty())
 	{
+		if (getClientByName(param) == NULL)
+			return ;
 		if (change == true)
 			_channels[i]->addModo(*getClientByName(param));
 		if (change == false)
@@ -116,7 +118,7 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 		
 		//RPL_NAMREPLY sent to client
 		std::vector<std::string> listUsr = _channels[i]->getUsrList();
-		std::string RPL_NAMREPLY = "353 " + client.getBanger() + " = " + _channels[i]->getName() + " :";
+		std::string RPL_NAMREPLY = "353 " + client.getNickname() + " = " + _channels[i]->getName() + " :";
 		for (std::vector<std::string>::const_iterator it = listUsr.begin(); it != listUsr.end(); ++it)
 		{
 			if (it == listUsr.begin())
@@ -129,7 +131,7 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 		send(client.getSocket(), RPL_NAMREPLY.c_str(), RPL_NAMREPLY.size(), 0);
 		
 		//RPL_ENDOFNAMES sent to client
-		std::string RPL_ENDOFNAMES = "366 " + client.getBanger() + " " + _channels[i]->getName() + " :End of NAMES list\r\n";
+		std::string RPL_ENDOFNAMES = "366 " + client.getNickname() + " " + _channels[i]->getName() + " :End of NAMES list\r\n";
 		send(client.getSocket(), RPL_ENDOFNAMES.c_str(), RPL_ENDOFNAMES.size(), 0);
 		
 		_channels[i]->setMode(change, 'o');
@@ -138,7 +140,7 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 	}
 	else
 	{
-		std::string ERR_NEEDMOREPARAMS = "461 " + client.getBanger() + " MODE :User is missing\r\n";
+		std::string ERR_NEEDMOREPARAMS = "461 " + client.getNickname() + " MODE :User is missing\r\n";
 		send(client.getSocket(), ERR_NEEDMOREPARAMS.c_str(), ERR_NEEDMOREPARAMS.size(), 0);
 	}
 }
@@ -150,7 +152,7 @@ void	Server::mode_L(Client &client, std::string param, std::string &validModes, 
 	{
 		if (change == true && (atoi(param.c_str()) < 0 || atoi(param.c_str()) > 2147483647 || !isDigits(param)))
 		{
-			std::string ERR_INVALIDMODEPARAM = "696 " + client.getBanger() + " " + _channels[i]->getName() + " l " + param + " :Wrong number limit\r\n";
+			std::string ERR_INVALIDMODEPARAM = "696 " + client.getNickname() + " " + _channels[i]->getName() + " l " + param + " :Wrong number limit\r\n";
 			send(client.getSocket(), ERR_INVALIDMODEPARAM.c_str(), ERR_INVALIDMODEPARAM.size(), 0);
 		}
 		else
@@ -165,7 +167,7 @@ void	Server::mode_L(Client &client, std::string param, std::string &validModes, 
 	}
 	else	
 	{
-		std::string ERR_NEEDMOREPARAMS = "461 " + client.getBanger() + " MODE :User limit number is missing\r\n";
+		std::string ERR_NEEDMOREPARAMS = "461 " + client.getNickname() + " MODE :User limit number is missing\r\n";
 		send(client.getSocket(), ERR_NEEDMOREPARAMS.c_str(), ERR_NEEDMOREPARAMS.size(), 0);
 	}
 }
@@ -255,7 +257,7 @@ std::string	Server::checkArg(Client &client, std::vector<std::string> args, int 
 	{
 		if (!isValidChanMode(tokenm))
 		{
-			std::string ERR_UMODEUNKNOWNFLAG = "501 " + client.getBanger() + " :Unknown MODE flag\r\n";
+			std::string ERR_UMODEUNKNOWNFLAG = "501 " + client.getNickname() + " :Unknown MODE flag\r\n";
 			send(client.getSocket(), ERR_UMODEUNKNOWNFLAG.c_str(), ERR_UMODEUNKNOWNFLAG.size(), 0);
 			return ("");
 		}
@@ -285,14 +287,14 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 {
 	// MODE CHANNEL
 	bool 	channelExist = false;
-	size_t	i;
+	size_t		i;
 
 	if (args[0][0] == '#' || args[0][0] == '&' || args[0][0] == '+')
 	{
 		//Récupere le channel
 		for (i = 0; i < _channels.size(); ++i)
 		{
-			if (_channels[i]->getName() == args[0])
+			if (_channels[i] && _channels[i]->getName() == args[0])
 			{
 				channelExist = true;
 				break;
@@ -301,18 +303,18 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 		//Si le channel n'existe pas, on retourne un msg d'erreur
 		if (!channelExist)
 		{
-			std::string ERR_NOSUCHCHANNEL = "403 " + client.getBanger() + " " + args[0] + " " + " :No such channel\r\n";
+			std::string ERR_NOSUCHCHANNEL = "403 " + client.getNickname() + " :No such channel\r\n";
 			send(client.getSocket(), ERR_NOSUCHCHANNEL.c_str(), ERR_NOSUCHCHANNEL.size(), 0);
 			return (0);
 		}
 		//Si la commande comprend un channel valide, mais aucun modestring, on retourne les modes existants et l'heure de creation du channel
 		if (args.size() == 1 || args[1].empty())
 		{
-			std::string RPL_CHANNELMODEIS = "324 " + client.getBanger() + " " + args[0] + " " +  _channels[i]->getModeChannel() + "\r\n";
+			std::string RPL_CHANNELMODEIS = "324 " + client.getNickname() + " " + args[0] + " " +  _channels[i]->getModeChannel() + "\r\n";
 			std::cout << RPL_CHANNELMODEIS << std::endl;
 			send(client.getSocket(), RPL_CHANNELMODEIS.c_str(), RPL_CHANNELMODEIS.size(), 0);
 
-			std::string RPL_CREATIONTIME = "329 " + client.getBanger() + " " + args[0] + " " + _channels[i]->getCreationTime() + "\r\n";
+			std::string RPL_CREATIONTIME = "329 " + client.getNickname() + " " + args[0] + " " + _channels[i]->getCreationTime() + "\r\n";
 			send(client.getSocket(), RPL_CREATIONTIME.c_str(), RPL_CREATIONTIME.size(), 0);
 		}
 		else
@@ -320,21 +322,10 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 			//Channel valide + modestring, on vérifie si le client est un opérateur du channel
 			if (!_channels[i]->clientIsOp(client.getSocket()) && args[1] != "b")
 			{
-				std::string ERR_CHANOPRIVSNEEDED = "482 " + client.getBanger() + args[0] + " :You're not channel operator\r\n";
+				std::string ERR_CHANOPRIVSNEEDED = "482 " + client.getNickname() + args[0] + " :You're not channel operator\r\n";
 				send(client.getSocket(), ERR_CHANOPRIVSNEEDED.c_str(), ERR_CHANOPRIVSNEEDED.size(), 0);	
 			}
 			else
-			{" + args[0] + " " +  _channels[i]->getModeChannel() + "\r\n";
-			std::cout << RPL_CHANNELMODEIS << std::endl;
-			send(client.getSocket(), RPL_CHANNELMODEIS.c_str(), RPL_CHANNELMODEIS.size(), 0);
-
-			std::string RPL_CREATIONTIME = "329 " + client.getBanger() + " " + args[0] + " " + _channels[i]->getCreationTime() + "\r\n";
-			send(client.getSocket(), RPL_CREATIONTIME.c_str(), RPL_CREATIONTIME.size(), 0);
-		}
-		else
-		{
-			//Channel valide + modestring, on vérifie si le client est un opérateur du channel
-			if (!_channels[i]->clientIsOp(client.getSocket()) && args[1] != "b")
 			{
 			//Channel valide + modestring, on vérifie check les modes a set ou unset		
 			//Puis on envoie les nouveaux modes a tout les utilisateurs
