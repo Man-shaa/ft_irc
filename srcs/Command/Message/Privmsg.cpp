@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   Privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/25 17:04:58 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/06 02:42:29 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
-int		Server::cmdPrivmsg(std::vector<std::string> args, Client &client)
+int Server::cmdPrivmsg(std::vector<std::string> args, Client &client)
 {
-	//cf. https://modern.ircdocs.horse/#privmsg-message
-	for (int i = 0; _channels[i]; ++i) 
+	// cf. https://modern.ircdocs.horse/#privmsg-message
+	for (int i = 0; _channels[i]; ++i)
 	{
 		if (_channels[i]->getName() == args[0])
 		{

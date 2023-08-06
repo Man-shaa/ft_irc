@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/05 20:50:50 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/06 02:41:02 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	Channel::sendTopic(std::string msg, Client &user) const
 {
 	if (!msg.empty())
 	{
-		std::string TOPIC_COMMAND = ":" + user.getNickname() + " TOPIC " + _name + " " + msg + "\r\n";
+		std::string TOPIC_COMMAND = ":" + user.getBanger() + " TOPIC " + _name + " " + msg + "\r\n";
 		std::cout << TOPIC_COMMAND << std::endl;
 		for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
 		{
