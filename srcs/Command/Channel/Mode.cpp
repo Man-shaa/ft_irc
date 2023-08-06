@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/01 16:27:36 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/06 01:54:32 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,7 +318,7 @@ int	Server::cmdMode(std::vector<std::string> args, Client &client)
 		else
 		{
 			//Channel valide + modestring, on vérifie si le client est un opérateur du channel
-			if (!_channels[i]->clientIsOp(client.getSocket()))
+			if (!_channels[i]->clientIsOp(client.getSocket()) && args[1] != "b")
 			{
 				std::string ERR_CHANOPRIVSNEEDED = "482 " + client.getNickname() + args[0] + " :You're not channel operator\r\n";
 				send(client.getSocket(), ERR_CHANOPRIVSNEEDED.c_str(), ERR_CHANOPRIVSNEEDED.size(), 0);	
