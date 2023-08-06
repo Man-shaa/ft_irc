@@ -35,6 +35,7 @@
 # include <iostream>
 # include <vector>
 # include <map>
+# include <csignal>
 # include "Client.hpp"
 
 # define BLUE "\033[34m"
@@ -87,6 +88,7 @@ class Server
 		void		serverInfo();
 		void		socketToRemove();
 		void		deleteUnusedChannel();
+		void		removeExit();
 
 		// void	removeSocketByFd(int socketFd);
 		int			serverManagement();

@@ -14,6 +14,15 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+Server server;
+
+void fun(int sig)
+{
+	(void)sig;
+	server.removeExit();
+	exit(1) ;
+}
+
 int checkArg(char **av)
 {
 	//check that the port number is in digits and valid
@@ -27,11 +36,11 @@ int checkArg(char **av)
 
 int main(int ac, char **av) 
 {
-	Server server;
 	if (ac != 3)
 		return (std::cerr << "tuto: ./ft_irc <port> <password>" << std::endl, 1);
 	if (!checkArg(av))
 		return (std::cerr << "Incorrect port or invalid port" << std::endl, 0);
+	signal(SIGINT, fun);
 	server.start(atoi(av[1]), std::string(av[2]));
 	return (0);
 }
