@@ -6,7 +6,7 @@
 /*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/07 18:04:19 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/08/07 18:19:37 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	Server::privMsgChannel(std::vector<std::string> args, Client &client, std::
 	{
 		if (_channels[i] && _channels[i]->getName() == name)
 		{
-			std::string msg = ":" + client.getNickname() + " PRIVMSG " + args[0];
+			std::string msg = ":" + client.getNickname() + " PRIVMSG " + name;
 			for (std::vector<std::string>::const_iterator it = args.begin() + 1; it != args.end(); ++it)
 			{
 				msg += " " + *it;
@@ -59,7 +59,7 @@ void	Server::privMsgChannelOps(std::vector<std::string> args, Client &client, st
 	{
 		if (_channels[i] && _channels[i]->getName() == name)
 		{
-			std::string msg = ":" + client.getNickname() + " PRIVMSG " + args[0];
+			std::string msg = ":" + client.getNickname() + " PRIVMSG " + name;
 			for (std::vector<std::string>::const_iterator it = args.begin() + 1; it != args.end(); ++it)
 			{
 				msg += " " + *it;
