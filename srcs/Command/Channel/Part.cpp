@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 17:01:12 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 20:58:47 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:58:37 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ int	Server::cmdPart(std::vector<std::string> args, Client &client)
 		_channels[i]->sendMsgToChannel(PART);
 		client.removeChannel(*_channels[i]);
 
-		if (_channels[i]->clientIsOp(client.getSocket()))
-			_channels[i]->remOperator(client);
 		if (_channels[i]->remUser(client))
 			delChannel(*it);
 	}

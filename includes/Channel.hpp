@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 21:22:10 by ajeanne           #+#    #+#             */
-/*   Updated: 2023/08/06 20:39:13 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:57:08 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ class	Channel
 		int							remUser(Client &user);
 		void						remOperator(Client &user);
 		void						sendMsg(std::string msg, Client &user) const;
-		void						sendMode(std::string msg, std::string client) const;
+		void						sendMsgOpe(std::string msg, Client &user) const;
+		void						sendMode(std::string msg) const;
 		void						sendTopic(std::string msg, Client &user) const;
 		void						sendMsgToChannel(std::string msg) const;
 
