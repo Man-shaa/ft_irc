@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:27:54 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/07 19:16:03 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/08/07 20:32:42 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	Server::parseNickname(std::string &name) const
 	return (0);
 }
 
-// Returns 1 if [name] is already used by another user, 0 if not
+// Return 1 if [name] is already used by another user, 0 otherwise
 int	Server::usedNickname(std::string name) const
 {
 	for (size_t i = 0; i < _clients.size(); ++i)
@@ -43,17 +43,18 @@ int	Server::cmdNickErrorHandling(std::vector<std::string> args, Client &client)
 		removeClient(client.getSocket());
 		return (1);
 	}
-	(void)args;
-	if (parseNickname(args[0]))
+	else if (parseNickname(args[0]))
 	{
-		std::string answer = "432 " + client.getBanger() + " " + args[0] + " :Erroneus nickname\r\n"; // ERR_ERRONEUSNICKNAME
+		std::string answer = "432 " + args[0] + " " + args[0] + " :Erroneus nickname\r\n"; // ERR_ERRONEUSNICKNAME
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
+		removeClient(client.getSocket());
 		return (1);
 	}
 	else if (usedNickname(args[0]))
 	{
-		std::string answer = "433 " + client.getBanger() + " " + args[0] + " :Nickname is already in use\r\n"; // ERR_ERRONEUSNICKNAME
+		std::string answer = "433 " + args[0] + " " + args[0] + " :Nickname is already in use\r\n"; // ERR_ERRONEUSNICKNAME
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
+		removeClient(client.getSocket());
 		return (1);
 	}
 	return (0);
