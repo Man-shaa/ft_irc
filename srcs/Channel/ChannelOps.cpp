@@ -6,7 +6,7 @@
 /*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/07 18:58:02 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/08/07 19:01:23 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,11 +122,11 @@ void	Channel::sendMsgOpe(std::string msg, Client &user) const
 	return ;
 }
 
-void	Channel::sendMode(std::string msg) const
+void	Channel::sendMode(std::string msg, Client &client) const
 {
 	if (!msg.empty())
 	{
-		std::string MODE_COMMAND = ":" + client + " MODE " + _name + " " + msg + "\r\n";
+		std::string MODE_COMMAND = ":" + client.getBanger() + " MODE " + _name + " " + msg + "\r\n";
 		for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
 		{
 			send(it->second->getSocket(), MODE_COMMAND.c_str(), MODE_COMMAND.size(), 0);

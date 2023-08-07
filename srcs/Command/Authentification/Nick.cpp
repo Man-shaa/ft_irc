@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:27:54 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 20:09:14 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/07 19:16:03 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	Server::usedNickname(std::string name) const
 {
 	for (size_t i = 0; i < _clients.size(); ++i)
 	{
-		if (_clients[i]->getNickname() == name)
+		if (_clients[i] && _clients[i]->getNickname() == name)
 			return (1);
 	}
 	return (0);
