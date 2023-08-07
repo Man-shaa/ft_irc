@@ -6,7 +6,7 @@
 /*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 21:43:56 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/08/07 18:04:19 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,5 @@ void	Server::privMsgUser(std::vector<std::string> args, Client &client)	{
 		msg += " " + *it;
 	}
 	msg += "\r\n";
-	send(client.getSocket(), msg.c_str(), msg.size(), 0);
+	send(getClientByName(args[0])->getSocket(), msg.c_str(), msg.size(), 0);
 }

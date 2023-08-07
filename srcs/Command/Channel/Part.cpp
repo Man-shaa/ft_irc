@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 17:01:12 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/05 18:13:41 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/07 18:07:48 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ int	Server::cmdPart(std::vector<std::string> args, Client &client)
 	
 	std::vector<std::string> listChannel = listChannels(args[0]);
 	std::string reason;
-	int 		i;
+	size_t 		i;
 	
 	if (args.size() >= 2 && !args[1].empty())
 		reason = args[1];
 	for (std::vector<std::string>::const_iterator it = listChannel.begin(); it != listChannel.end(); ++it)
 	{
 		bool 		channelExist = false;
-		for (i = 0; _channels[i]; ++i)
+		for (i = 0; i < _channels.size(); ++i)
 		{
 			if (_channels[i]->getName() == *it)
 			{
@@ -75,8 +75,6 @@ int	Server::cmdPart(std::vector<std::string> args, Client &client)
 		_channels[i]->sendMsgToChannel(PART);
 		client.removeChannel(*_channels[i]);
 
-		if (_channels[i]->clientIsOp(client.getSocket()))
-			_channels[i]->remOperator(client);
 		if (_channels[i]->remUser(client))
 			delChannel(*it);
 	}
