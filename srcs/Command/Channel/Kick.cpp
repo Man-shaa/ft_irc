@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 19:28:11 by msharifi          #+#    #+#             */
-/*   Updated: 2023/08/05 20:51:05 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/08 19:18:43 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	Server::cmdKickErrorHandling(std::vector<std::string> args, Client &client)
 
 int	Server::cmdKick(std::vector<std::string> args, Client &client)
 {
-	if (cmdKickErrorHandling(args, client))
+	if (cmdKickErrorHandling(args, client) || getClientByName(args[1])->getSocket() == 4)
 		return (1);
 	std::string answer = ":" + getClientByName(args[1])->getBanger() + " PART " + args[0] + "\r\n";
 	send(getClientByName(args[1])->getSocket(), answer.c_str(), answer.size(), 0);

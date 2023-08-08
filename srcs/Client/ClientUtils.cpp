@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:51:24 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/07/04 16:52:15 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/08 18:03:56 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,20 @@ void	Client::printAllClientChannel() const
 	for (std::vector<Channel*>::const_iterator it = _channels.begin(); it != _channels.end(); ++it)
 		listChannels += (*it)->getName() + " ";
 	std::cout << "CLIENT: " << GREEN << listChannels << CLOSE << "\n" << std::endl;
+}
+
+void			Client::sendHelp(Channel &channel)	{
+	(void)channel;
+}
+
+void			Client::sendJoke(Channel &channel)	{
+	(void)channel;
+}
+
+void			Client::sendHi(Channel &channel)	{
+	(void)channel;
+}
+
+void			Client::sendError(Channel &channel)	{
+	(void)channel;
 }

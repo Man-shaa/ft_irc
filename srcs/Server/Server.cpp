@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 15:52:38 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/08 19:06:06 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,33 @@ int	Server::listenSocket()
 	}
 	std::cout << "Le serveur est en écoute sur le port " << _port << std::endl;
 	return (0);
+}
+
+int Server::simulBot()
+{
+	int listenSocket = socket(AF_LOCAL, SOCK_STREAM, 0);
+	_sockets.push_back(listenSocket);
+	_fds_srv.fd= listenSocket;
+	_fds_srv.events = POLLIN;
+	
+	std::vector<std::string> password;
+	password.push_back(_password);
+	std::vector<std::string> nick;
+	nick.push_back("bot");
+	std::vector<std::string> user;
+	user.push_back("bot");
+	user.push_back("bot");
+	user.push_back("127.0.0.1");
+	user.push_back(":bot");
+	user.push_back("bot");
+	
+	addBot("bot", listenSocket);
+	
+	cmdPass(password, *getClientByFd(listenSocket));
+	cmdNick(nick, *getClientByFd(listenSocket));
+	cmdUser(user, *getClientByFd(listenSocket));
+	getClientByFd(4)->setBanger("bot!bot@127.0.0.1");
+	return (1);
 }
 
 // Accepter les connexions entrantes
@@ -175,7 +202,7 @@ int	Server::manageClientMsg()
 		std::cerr << "Déconnexion du client " << _fd << std::endl;
 		return (1) ;
 	} 
-	else if (errno != EWOULDBLOCK && errno != EAGAIN) 
+	else if (errno != EWOULDBLOCK && errno != EAGAIN && _fd != 4) 
 	{
 		_socketsToRemove.push_back(_fd);
 		std::cerr << "Erreur lors de la lecture du client " << _fd << std::endl;
@@ -208,6 +235,11 @@ int Server::dataManagement()
 			}
 			if (_fd == *_sockets.begin())
 			{
+				if (!getClientByName("bot"))
+				{
+					simulBot();
+					it = _sockets.begin();
+				}
 				if (acceptConnexions())
 					it = _sockets.begin();
 			}
@@ -226,6 +258,7 @@ int Server::start(int port, std::string password)
 	_port = port;
 	_password = password;
 	_serverName = "Clemanulex";
+	_flag = 0;
 	serverManagement();
 	initCmd();
 	initMode();

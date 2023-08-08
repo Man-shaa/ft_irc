@@ -3,20 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   Privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/07 18:58:55 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/08/08 18:04:34 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "Bot.hpp"
 
 int Server::cmdPrivmsg(std::vector<std::string> args, Client &client)
 {
 	//cf. https://modern.ircdocs.horse/#privmsg-message
 	std::string	name = args[0];
 	
+	if (args[1][1] == '?')
+	{
+		privMsgChannelBot(args, client, name);
+	}
 	if (name[0] == '#')
 		privMsgChannel(args, client, name);
 	else if (name[0] == '%' && name[1] == '#')	{
@@ -48,10 +53,26 @@ void	Server::privMsgChannel(std::vector<std::string> args, Client &client, std::
 				msg += " " + *it;
 			}
 			msg += "\r\n";
-			_channels[i]->sendMsg(msg, client);
+			std::cout << msg << std::endl;
+			_channels[i]->sendMsgNoBot(msg, client);
 			break;
 		}
 	}
+}
+
+void	Server::privMsgChannelBot(std::vector<std::string> args, Client &client, std::string name)	{
+	std::string	word = args[1];
+	(void)client;
+	word.erase(0,2);
+	std::cout << word << std::endl;
+	if (word == "help")
+		getClientByFd(4)->sendHelp(*getChannelByName(name));
+	else if (word == "joke")
+		getClientByFd(4)->sendJoke(*getChannelByName(name));
+	else if (word == "hi")
+		getClientByFd(4)->sendJoke(*getChannelByName(name));
+	else
+		getClientByFd(4)->sendError(*getChannelByName(name));
 }
 
 void	Server::privMsgChannelOps(std::vector<std::string> args, Client &client, std::string name)	{

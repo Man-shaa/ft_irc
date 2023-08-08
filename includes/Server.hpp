@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:14:51 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/07 18:57:31 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/08/08 18:56:06 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # include <map>
 # include <csignal>
 # include "Client.hpp"
+# include "Bot.hpp"
 
 # define BLUE "\033[34m"
 # define ORANGE "\033[33m"
@@ -75,6 +76,7 @@ class Server
 		std::map<char, modeFct>				_modeFcts;
 		std::string 						_IP;
 		std::string 						_params_mode;
+		int									_flag;
 
 	public:
 		Server(void);
@@ -94,11 +96,15 @@ class Server
 		int			serverManagement();
 		int			dataManagement();
 
+		//BOT
+		int 		simulBot();
+
 		//CLIENT MANAGEMENT
 		int			acceptConnexions();
 		Client		*getClientByFd(int fd) const;
 		Client		*getClientByName(std::string nickname) const;
 		void		addClient(std::string nickname, int fd);
+		void		addBot(std::string nickname, int fd);
 		void		removeClient(int fd);
 		int			manageClientMsg();
 		int			executeCommand(std::string newcmd);
@@ -171,6 +177,7 @@ class Server
 		// PRIVMSG
 		int			cmdPrivmsg(std::vector<std::string> args, Client &client);
 		void		privMsgChannel(std::vector<std::string> args, Client &client, std::string name);
+		void		privMsgChannelBot(std::vector<std::string> args, Client &client, std::string name);
 		void		privMsgChannelOps(std::vector<std::string> args, Client &client, std::string name);
 		void		privMsgUser(std::vector<std::string> args, Client &client);
 		

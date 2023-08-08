@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/17 15:39:05 by msharifi          #+#    #+#             */
-/*   Updated: 2023/08/05 16:28:10 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/08 18:02:44 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ class Client
 
 		Client(void);
 		Client(int soketFd, std::string nickName);
-		~Client(void);
+		virtual ~Client(void);
 
 		int						getSocket() const;
 		int						getStatus() const;
@@ -91,6 +91,10 @@ class Client
 		int						getModeLevel() const;
 		std::string				getModeLevelStr() const;
 		std::vector<Channel *>	getChannelList() const;
+		virtual void			sendHelp(Channel &channel);
+		virtual void			sendJoke(Channel &channel);
+		virtual void			sendHi(Channel &channel);
+		virtual void			sendError(Channel &channel);
 
 		void					setNickname(std::string name);
 		void					setFirstName(std::string name);

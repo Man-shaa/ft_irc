@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ChannelOps.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:45:29 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/07 19:01:23 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/08/08 19:02:40 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int	Channel::remUser(Client &user)
             _usrList.erase(it);
 			if (clientIsOp(user.getSocket()))
 				remOperator(user);
+			if (_usrList.begin()->first == 4 && _usrList.size() == 1)
+				_usrList.erase(_usrList.begin());
 			std::cout << "CHANNEL: " << ORANGE << user.getNickname() << " has been removed from the channel " << _name << "\n" << CLOSE << std::endl;		
             break;
 		}
@@ -55,7 +57,7 @@ void	Channel::remOperator(Client &user)
 		{
 			for (std::map<int, Client*>::iterator usr = _usrList.begin(); usr != _usrList.end(); ++usr)
 			{
-				if (!clientIsOp(usr->second->getSocket()))
+				if (!clientIsOp(usr->second->getSocket()) && usr->first != 4)
 				{
 					_OpeList[usr->first] = usr->second;
 					break;
@@ -106,6 +108,22 @@ void	Channel::sendMsg(std::string msg, Client &user) const
 	return ;
 }
 
+void	Channel::sendMsgNoBot(std::string msg, Client &user) const
+{
+    for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
+	{
+		if (it->first != user.getSocket() && it->second->getSocket() != 4)
+		{
+			if (send(it->second->getSocket(), msg.c_str(), msg.size(), 0) == -1)
+			{
+				std::string ERR_CANNOTSENDTOCHAN = "404 " + user.getNickname() + " " + _name + " :Cannot send to channel\r\n";
+				send(user.getSocket(), ERR_CANNOTSENDTOCHAN.c_str(), ERR_CANNOTSENDTOCHAN.size(), 0);
+			}
+		}	
+	}
+	return ;
+}
+
 void	Channel::sendMsgOpe(std::string msg, Client &user) const
 {
     for (std::map<int, Client*>::const_iterator it = _OpeList.begin(); it != _OpeList.end(); ++it)
@@ -124,7 +142,7 @@ void	Channel::sendMsgOpe(std::string msg, Client &user) const
 
 void	Channel::sendMode(std::string msg, Client &client) const
 {
-	if (!msg.empty())
+	if (!msg.empty() || msg != "")
 	{
 		std::string MODE_COMMAND = ":" + client.getBanger() + " MODE " + _name + " " + msg + "\r\n";
 		for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
@@ -151,6 +169,9 @@ void	Channel::sendTopic(std::string msg, Client &user) const
 
 void	Channel::sendMsgToChannel(std::string msg) const
 {
-	for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
-		send(it->second->getSocket(), msg.c_str(), msg.size(), 0);
+		for (std::map<int, Client*>::const_iterator it = _usrList.begin(); it != _usrList.end(); ++it)
+		{
+			if (it->first != 4)
+				send(it->second->getSocket(), msg.c_str(), msg.size(), 0);
+		}
 }

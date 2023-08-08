@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 14:49:17 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/07 19:00:47 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/08/08 18:15:44 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ void	Server::mode_O(Client &client, std::string param, std::string &validModes, 
 {
 	if (!param.empty())
 	{
-		if (getClientByName(param) == NULL || (_channels[i]->getUserNumber() == 1 && _channels[i]->clientIsOp(getClientByName(param)->getSocket())))
+		if (getClientByName(param) == NULL || (_channels[i]->getUserNumber() == 1 && _channels[i]->clientIsOp(getClientByName(param)->getSocket())) 
+		|| getClientByName(param)->getSocket() == 4)
 			return ;
 		if (change == true)
 			_channels[i]->addModo(*getClientByName(param));
