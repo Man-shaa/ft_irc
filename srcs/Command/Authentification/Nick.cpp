@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:27:54 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/07 20:32:42 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:33:29 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,10 @@ int		Server::cmdNick(std::vector<std::string> args, Client &client)
 	std::string answer = ":" + client.getBanger() + " NICK :" + args[0] + "\r\n";
 	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 	client.setNickname(args[0]);
+	if (_flag == 0)
+	{
+		client.setBanger(args[0]);
+		_flag = 1;
+	}
 	return (0);
 }

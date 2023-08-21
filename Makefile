@@ -8,6 +8,7 @@ vpath %.cpp $(foreach dir, $(SRC_DIR), $(dir):)
 vpath %.hpp $(foreach dir, $(INC_DIR), $(dir):)
 
 SRCS	 	=	main.cpp			\
+				Bot.cpp				\
 				Channel.cpp			\
 				ChannelGets.cpp		\
 				ChannelOps.cpp		\

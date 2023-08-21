@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 03:57:25 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/08 19:03:33 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		Server::cmdJoinRPL(std::string channel, Client &client, int i)
 	}
 	RPL_NAMREPLY += "\r\n";
 	_channels[i]->sendMsgToChannel(RPL_NAMREPLY);
-	
+	std::cout << RPL_NAMREPLY << std::endl;
 	//RPL_ENDOFNAMES sent to client
 	std::string RPL_ENDOFNAMES = "366 " + client.getBanger() + " " + channel + " :End of NAMES list\r\n";
 	_channels[i]->sendMsgToChannel(RPL_ENDOFNAMES);
@@ -110,6 +110,8 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 			createChannel(it->first, client);
 			std::cout << "CLIENT: " << GREEN << client.getBanger() << " a crée un nouveau channel " << CLOSE << it->first << "\n" << std::endl;
 			cmdJoinRPL(it->first, client, i);
+			_channels[i]->addUser(*getClientByName("bot"));
+			cmdJoinRPL(it->first, *getClientByName("bot"), i);
 		}
 	}
 

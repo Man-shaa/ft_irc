@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 17:01:12 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/07 18:58:37 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/08/08 19:07:27 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	Server::cmdPart(std::vector<std::string> args, Client &client)
 		bool 		channelExist = false;
 		for (i = 0; i < _channels.size(); ++i)
 		{
-			if (_channels[i]->getName() == *it)
+			if (_channels[i] && _channels[i]->getName() == *it)
 			{
 				channelExist = true;
 				break;
@@ -73,6 +73,12 @@ int	Server::cmdPart(std::vector<std::string> args, Client &client)
 		//L'utilisateur est supprime du channel (NB: Obliger de mettre @localhost sinon ca bug)
 		std::string PART = ":" + client.getBanger() + " PART " + _channels[i]->getName() + " " + reason + "\r\n";
 		_channels[i]->sendMsgToChannel(PART);
+		if (_channels[i]->getUserNumber() == 2)
+		{
+			std::string PART = ":bot PART " + _channels[i]->getName() + " " + reason + "\r\n";
+			_channels[i]->sendMsgToChannel(PART);
+			getClientByName("bot")->removeChannel(*_channels[i]);
+		}
 		client.removeChannel(*_channels[i]);
 
 		if (_channels[i]->remUser(client))

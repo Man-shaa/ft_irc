@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:29:10 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/06 04:08:18 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/07 21:42:53 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		Server::cmdUser(std::vector<std::string> args, Client &client)
 	std::string firstName = (*it).substr(1, (*it).size() - 1);
 	client.setFirstName(firstName);
 	std::string answer = "001 " + args[0] + " :Welcome to the Internet Relay Network " + args[0] + "\r\n";
+	std::cout << answer << std::endl;
 	send(client.getSocket(), answer.c_str(), answer.size(), 0);
 	client.setStatus(CONNECT);
 	return (0);

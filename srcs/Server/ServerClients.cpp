@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ServerClients.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:55:37 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/04 14:18:36 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:59:00 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 void	Server::addClient(std::string nickname, int fd)
 {
 	_clients.push_back(new Client(fd, nickname));
+}
+
+void	Server::addBot(std::string nickname, int fd)
+{
+	_clients.push_back(new Bot(fd, nickname));
 }
 
 // Remove an existing client from [_clients[]] in the server
@@ -64,3 +69,12 @@ Client	*Server::getClientByName(std::string nickname) const
 	}
 	return (NULL);
 }
+
+// Bot	*Server::getBot() const	{
+// 	for (size_t i = 0; i < _clients.size(); ++i)
+// 	{
+// 		if (_clients[i] && _clients[i]->getNickname() == "bot")
+// 			return (_clients[i]);
+// 	}
+// 	return (NULL);
+// }
