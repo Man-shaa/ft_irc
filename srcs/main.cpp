@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:26 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/21 18:29:41 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:35:17 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int checkArg(char **av)
 	for (size_t i = 0; i < strlen(av[1]); i++)
 		if (!isdigit(av[1][i]))
 			return (0);
-	if ((atoi(av[1]) >= 0 && atol(av[1]) < 1024) || atol(av[1]) > 65535)
+	if ((atol(av[1]) >= 0 && atol(av[1]) < 1024) || atol(av[1]) > 65535)
 		return (0);
 	return(1);
 }
