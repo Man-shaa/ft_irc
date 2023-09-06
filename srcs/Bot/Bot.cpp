@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:22:15 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/09/06 19:25:47 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/09/06 21:40:34 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ void	Bot::sendHelp(Channel &channel)	{
 	msg += "?help : get the list of commands\r\n";
 	msg += "?joke : tell a joke\r\n";
 	msg += "?hi : say hi\r\n";
-	msg += "\r\n";
-	std::cout << msg << std::endl;
+	msg += "\r\n"; // ?
 	channel.sendMsgNoBot(msg, *this);
 }
 

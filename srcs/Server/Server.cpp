@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/09/06 19:25:59 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/09/06 21:51:34 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,12 @@ int Server::simulBot()
 	user.push_back("bot");
 
 	addBot("bot", listenSocket);
+	// addClient("bot", listenSocket);
 
 	cmdPass(password, *getClientByFd(listenSocket));
 	cmdNick(nick, *getClientByFd(listenSocket));
 	cmdUser(user, *getClientByFd(listenSocket));
-	getClientByFd(4)->setBanger("bot!bot@127.0.0.1");
+	getClientByFd(listenSocket)->setBanger("bot!bot@127.0.0.1");
 	return (1);
 }
 
@@ -270,4 +271,7 @@ int Server::start(int port, std::string password)
 void	Server::removeExit()
 {
 	_mapFcts.clear();
+	for (std::vector<int>::iterator it = _sockets.begin(); it != _sockets.end(); ++it)
+		close(*it);
+	_sockets.clear();
 }

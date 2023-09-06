@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:28:21 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/05 17:08:09 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/09/06 21:30:18 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	Server::cmdPass(std::vector<std::string> args, Client &client)
 		removeClient(client.getSocket());
 		return (1);
 	}
-	client.setStatus(PASSWORD);
+	if (client.getNickname() != "bot")
+		client.setStatus(PASSWORD);
 	return (0);
 }
