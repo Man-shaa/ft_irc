@@ -6,7 +6,7 @@
 /*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:02 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/08 19:03:33 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/09/06 22:47:16 by ccheyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,20 +84,20 @@ int		Server::cmdJoin(std::vector<std::string> args, Client &client)
 				{
 					std::string ERR_BADCHANNELKEY = "475 " + client.getBanger() + " " + it->first + " :Cannot join channel (+k)\r\n";
 					send(client.getSocket(), ERR_BADCHANNELKEY.c_str(), ERR_BADCHANNELKEY.size(), 0);
-					return (1);
+					break;
 				}
 				//The channel has a user limit and cannot add a new user
 				if (_channels[i]->getMaxUsr() != 0 && _channels[i]->getUserNumber() >= _channels[i]->getMaxUsr())
 				{
 					std::string ERR_CHANNELISFULL = "471 " + client.getBanger() + " " + it->first + " :Cannot join channel (+l)\r\n";
 					send(client.getSocket(), ERR_CHANNELISFULL.c_str(), ERR_CHANNELISFULL.size(), 0);
-					return (1);
+					break;
 				}
 				if (_channels[i]->getModeChannel().find("i") != std::string::npos && !client.isClientInvited(it->first))
 				{
 					std::string ERR_INVITEONLYCHAN = "473 " + client.getBanger() + " " + it->first + " :Cannot join channel (+i)\r\n";
 					send(client.getSocket(), ERR_INVITEONLYCHAN.c_str(), ERR_INVITEONLYCHAN.size(), 0);
-					return (1);
+					break;
 				}
 				_channels[i]->addUser(client);
 				cmdJoinRPL(it->first, client, i);
