@@ -6,7 +6,7 @@
 /*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/09/06 21:51:34 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/09/06 22:44:03 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,7 +260,8 @@ int Server::start(int port, std::string password)
 	_password = password;
 	_serverName = "Clemanulex";
 	_flag = 0;
-	serverManagement();
+	if (serverManagement())
+		return (1);
 	initCmd();
 	initMode();
 	dataManagement();
