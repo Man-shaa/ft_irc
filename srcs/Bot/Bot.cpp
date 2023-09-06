@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:22:15 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/09/06 21:40:34 by msharifi         ###   ########.fr       */
+/*   Updated: 2023/09/06 22:03:35 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ Bot::~Bot()
 
 void	Bot::sendHelp(Channel &channel)	{
 	std::string msg = ":botte PRIVMSG " + channel.getName();
-	msg += " :List of commands :\r\n";
-	msg += "?help : get the list of commands\r\n";
-	msg += "?joke : tell a joke\r\n";
-	msg += "?hi : say hi\r\n";
-	msg += "\r\n"; // ?
+	msg += " :List of commands : ";
+	msg += "?help : get the list of commands / ";
+	msg += "?joke : tell a joke / ";
+	msg += "?hi : say hi";
+	msg += "\r\n";
 	channel.sendMsgNoBot(msg, *this);
 }
 

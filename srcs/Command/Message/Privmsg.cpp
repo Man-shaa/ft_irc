@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/08 18:04:34 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/09/06 21:57:21 by ajeanne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@ int Server::cmdPrivmsg(std::vector<std::string> args, Client &client)
 	//cf. https://modern.ircdocs.horse/#privmsg-message
 	std::string	name = args[0];
 	
-	if (args[1][1] == '?')
-	{
-		privMsgChannelBot(args, client, name);
-	}
 	if (name[0] == '#')
 		privMsgChannel(args, client, name);
 	else if (name[0] == '%' && name[1] == '#')	{
@@ -38,6 +34,10 @@ int Server::cmdPrivmsg(std::vector<std::string> args, Client &client)
 	else	{
 		std::string answer = "401 " + client.getBanger() + " " + args[0] + " :No such nick\r\n"; // ERR_NOSUCHNICK
 		send(client.getSocket(), answer.c_str(), answer.size(), 0);
+	}
+	if (args[1][1] == '?')
+	{
+		privMsgChannelBot(args, client, name);
 	}
 	return (0);
 }
