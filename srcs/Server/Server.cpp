@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 18:17:19 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/08 19:06:06 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/09/06 19:25:59 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int Server::simulBot()
 	_sockets.push_back(listenSocket);
 	_fds_srv.fd= listenSocket;
 	_fds_srv.events = POLLIN;
-	
+
 	std::vector<std::string> password;
 	password.push_back(_password);
 	std::vector<std::string> nick;
@@ -95,9 +95,9 @@ int Server::simulBot()
 	user.push_back("127.0.0.1");
 	user.push_back(":bot");
 	user.push_back("bot");
-	
+
 	addBot("bot", listenSocket);
-	
+
 	cmdPass(password, *getClientByFd(listenSocket));
 	cmdNick(nick, *getClientByFd(listenSocket));
 	cmdUser(user, *getClientByFd(listenSocket));

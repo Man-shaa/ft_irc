@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bot.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccheyrou <ccheyrou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 20:22:15 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/08/08 18:11:02 by ccheyrou         ###   ########.fr       */
+/*   Updated: 2023/09/06 19:25:47 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ Bot::Bot() : Client()
 
 Bot::Bot(int socketFd, std::string nickname) : Client(socketFd, nickname)
 {
+	_status = CONNECT;
 }
 
 
