@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Privmsg.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajeanne <ajeanne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: msharifi <msharifi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/02 16:30:41 by ccheyrou          #+#    #+#             */
-/*   Updated: 2023/09/06 21:57:21 by ajeanne          ###   ########.fr       */
+/*   Updated: 2023/09/20 20:22:51 by msharifi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	Server::privMsgChannelBot(std::vector<std::string> args, Client &client, st
 	else if (word == "joke")
 		getClientByFd(4)->sendJoke(*getChannelByName(name));
 	else if (word == "hi")
-		getClientByFd(4)->sendJoke(*getChannelByName(name));
+		getClientByFd(4)->sendHi(*getChannelByName(name));
 	else
 		getClientByFd(4)->sendError(*getChannelByName(name));
 }
