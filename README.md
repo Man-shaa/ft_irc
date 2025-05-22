@@ -25,7 +25,7 @@ IRC is a text-based communication protocol that enables real-time messaging thro
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/your_username/ft_irc.git](https://github.com/Man-shaa/ft_irc)
+   git clone https://github.com/Man-shaa/ft_irc
    cd ft_irc
 
 ---
