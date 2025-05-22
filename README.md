@@ -32,7 +32,7 @@ IRC is a text-based communication protocol that enables real-time messaging thro
 
 ## 🚀 Usage
 
-./ircserv <port> <password>
+./ircserv \<port\> \<password\>
 
 ---
 
