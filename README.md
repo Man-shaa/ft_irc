@@ -32,7 +32,9 @@ IRC is a text-based communication protocol that enables real-time messaging thro
 
 ## 🚀 Usage
 
-./ircserv \<port\> \<password\>
+```bash
+   ./ircserv \<port\> \<password\>
+```
 
 ---
 
