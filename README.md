@@ -90,4 +90,5 @@ PING <nick>: Sends a PING request to a nickname; this is used to find out the la
 ## 📜 Documentation
 
 https://irssi.org/documentation/
+
 https://modern.ircdocs.horse/
